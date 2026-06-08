@@ -1,0 +1,218 @@
+experiment:
+  name: sam_hq_deepfashion2_box_prompt
+  description: >
+    SAM-HQ baseline on DeepFashion2 using bounding boxes as box prompts
+    for fashion instance mask generation. By default, this config uses
+    DeepFashion2 ground-truth bounding boxes. It can later be switched
+    to YOLO-predicted boxes for arbitrary-image inference.
+  seed: 42
+  deterministic: false
+
+dataset:
+  name: DeepFashion2
+  root: D:/Aliintern/fashion-ai-data/deepfashion2
+  split: validation
+
+  # Relative to dataset.root
+  image_dir: validation/image
+  annotation_dir: validation/annos
+
+  # DeepFashion2 original category ids will be mapped to 5 target classes.
+  target_classes:
+    0: top
+    1: pants
+    2: skirt
+    3: outwear
+    4: dress
+
+  # Optional: useful for filtering or logging original DeepFashion2 categories.
+  deepfashion2_categories:
+    1: short sleeve top
+    2: long sleeve top
+    3: short sleeve outwear
+    4: long sleeve outwear
+    5: vest
+    6: sling
+    7: shorts
+    8: trousers
+    9: skirt
+    10: short sleeve dress
+    11: long sleeve dress
+    12: vest dress
+    13: sling dress
+
+bbox_source:
+  # Options:
+  #   gt   : use DeepFashion2 ground-truth boxes from annotation json
+  #   yolo : use YOLO detector predictions as box prompts
+  type: gt
+
+  # Used only when type == gt
+  gt:
+    use_visible_bbox: false
+    use_instance_bbox: true
+    min_bbox_area: 100
+    clip_bbox_to_image: true
+    skip_invalid_bbox: true
+
+  # Reserved for future arbitrary-image pipeline.
+  # Used only when type == yolo
+  yolo:
+    enabled: false
+    weights: checkpoints/detectors/deepfashion2_yolov8n_5cls_epoch5_last.pt
+    imgsz: 640
+    conf_threshold: 0.25
+    iou_threshold: 0.70
+    max_det: 50
+    device: cuda
+    class_agnostic_nms: false
+    target_class_ids: [0, 1, 2, 3, 4]
+
+model:
+  name: sam_hq
+  variant: vit_b
+  checkpoint: D:/Aliintern/fashion-ai-models/sam_hq/sam_hq_vit_b.pth
+  device: cuda
+
+  # SAM/SAM-HQ prediction options
+  multimask_output: false
+  return_logits: false
+
+  # Image preprocessing. Keep null unless your wrapper explicitly supports resize.
+  image_size: null
+
+inference:
+  prompt_type: box
+
+  # Sampling control
+  max_images: 50
+  random_sample: true
+  random_seed: 42
+
+  # Instance filtering
+  min_bbox_area: 100
+  allowed_target_classes: [top, pants, skirt, outwear, dress]
+  skip_empty_mask: true
+  skip_invalid_instance: true
+
+  # Runtime behavior
+  batch_size: 1
+  num_workers: 0
+  use_amp: false
+  clear_cuda_cache_every_n_images: 20
+
+  # Mask filtering after SAM-HQ prediction
+  mask_filter:
+    enabled: true
+    min_mask_area: 50
+    max_mask_area_ratio: 0.95
+    require_overlap_with_box: true
+    min_box_mask_iou: 0.05
+
+  # Coordinate convention for saved json
+  # bbox_xyxy is [x1, y1, x2, y2] in absolute pixel coordinates.
+  output_bbox_format: xyxy_abs
+
+postprocess:
+  enabled: true
+
+  # Keep largest connected component if SAM generates small noisy regions.
+  keep_largest_component: false
+
+  # Optional morphology cleanup. Set enabled=false if you want raw SAM-HQ masks.
+  morphology:
+    enabled: false
+    open_kernel_size: 3
+    close_kernel_size: 3
+
+output:
+  root: outputs/sam_hq_deepfashion2
+
+  # Main output switches
+  save_visualization: true
+  save_prediction_json: true
+  save_mask_png: true
+  save_crop_visualization: true
+
+  # Directory names under output.root
+  dirs:
+    visualizations: visualizations
+    masks: masks
+    crops: crops
+    json: json
+    logs: logs
+
+  # JSON output
+  prediction_json_name: predictions.json
+  summary_json_name: summary.json
+
+  # Mask saving format
+  mask_format: png
+  mask_value:
+    background: 0
+    foreground: 255
+
+visualization:
+  enabled: true
+  alpha: 0.45
+  crop_padding: 10
+
+  draw_bbox: true
+  draw_mask: true
+  draw_label: true
+  draw_score: false
+  draw_instance_id: true
+  draw_crop_label: true
+
+  # BGR/RGB depends on your visualizer implementation.
+  # If using cv2 drawing, these are BGR-like values.
+  class_colors:
+    top: [255, 80, 80]
+    pants: [80, 160, 255]
+    skirt: [255, 180, 80]
+    outwear: [160, 80, 255]
+    dress: [80, 220, 120]
+
+landmark:
+  enabled: false
+
+  # Reserved for later landmark predictor integration.
+  # Once enabled, each detected/GT garment instance can be passed to the
+  # landmark predictor after mask generation.
+  predictor:
+    name: deepfashion2_landmark
+    checkpoint: null
+    device: cuda
+
+  input:
+    use_crop: true
+    crop_padding: 10
+    use_mask: false
+    visible_only: true
+
+  output:
+    save_landmark_json: true
+    save_landmark_visualization: true
+
+landmark_visualization:
+  output_root: outputs/deepfashion2_landmarks
+  draw_bbox: true
+  draw_label: true
+  draw_index: true
+  visible_only: true
+  point_radius: 3
+  line_thickness: 2
+
+landmark_summary:
+  output_root: outputs/deepfashion2_landmarks
+  summary_json_name: landmark_summary.json
+
+logging:
+  level: INFO
+  log_to_file: true
+  log_file: outputs/sam_hq_deepfashion2/logs/run.log
+
+error_handling:
+  continue_on_error: true
+  save_failed_cases: true
+  failed_cases_json: failed_cases.json

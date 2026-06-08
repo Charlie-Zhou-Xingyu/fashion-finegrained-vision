@@ -1,0 +1,137 @@
+# ============================================================
+# Python cache / bytecode
+# ============================================================
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# ============================================================
+# Virtual environments
+# ============================================================
+.venv/
+venv/
+env/
+ENV/
+conda-env/
+
+# ============================================================
+# IDE / editor files
+# ============================================================
+.vscode/
+.idea/
+
+# ============================================================
+# OS files
+# ============================================================
+.DS_Store
+Thumbs.db
+
+# ============================================================
+# Environment variables / local secrets
+# ============================================================
+.env
+.env.local
+
+# ============================================================
+# Root-level datasets and processed data
+#
+# Important:
+# Use root-anchored rules like /data/ to avoid ignoring
+# src/fashion_vision/data/.
+# ============================================================
+/data/
+/datasets/
+/DeepFashion2/
+/deepfashion2/
+/fashion-ai-data/
+/fashionai_attributes/
+
+# ============================================================
+# Root-level model weights and checkpoints
+#
+# Important:
+# Use /models/ to avoid ignoring src/fashion_vision/models/.
+# ============================================================
+/models/
+/checkpoints/
+/weights/
+/fashion-ai-models/
+
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.engine
+*.pkl
+*.safetensors
+
+# ============================================================
+# Root-level generated outputs and experiment runs
+# ============================================================
+/outputs/
+/runs/
+/logs/
+/wandb/
+
+*.log
+
+# ============================================================
+# Temporary files
+# ============================================================
+/tmp/
+/temp/
+*.tmp
+
+# ============================================================
+# Temporary / dataset-derived assets
+#
+# Do not upload sampled DeepFashion2 images or generated image sets.
+# If public demo images are needed, put them under:
+# assets/examples/
+# ============================================================
+/assets/random_train*/
+/assets/eval_images_*/
+/assets/pipeline_*/
+/assets/tmp*/
+/assets/temp*/
+/assets/test_images_13cls/
+
+# Keep manually curated public examples if needed
+!/assets/README.md
+!/assets/examples/
+!/assets/examples/**
+
+# ============================================================
+# Third-party large repositories
+#
+# SAM-HQ should be installed/cloned manually according to README.
+# ============================================================
+/third_party/sam-hq/
+
+# ============================================================
+# Local archive
+#
+# Keep old experiments locally, but do not include them in the initial
+# GitHub release. Remove this rule if you want to publish archive later.
+# ============================================================
+/archive/
+
+# ============================================================
+# Common package/build artifacts
+# ============================================================
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ============================================================
+# Coverage / test reports
+# ============================================================
+.coverage
+htmlcov/
+.coverage.*
+pytest-report.xml

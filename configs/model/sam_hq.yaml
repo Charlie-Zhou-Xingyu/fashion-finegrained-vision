@@ -1,0 +1,6 @@
+model:
+  name: sam_hq
+  variant: vit_b
+  checkpoint: D:/Aliintern/fashion-ai-models/sam_hq/sam_hq_vit_b.pth
+  device: cuda
+  multimask_output: false

@@ -1,0 +1,10 @@
+torch
+torchvision
+numpy<2
+opencv-python
+Pillow
+PyYAML
+tqdm
+matplotlib
+pycocotools
+pytest

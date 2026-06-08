@@ -1,0 +1,6 @@
+dataset:
+  name: DeepFashion2
+  root: D:/Aliintern/fashion-ai-data/deepfashion2
+  split: validation
+  image_dir: validation/image
+  annotation_dir: validation/annos
