@@ -1,0 +1,60 @@
+prd_categories:
+  1:
+    name: top
+    zh_name: 上衣
+  2:
+    name: pants
+    zh_name: 裤子
+  3:
+    name: skirt
+    zh_name: 裙子
+  4:
+    name: outerwear
+    zh_name: 外套
+  5:
+    name: dress
+    zh_name: 连衣裙
+  6:
+    name: shoes
+    zh_name: 鞋子
+  7:
+    name: bag
+    zh_name: 包包
+  8:
+    name: accessory
+    zh_name: 配饰
+
+deepfashion2_categories:
+  1: short sleeve top
+  2: long sleeve top
+  3: short sleeve outwear
+  4: long sleeve outwear
+  5: vest
+  6: sling
+  7: shorts
+  8: trousers
+  9: skirt
+  10: short sleeve dress
+  11: long sleeve dress
+  12: vest dress
+  13: sling dress
+
+deepfashion2_to_prd:
+  1: 1   # short sleeve top -> top
+  2: 1   # long sleeve top -> top
+  3: 4   # short sleeve outwear -> outerwear
+  4: 4   # long sleeve outwear -> outerwear
+  5: 1   # vest -> top
+  6: 1   # sling -> top
+  7: 2   # shorts -> pants
+  8: 2   # trousers -> pants
+  9: 3   # skirt -> skirt
+  10: 5  # short sleeve dress -> dress
+  11: 5  # long sleeve dress -> dress
+  12: 5  # vest dress -> dress
+  13: 5  # sling dress -> dress
+
+currently_missing_prd_categories:
+  - 6  # shoes
+  - 7  # bag
+  - 8  # accessory

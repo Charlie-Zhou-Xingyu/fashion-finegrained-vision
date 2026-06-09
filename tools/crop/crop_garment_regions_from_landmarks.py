@@ -754,9 +754,105 @@ def process_instance(
 
     return records
 
+def run_region_crop(args: argparse.Namespace) -> Dict[str, Any]:
+    landmarks_json = Path(args.landmarks_json)
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    data = load_json(landmarks_json)
+
+    crop_records: List[Dict[str, Any]] = []
+
+    num_images = 0
+    num_images_failed = 0
+    num_instances = 0
+
+    for image_record in data.get("images", []):
+        image_path = image_record.get("image_path")
+        if not isinstance(image_path, str) or not image_path:
+            continue
+
+        image_bgr = read_image_bgr(image_path)
+        if image_bgr is None:
+            print(f"[WARN] Failed to read image: {image_path}")
+            num_images_failed += 1
+            continue
+
+        num_images += 1
+
+        instances = image_record.get("instances", [])
+        if not isinstance(instances, list):
+            continue
+
+        for instance in instances:
+            num_instances += 1
+            records = process_instance(
+                image_bgr=image_bgr,
+                image_path=image_path,
+                instance=instance,
+                candidate_regions=list(args.regions),
+                output_dir=output_dir,
+                args=args,
+            )
+            crop_records.extend(records)
+
+    source_counter = Counter()
+    region_counter = Counter()
+    component_counter = Counter()
+    class_counter = Counter()
+
+    for record in crop_records:
+        source_counter[str(record.get("source", "unknown"))] += 1
+        region_counter[str(record.get("region", "unknown"))] += 1
+        component_counter[str(record.get("component", record.get("region", "unknown")))] += 1
+        class_counter[str(record.get("class_name", "unknown"))] += 1
+
+    summary = {
+        "landmarks_json": str(landmarks_json),
+        "output_dir": str(output_dir),
+        "candidate_regions": list(args.regions),
+        "use_category_regions": bool(args.use_category_regions),
+        "category_to_regions": CATEGORY_TO_REGIONS if bool(args.use_category_regions) else None,
+        "max_outside_distance": float(args.max_outside_distance),
+        "min_points": int(args.min_points),
+        "pad_ratio": float(args.pad_ratio),
+        "single_point_box_ratio": float(args.single_point_box_ratio),
+        "fallback": bool(args.fallback),
+        "num_images": num_images,
+        "num_images_failed": num_images_failed,
+        "num_instances": num_instances,
+        "num_crop_records": len(crop_records),
+        "num_success": sum(1 for r in crop_records if r.get("success")),
+        "num_failed": sum(1 for r in crop_records if not r.get("success")),
+        "num_fallback": sum(1 for r in crop_records if r.get("fallback")),
+        "source_counts": dict(source_counter),
+        "region_counts": dict(region_counter),
+        "component_counts": dict(component_counter),
+        "class_counts": dict(class_counter),
+    }
+
+    output = {
+        "summary": summary,
+        "crops": crop_records,
+    }
+
+    region_crops_json = output_dir / "region_crops.json"
+    summary_json = output_dir / "summary.json"
+
+    save_json(output, region_crops_json)
+    save_json(summary, summary_json)
+
+    print("[INFO] Region crop finished.")
+    print(json.dumps(summary, ensure_ascii=False, indent=2))
+    print(f"[INFO] Output JSON: {region_crops_json}")
+    print(f"[INFO] Crop dir: {output_dir / 'crops'}")
+
+    return output
+
 
 def main() -> None:
     args = parse_args()
+    run_region_crop(args)
 
     landmarks_json = Path(args.landmarks_json)
     output_dir = Path(args.output_dir)

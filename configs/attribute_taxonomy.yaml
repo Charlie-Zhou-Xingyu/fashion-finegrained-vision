@@ -1,0 +1,93 @@
+skirt_length_labels:
+  zh_name: 裙长
+  task_type: single_label
+  values:
+    0: Invisible
+    1: Short Length
+    2: Knee Length
+    3: Midi Length
+    4: Ankle Length
+    5: Floor Length
+
+coat_length_labels:
+  zh_name: 衣长
+  task_type: single_label
+  values:
+    0: Invisible
+    1: High Waist Length
+    2: Regular Length
+    3: Long Length
+    4: Micro Length
+    5: Knee Length
+    6: Midi Length
+    7: Ankle&Floor Length
+
+collar_design_labels:
+  zh_name: 领型设计
+  task_type: single_label
+  values:
+    0: Invisible
+    1: Shirt Collar
+    2: Peter Pan
+    3: Puritan Collar
+    4: Rib Collar
+
+lapel_design_labels:
+  zh_name: 翻领设计
+  task_type: single_label
+  values:
+    0: Invisible
+    1: Notched
+    2: Collarless
+    3: Shawl Collar
+    4: Plus Size Shawl
+
+neck_design_labels:
+  zh_name: 颈部设计
+  task_type: single_label
+  values:
+    0: Invisible
+    1: Turtle Neck
+    2: Ruffle Semi-High Collar
+    3: Low Turtle Neck
+    4: Draped Collar
+
+neckline_design_labels:
+  zh_name: 领口设计
+  task_type: single_label
+  values:
+    0: Invisible
+    1: Strapless Neck
+    2: Deep V Neckline
+    3: Straight Neck
+    4: V Neckline
+    5: Square Neckline
+    6: Off Shoulder
+    7: Round Neckline
+    8: Sweat Heart Neck
+    9: One Shoulder Neckline
+
+pant_length_labels:
+  zh_name: 裤长
+  task_type: single_label
+  values:
+    0: Invisible
+    1: Short Pant
+    2: Mid Length
+    3: 3/4 Length
+    4: Cropped Pant
+    5: Full Length
+
+sleeve_length_labels:
+  zh_name: 袖长
+  task_type: single_label
+  values:
+    0: Invisible
+    1: Sleeveless
+    2: Cup Sleeves
+    3: Short Sleeves
+    4: Elbow Sleeves
+    5: 3/4 Sleeves
+    6: Wrist Length
+    7: Long Sleeves
+    8: Extra Long Sleeves
