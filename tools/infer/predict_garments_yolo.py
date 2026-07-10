@@ -2,11 +2,26 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
 import cv2
 from ultralytics import YOLO
+
+# ---------------------------------------------------------------------------
+# Project-root resolution.  When this script is invoked directly from the
+# command line, the project root may not be on sys.path.  Inserting it here
+# ensures `tools.eval.category_mapping` is importable in both script and
+# module (imported-by-garment_pipeline) invocation modes.
+# ---------------------------------------------------------------------------
+_PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
+from tools.eval.category_mapping import CategoryMapping, load_category_mapping  # noqa: E402
+
+_DEFAULT_MAPPING_YAML = _PROJECT_ROOT / "configs" / "category_mapping.yaml"
 
 
 IMAGE_EXTENSIONS = {
@@ -97,6 +112,15 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=None,
         help="Optional maximum number of images to process.",
+    )
+    parser.add_argument(
+        "--mapping-yaml",
+        type=str,
+        default=str(_DEFAULT_MAPPING_YAML),
+        help=(
+            "Path to category mapping YAML used to derive coarse PRD class labels. "
+            "Default: configs/category_mapping.yaml relative to project root."
+        ),
     )
 
     return parser.parse_args()
@@ -256,6 +280,16 @@ def run_inference(args: argparse.Namespace) -> None:
     if not weights.exists():
         raise FileNotFoundError(f"Weights not found: {weights}")
 
+    mapping_yaml = Path(getattr(args, "mapping_yaml", str(_DEFAULT_MAPPING_YAML)))
+    try:
+        category_mapping: CategoryMapping = load_category_mapping(mapping_yaml)
+    except FileNotFoundError as exc:
+        raise FileNotFoundError(
+            f"Category mapping YAML not found: {mapping_yaml}. "
+            "Ensure configs/category_mapping.yaml exists at the project root, "
+            "or pass --mapping-yaml with the correct path."
+        ) from exc
+
     output_dir.mkdir(parents=True, exist_ok=True)
 
     vis_dir = output_dir / "visualizations"
@@ -343,10 +377,20 @@ def run_inference(args: argparse.Namespace) -> None:
                 class_id = safe_int(class_id)
                 class_name = model_class_names.get(class_id, str(class_id))
 
+                coarse_id = category_mapping.map_13_to_5.get(class_id, class_id)
                 detection = {
+                    # --- internal 13-class fine label (preserved for 3.1.2) ---
                     "det_id": det_id,
                     "class_id": class_id,
                     "class_name": class_name,
+                    # --- dual-label PRD output fields ---
+                    "fine_class_id": class_id,
+                    "fine_class_name": class_name,
+                    "coarse_class_id": coarse_id,
+                    "coarse_class_name": category_mapping.prd_5cls.get(
+                        coarse_id, class_name
+                    ),
+                    # --- geometry and score fields ---
                     "confidence": safe_float(conf),
                     "bbox_xyxy": bbox_xyxy,
                     "bbox_xywh": bbox_xywh,

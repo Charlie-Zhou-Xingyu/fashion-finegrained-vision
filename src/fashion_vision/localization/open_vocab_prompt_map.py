@@ -93,9 +93,9 @@ OPEN_VOCAB_REGION_PROMPTS: Dict[str, List[str]] = {
         "clothing collar",
     ],
     "placket": [
-        "placket",
-        "shirt placket",
         "front placket",
+        "shirt placket",
+        "front opening of coat",
     ],
     "strap": [
         "strap",
@@ -103,9 +103,9 @@ OPEN_VOCAB_REGION_PROMPTS: Dict[str, List[str]] = {
         "clothing strap",
     ],
     "belt": [
+        "clothing belt",   # "waist belt" removed — detects waist region, not actual belt
+        "coat belt",
         "belt",
-        "waist belt",
-        "clothing belt",
     ],
     "hood": [
         "hood",

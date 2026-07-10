@@ -25,6 +25,30 @@ Business note:
     garment such as a zippered vest or sleeveless jacket. If more fine-grained
     attributes become available later, vest can be further separated into
     inner-wear vest and outer-wear vest.
+
+Scope and ID convention:
+    This module is scoped to the **DeepFashion2 ground-truth annotation
+    parsing path**.  Category IDs here are **1-based** (1–13), matching the
+    raw DeepFashion2 JSON annotation format where ``item_id`` 1 = short
+    sleeve top, 2 = long sleeve top, etc.
+
+    This module is used by ``deepfashion2_parser.py`` for GT annotation
+    parsing (e.g. SAM-HQ evaluation with GT boxes).  It is **not** used
+    for YOLO model inference output.
+
+    For YOLO model output category mapping (0-based IDs, 5-class PRD
+    taxonomy), use ``configs/category_mapping.yaml`` loaded via
+    ``tools.eval.category_mapping.load_category_mapping()``.
+
+    The two mapping systems differ intentionally:
+
+    * This module: vest (id=5, 1-based) → ``outwear`` (8-class annotation
+      taxonomy).
+    * ``category_mapping.yaml``: vest (id=4, 0-based) → ``top`` (5-class
+      PRD taxonomy per CLAUDE.md policy).
+
+    Both are correct for their respective data paths.  Do not consolidate
+    them without a full audit of all callers.
 """
 
 from __future__ import annotations
