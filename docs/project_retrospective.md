@@ -476,6 +476,58 @@ def mask_to_garment(image, garment_mask, fill_mode="grey", dilation_px=0):
 
 **IoU<=0.3 标准的含义：** 导师 07-09 评估设定检测框与 GT 框 IoU<=0.3 即算命中（而非通常的 0.5）。理由是服装零件标注本身带有主观性（同一领口的标注边界因人而异），0.3 的标准对应"大致定位正确"而非"精确对齐"。
 
+### 3.16 DINO-base 评估实验 (2026-07-10)
+
+**背景：** 导师 07-09 评估指出 DINO-tiny 在鞋子、铆钉等小零件上存在能力天花板，提出了切换 DINO-base 的可能性。DINO-base 使用 Swin-Base backbone (~100M params) 替代 Swin-Tiny (~28M)，理论上更强的视觉 backbone 应该提供更好的零样本检测精度。
+
+**实验设计：** 在 eval_v2 验证集上做 Tiny vs Base 裸 DINO 对比（仅 garment crop，无 mask-gating/解剖学缩放/形状先验，控制变量），15 个零件 x 15 张/零件，评估 IoU>0.3 hit rate。
+
+**实验环境：** NVIDIA RTX 4060 Laptop (8GB)，fashion-demo2 conda 环境，torch 2.5.1。脚本：`scripts/compare_dino_tiny_vs_base.py`。
+
+**模型规格对比：**
+
+| | DINO-tiny | DINO-base |
+|---|---|---|
+| 参数量 | 172M | 232M |
+| 模型大小 (磁盘) | ~200MB | 1.8GB |
+| GPU 显存占用 | 660 MB | 891 MB |
+| 单次 detect 延迟 (4060) | 319 ms | 409 ms |
+| 多 prompt detect (4 prompts) | 1257 ms | 1652 ms |
+
+**精度对比（IoU>0.3 hit rate, 15 samples/part）：**
+
+| 零件 | Tiny | Base | Delta | 判断 |
+|---|---|---|---|---|
+| collar | **66.7%** | 60.0% | **-6.7%** | Tiny 赢 |
+| neckline | **20.0%** | 13.3% | -6.7% | Tiny 赢 |
+| lapel | **20.0%** | 13.3% | -6.7% | Tiny 赢 |
+| zipper | **46.7%** | 26.7% | **-20.0%** | Tiny 赢 |
+| pocket | **46.7%** | 40.0% | -6.7% | Tiny 赢 |
+| button | 20.0% | **40.0%** | +20.0% | Base 赢 |
+| epaulette | 13.3% | **33.3%** | +20.0% | Base 赢 |
+| fringe | 80.0% | **93.3%** | +13.3% | Base 赢 |
+| bag | 46.7% | **53.3%** | +6.7% | Base 赢 |
+| hood | 53.3% | **60.0%** | +6.7% | Base 赢 |
+| rivet | 20.0% | 20.0% | 0 | 持平 |
+| sequin | 80.0% | 80.0% | 0 | 持平 |
+| shoes | 26.7% | 26.7% | 0 | 持平 |
+| ruffle | 60.0% | 60.0% | 0 | 持平 |
+| bow | 80.0% | 80.0% | 0 | 持平 |
+| buckle | 66.7% | 66.7% | 0 | 持平 |
+| **collar+neckline+lapel 合并** | **35.6%** | 28.9% | **-6.7%** | Tiny 赢 |
+
+**关键发现：**
+
+1. **核心结构零件退化：** collar/neckline/lapel/zipper/pocket 这 5 个用户查询频率最高的零件，Base 精度全面低于 Tiny。zipper 下降 20 个百分点最为显著。
+2. **collar+neckline+lapel 合并：** Tiny 35.6% vs Base 28.9%，Base 反而退步 6.7 个百分点。
+3. **小零件天花板未突破：** 原本期望 base 能改善的 shoes (26.7%) 和 rivet (20%) 完全持平——更强的 backbone 没有转化为更好的零样本检测能力。
+4. **Base 的收益在 Fashionpedia 已覆盖的零件：** button (+20%)、epaulette (+20%) 是 Base 改善最大的两个零件，但这两个恰好是 Fashionpedia YOLO 的核心覆盖零件。如果 pipeline 已经有 FP YOLO 优先路径，DINO-base 的这些收益毫无意义——因为 FP YOLO 比 DINO-base 更快更准。
+5. **延迟增加 31%：** Base 推理比 Tiny 慢 31%（409ms vs 319ms），显存多占 231MB。在 8GB 笔记本 GPU 上，891MB vs 660MB 的差距意味着 Base 在多模型共存场景下更危险。
+
+**如果重来：** 关于"应该用 DINO-base"的假设被实验推翻。Base 在核心零件上反向退化，在小零件上无法突破天花板。如果后续需要做 DINO 微调，Base 作为起点仍有价值（更大的参数空间）；但作为零样本推理引擎，Tiny 更优。
+
+**最终决策：保持 DINO-tiny 作为 3.1.2 的 DINO 推理引擎。** Base 的 button/epaulette 改善由 Fashionpedia YOLO 覆盖，无需 DINO 介入。
+
 ---
 
 ## 四、3.1.3 细粒度属性提取
@@ -569,7 +621,7 @@ Fashionpedia 有独立的 collar (class 1) 和 neckline (class 6)。但 collar =
 | 2 | SAM-HQ 而非原始 SAM | 服装边缘需要高质量 mask | MobileSAM/原始SAM | 应该直接用 MobileSAM |
 | 3 | Fashionpedia YOLO 优先于 DINO | 专门训练的检测器精度+速度均优于零样本 | 仅用 DINO | 仍选此方案 |
 | 4 | 配置驱动而非硬编码 | 30+零件配置如果硬编码无法维护 | 硬编码在 router 中 | 仍选此方案 |
-| 5 | DINO tiny 而非 base | tiny 已经慢 (175ms)，base 更慢 | DINO-base | tiny 在小零件上能力不足，应评估 base |
+| 5 | DINO tiny 而非 base | 2026-07-10 A/B 实验: base 核心零件退化 -6.7%, 延迟 +31% | DINO-base | 实验推翻假设，保持 tiny |
 | 6 | 本地词汇表 + LLM fallback | 95% 查询在词汇表内，LLM 太慢 | 全部走 LLM 翻译 | 仍选此方案 |
 | 7 | ResNet18 而非更大 backbone | 数据量是瓶颈，不是模型容量 | ResNet50/ViT | 仍选此方案 |
 
@@ -685,6 +737,8 @@ tests/                                 # 373+ tests
 **DINO 文本提示为什么加句号：** HF GDINO 的 processor 以句号作为句子结束信号。不带句号时 score calibration 不稳定。
 
 **为什么 prompt engineering 不是加同义词：** DINO 不是 LLM，不能"理解"同义关系。需要描述视觉特征（iridescent/glittering），而非语义概念（decoration/ornament）。
+
+**为什么不用 DINO-base 替代 DINO-tiny：** 2026-07-10 A/B 实验证明 base 在核心结构零件（collar/neckline/lapel/zipper）上精度退化（-6.7% 合并），小零件天花板未突破（shoes/rivet 持平），延迟增加 31%，显存多占 231MB。Base 改善的 button/epaulette 已被 Fashionpedia YOLO 覆盖。
 
 **neckline/cuff FP 未命中为什么走 fast-path 而非 DINO：** neckline 和 cuff 有可靠的关键点几何规则，DINO 的零样本检测反而不如专门训练的 YOLO+规则稳定。FP 未命中时已经说明"这个零件不存在或太小"，让 DINO 去找只会产生假阳性。
 
