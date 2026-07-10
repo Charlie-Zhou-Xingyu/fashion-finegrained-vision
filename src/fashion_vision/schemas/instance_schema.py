@@ -37,6 +37,10 @@ def build_instance_record(
     gt_mask_path: Optional[str] = None,
     category_zh: Optional[str] = None,
     category_id: Optional[int] = None,
+    fine_class_id: Optional[int] = None,
+    fine_class_name: Optional[str] = None,
+    coarse_class_id: Optional[int] = None,
+    coarse_class_name: Optional[str] = None,
     source_item_id: Optional[str] = None,
     score: Optional[float] = None,
     iou: Optional[float] = None,
@@ -58,6 +62,12 @@ def build_instance_record(
         gt_mask_path: Saved ground-truth mask path.
         category_zh: Chinese category name.
         category_id: Original dataset category id if available.
+        fine_class_id: Fine-grained 13-class id from the YOLO model output (0-based,
+            equal to ``class_id``). Pass ``None`` when not applicable.
+        fine_class_name: Fine-grained 13-class name (e.g. ``short sleeve top``).
+        coarse_class_id: PRD 5-class coarse category id (0-based, derived from
+            ``configs/category_mapping.yaml``). Pass ``None`` when not applicable.
+        coarse_class_name: PRD 5-class coarse category name (e.g. ``top``).
         source_item_id: Original annotation item id.
         score: SAM or detector confidence score.
         iou: IoU between predicted mask and ground-truth mask if available.
@@ -77,6 +87,10 @@ def build_instance_record(
         "category": str(category),
         "category_zh": str(category_zh or category),
         "category_id": int(category_id) if category_id is not None else None,
+        "fine_class_id": int(fine_class_id) if fine_class_id is not None else None,
+        "fine_class_name": str(fine_class_name) if fine_class_name is not None else None,
+        "coarse_class_id": int(coarse_class_id) if coarse_class_id is not None else None,
+        "coarse_class_name": str(coarse_class_name) if coarse_class_name is not None else None,
         "target_category": str(category),
         "bbox": _to_float_list(list(bbox)),
         "bbox_format": str(bbox_format),

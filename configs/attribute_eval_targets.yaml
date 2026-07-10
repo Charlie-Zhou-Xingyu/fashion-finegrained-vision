@@ -1,0 +1,69 @@
+# PRD 3.1.3 Attribute Classification Evaluation Targets
+#
+# Defines the acceptance criteria for each FashionAI attribute task.
+# "accuracy" means test-split macro-F1 (macro-averaged F1 across all label classes).
+#
+# Evaluated with:
+#   python scripts/eval_attribute_classifier_checkpoint.py \
+#       --checkpoint <path/to/best.pt> \
+#       --jsonl data/fashionai_attribute_index/<task>_test.jsonl
+#
+# PRD 3.1.3 states: accuracy >= 88%, extraction time <= 20ms.
+# The metric is macro_f1 (float in [0, 1]).
+
+version: "1.0"
+metric: macro_f1          # primary metric used for acceptance gating
+split: test               # JSONL split to evaluate on
+view_filter: ""           # "" = all rows; "original" = original-image rows only
+img_size: 224
+arch: resnet18
+prd_target: 0.88          # global PRD minimum; per-task may override
+
+# Per-task targets and baselines.
+# current_baseline: best observed test macro_f1 (multiview_v2 + resnet18 + seed2).
+# Baselines are informational only — not enforced programmatically.
+per_task:
+  neckline_design:
+    target: 0.88
+    current_baseline: 0.665
+    num_classes: 10
+
+  collar_design:
+    target: 0.88
+    current_baseline: 0.764
+    num_classes: 5
+
+  neck_design:
+    target: 0.88
+    current_baseline: 0.624
+    num_classes: 5
+
+  lapel_design:
+    target: 0.88
+    current_baseline: 0.680
+    num_classes: 5
+
+  sleeve_length:
+    target: 0.88
+    current_baseline: 0.612
+    num_classes: 9
+
+  coat_length:
+    target: 0.88
+    current_baseline: 0.618
+    num_classes: 8
+
+  pant_length:
+    target: 0.88
+    current_baseline: 0.740
+    num_classes: 6
+
+  skirt_length:
+    target: 0.88
+    current_baseline: 0.593
+    num_classes: 6
+
+notes:
+  - "PRD phrase 'accuracy >= 88%' is interpreted as test-split macro_f1 >= 0.88."
+  - "No task currently meets the target. Best baseline is collar_design at 0.764."
+  - "This config is the authoritative accuracy target source; do not hard-code targets in scripts."
