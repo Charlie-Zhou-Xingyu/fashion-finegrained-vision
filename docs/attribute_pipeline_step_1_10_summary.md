@@ -1,7 +1,11 @@
 # PRD 3.1.3 Attribute Inference Pipeline — Steps 1–10 Engineering Summary
 
-> Last updated: 2026-06-16
-> Test status at time of writing: **195 passed, 2 skipped, 0 failed** (197 collected across 6 test files)
+> Last updated: 2026-06-17
+> Test status at time of writing: **283 passed, 2 skipped, 0 failed** (285 collected across 7 test files)
+>
+> Steps 1–10 were the original config-driven inference foundation.
+> Steps 11–14 (2026-06-17) added bugfixes, a visualizer, and the PRD-facing `mask_attribute_pipeline.py` with a real smoke test.
+> See **Section M** for the Steps 11–14 summary.
 
 ---
 
@@ -316,14 +320,14 @@ Two sub-steps:
 | **3.1.3 Attribute classification — model training** | Done | All 8 FashionAI tasks trained (ResNet18, multiview_v2_pipeline); best: collar_design 0.764 macro-F1 | PRD target 0.88 macro-F1 not yet reached; further training/architecture work needed |
 | **3.1.3 Config-driven task routing** | Done | `attribute_group_mapping.yaml` + `attribute_inference.yaml` + `category_gate.py` | — |
 | **3.1.3 Task model loading library** | Done | `task_registry.py`; 4 checkpoint formats; 5 label-map formats | — |
-| **3.1.3 End-to-end attribute pipeline** | Done (code) | `garment_attribute_pipeline.py`; reads region_crops.json; outputs per-instance attributes | No real end-to-end smoke test with actual checkpoints yet |
+| **3.1.3 End-to-end attribute pipeline** | Done | `garment_attribute_pipeline.py`; reads region_crops.json; outputs per-instance attributes. PRD-facing interface `mask_attribute_pipeline.py` smoke-tested with real image+mask | — |
 | **3.1.3 Backward-compatible batch runner** | Done | `run_p3_region_to_attribute_8tasks.py` refactored; CLI unchanged | — |
 | **Category mapping 13→5** | Done (config) | `configs/category_mapping.yaml`; `attribute_group_mapping.yaml`; `coarse_class_to_fine_class_substrings` | Coarse class fields not uniformly applied throughout pipeline outputs |
 | **Latency benchmark** | Done (tool) | `tools/eval/benchmark_attribute_latency.py`; synthetic tensors; PRD 20ms target check | Not yet run with real checkpoints on target hardware |
 | **PRD 20ms latency target verified** | Not Done | Tool exists but no real checkpoint run performed | Run `benchmark_attribute_latency.py` with real checkpoints on target hardware |
-| **Unit tests** | Done | 195 passed, 2 skipped, 0 failed; 6 test files; 197 tests | No integration tests with real images/checkpoints |
+| **Unit tests** | Done | 283 passed, 2 skipped, 0 failed; 7 test files; 285 tests | No integration tests with real images/checkpoints |
 | **Documentation** | Done (this file) | `docs/attribute_pipeline_step_1_10_summary.md`; `docs/current_project_status.md` | — |
-| **Real smoke test** | Not Done | No end-to-end run with real images and checkpoints has been performed for 3.1.3 | Run pipeline on ≥1 approved sample image |
+| **Real smoke test** | Done | `mask_attribute_pipeline.py` run on `000004.jpg` + SAM-HQ mask → 3 attribute predictions (neckline_design, collar_design, neck_design) | Broader multi-sample evaluation pending |
 | **Production integration / API serving** | Not Started | — | Not in current scope |
 | **3.2 Multimodal QA** | Not Started | — | Not in current scope |
 | **3.3 Agent/RAG** | Not Started | — | Not in current scope |
@@ -424,12 +428,12 @@ The following items are fully implemented and passing tests as of 2026-06-16:
 
 ## I. Test Summary
 
-### Overall status
+### Overall status (as of 2026-06-17)
 
 ```
-195 passed, 2 skipped, 0 failed  (197 collected)
-6 test files
-Runtime: ~5.3 seconds (CPU only, no model loading for most tests)
+283 passed, 2 skipped, 0 failed  (285 collected)
+7 test files
+Runtime: ~7 seconds (CPU only, no model loading for most tests)
 ```
 
 The 2 skips are both in the same condition:
@@ -440,12 +444,13 @@ present.  Expected and correct.
 
 | File | Count | What is tested |
 |---|---|---|
-| `test_category_gate.py` | 29 | YAML loading, validation, all 6 public API functions, all 5 coarse classes, unknown-class safety, `"outwear"` regression (no `"outerwear"`) |
+| `test_category_gate.py` | 29 | YAML loading, validation, all 6 public API functions, all 5 coarse classes, unknown-class safety, `"outwear"` regression |
 | `test_crop_utils.py` | 19 | PIL output, target size, RGB mode, expand ratio, all 3 fill modes, 3-D mask, 7 error paths including zero-area bbox |
 | `test_run_p3_task_configs.py` | 24 | `build_task_configs()` task names, checkpoint paths, region values, crop types, component filters, class filters, error handling, `coat_length` regression |
 | `test_task_registry.py` | 43 | Config parsing (11), frozen dataclass (1), transform stages (9), 5 label-map formats (7), file-based label map (3), 4 checkpoint formats (7), class inference (5) |
 | `test_benchmark_attribute_latency.py` | 30 | `_compute_stats` correctness (13), `_resolve_num_classes` with synthetic state dicts (7), `_resolve_device` (3), PRD constant (1), importlib loading (baseline) |
-| `test_garment_attribute_pipeline.py` | 57 | `_resolve_device` (3), `_infer_coarse_class` all 12 cases (12), `_get_crop_path` all types + fallbacks (9), `_select_crop_record` all filters (10), `_run_inference` (4), config defaults (2), pipeline integration with mocked models (6), `predict_from_json` JSON grouping (9) |
+| `test_garment_attribute_pipeline.py` | 57 | `_resolve_device` (3), `_infer_coarse_class` all 12 cases (12), `_get_crop_path` all types + fallbacks (9), `_select_crop_record` all filters (10), `_run_inference` (4), config defaults (2), pipeline integration with mocked models (6), `predict_from_json` JSON grouping (9) — includes 3 new det_id grouping tests |
+| `test_mask_attribute_pipeline.py` | 47 | `_mask_bbox_xyxy` (5), file loaders (8), `_normalize_garment_category` (9), `_get_region_component` (7), `_make_overlay` (4), `_build_synthetic_record` (4), `MaskAttributePipeline.predict` with mocked inference (10) |
 
 ### What is intentionally NOT tested (requires real assets)
 
@@ -550,3 +555,181 @@ feat(3.1.3): add config-driven attribute inference pipeline (Steps 1-10)
 - Add benchmark_attribute_latency.py: latency benchmark with PRD target check
 - Add 197 unit tests across 6 files: 195 passed, 2 skipped, 0 failed
 ```
+
+---
+
+## M. Steps 11–14 — Bugfixes, Visualizer, and PRD-Facing Interface (2026-06-17)
+
+This section documents the additional work done after Steps 1–10 to bring 3.1.3
+from "code complete" to "smoke-tested with real product images and masks."
+
+### Step 11 — Bugfixes
+
+Three bugs found during smoke-test preparation:
+
+**Bug A: 4 wrong checkpoint paths in `attribute_inference.yaml`**
+
+Tasks `collar_design`, `neck_design`, `lapel_design`, and `coat_length` pointed to
+`multiview_v2_pipeline` checkpoint directories that were never created — these tasks
+only have baseline (`resnet18_seed2`) checkpoints.  Corrected paths:
+
+```yaml
+collar_design:  outputs/p2_collar_design_resnet18_seed2/best.pt
+neck_design:    outputs/p2_neck_design_resnet18_seed2/best.pt
+lapel_design:   outputs/p2_lapel_design_resnet18_seed2/best.pt
+coat_length:    outputs/p2_coat_length_resnet18_seed2/best.pt
+```
+
+`neckline_design`, `sleeve_length`, `pant_length`, `skirt_length` retain valid
+`multiview_v2_pipeline` checkpoints (unchanged).
+
+**Bug B: `det_id=0` treated as falsy in instance grouping**
+
+The original grouping key was built using:
+```python
+raw_det_id = str(crop.get("det_id") or crop.get("instance_id") or "")
+```
+Integer `0` is falsy in Python, so the first garment in every multi-garment image
+got key `""` instead of `"img001__det0"`.
+
+Fixed with an explicit `None` check:
+```python
+_det = crop.get("det_id")
+if _det is None:
+    _det = crop.get("instance_id")
+raw_det_id = "" if _det is None else str(_det)
+```
+
+Added 3 regression tests to `test_garment_attribute_pipeline.py`.
+
+**Bug C: `test_other_tasks_use_multiview_v2_pipeline_checkpoint` false assertion**
+
+The existing test asserted all non-neckline tasks used `multiview_v2_pipeline`.
+After the YAML fix this became wrong.  Replaced with two accurate tests:
+- `test_multiview_v2_tasks_use_multiview_v2_pipeline_checkpoint` (3 tasks)
+- `test_baseline_only_tasks_do_not_use_multiview_v2_checkpoint` (4 tasks)
+
+### Step 12 — Pipeline Output Visualizer
+
+**File:** `scripts/visualize_attribute_pipeline_output.py`
+
+Renders per-instance attribute predictions (from `garment_attribute_pipeline.py`
+JSONL output) as contact-sheet JPEG pages.  Key design choices:
+
+- Uses same instance-key formula as the pipeline (`{image_stem}__det{det_id}`)
+  to look up crop images from a `region_crops.json`.
+- Resolves relative crop paths against `Path.cwd()` (must run from project root).
+- Renders masked crops preferentially; falls back to raw/expanded crop.
+- One tile per instance: thumbnail + task-name/label/score/top-k text.
+
+### Step 13 — `mask_attribute_pipeline.py` (PRD-Facing Interface)
+
+**File:** `src/fashion_vision/attributes/mask_attribute_pipeline.py`
+
+Implements the PRD 3.1.3 input contract:
+
+```
+image + binary mask + garment_category + component_type
+    → attribute labels + confidence scores
+```
+
+**API:**
+
+```python
+from fashion_vision.attributes.mask_attribute_pipeline import predict_attributes_from_mask
+
+result = predict_attributes_from_mask(
+    image_path="assets/random_train60/images/000004.jpg",
+    mask_path="outputs/test_pipeline_smoke/02_samhq/masks/000004_det000_long sleeve top_mask.png",
+    garment_category="top",   # accepts aliases: "upper", "coat", "trousers", fine class names
+    component_type="collar",  # "neckline", "sleeve", "pant_leg", etc.
+    output_dir="outputs/smoke_test_attr_from_mask",
+    topk=3,
+    device="cpu",
+)
+# result["attributes"] → {"neckline_design": {"label": "...", "score": 0.0, "topk": [...]}, ...}
+```
+
+**Saved artifacts** (per call): masked crop (background-filled), raw crop,
+mask overlay, `predictions.json`, `predictions.jsonl`.
+
+**Design:** Builds a synthetic crop record pointing all crop-type path keys
+(`expanded_crop_path`, `upper_crop_path`, `masked_crop_path`, `crop_path`) to the
+saved masked crop, then delegates to `GarmentAttributePipeline.predict_instance()`.
+This reuses all task routing, model loading, and inference logic without duplication.
+
+**CLI:**
+```bash
+python scripts/run_attribute_from_mask_smoke.py \
+    --image PATH --mask PATH \
+    --garment-category CATEGORY \
+    --component-type COMPONENT \
+    --output-dir DIR \
+    [--device cpu|cuda|auto] [--topk N] [--background-fill mean|zero|keep]
+```
+
+**Pure helpers (all independently testable):**
+
+| Helper | Purpose |
+|---|---|
+| `_mask_bbox_xyxy(mask)` | Tight bounding box from foreground pixels |
+| `_load_image_rgb(path)` | Load image as (H,W,3) uint8 numpy array |
+| `_load_binary_mask(path)` | Load mask as (H,W) bool array |
+| `_make_overlay(image, mask)` | Semi-transparent coloured overlay |
+| `_normalize_garment_category(cat, mapping)` | Alias + substring → coarse class |
+| `_get_region_component(component_type)` | component → (region, component) fields |
+| `_build_synthetic_record(...)` | Build synthetic crop record for `predict_instance` |
+
+### Step 14 — `tests/test_mask_attribute_pipeline.py`
+
+47 new unit tests.  All pass.  Full suite: **283 passed, 2 skipped, 0 failed**.
+
+| Test class | Count | Coverage |
+|---|---|---|
+| `TestMaskBboxXyxy` | 5 | Centred mask, full mask, single pixel, empty mask raises, uint8 input |
+| `TestFileLoaders` | 8 | Shape/dtype, foreground values, full/empty mask, missing file raises (both loaders) |
+| `TestNormalizeGarmentCategory` | 9 | Direct names, aliases, fine class names, case-insensitive, unknown raises |
+| `TestGetRegionComponent` | 7 | Known mappings (collar, neckline, sleeve, pant_leg, pant), unknown passthrough, case-insensitive |
+| `TestMakeOverlay` | 4 | RGB PIL output, spatial dims, foreground tinting, background unchanged |
+| `TestBuildSyntheticRecord` | 4 | All crop paths → masked crop, image_crop_path → raw crop, success=True, class_name preserved |
+| `TestMaskAttributePipelinePredict` | 10 | Output schema, coarse class resolution, artifacts saved, bbox is 4 ints, attributes passthrough, empty mask raises, size mismatch raises, missing file raises, topk propagation, topk restored after call |
+
+### Real Smoke Test Result
+
+```
+Command:
+    python scripts/run_attribute_from_mask_smoke.py \
+        --image "assets/random_train60/images/000004.jpg" \
+        --mask "outputs/test_pipeline_smoke/02_samhq/masks/000004_det000_long sleeve top_mask.png" \
+        --garment-category top --component-type collar \
+        --output-dir outputs/smoke_test_attr_from_mask --device cpu --topk 3
+
+Garment: long sleeve top (000004.jpg)
+Task routing: top → [neckline_design, collar_design, neck_design, sleeve_length]
+Collar crop matched: neckline_design, collar_design, neck_design
+sleeve_length skipped: no sleeve component in synthetic record (correct)
+
+Predictions:
+    neckline_design → Straight Neck  (0.403)  [Invisible: 0.22, Square Neckline: 0.18]
+    collar_design   → Invisible      (0.995)  [Puritan Collar: 0.00, Peter Pan: 0.00]
+    neck_design     → Invisible      (0.467)  [Low Turtle Neck: 0.42, Turtle Neck: 0.07]
+
+Artifacts saved to: outputs/smoke_test_attr_from_mask/
+    000004_collar_masked_crop.jpg
+    000004_collar_raw_crop.jpg
+    000004_collar_overlay.jpg
+    predictions.json
+    predictions.jsonl
+
+Wall time: ~0.6 s (CPU, models already loaded)
+```
+
+### Remaining 3.1.3 Gaps
+
+| Gap | Notes |
+|---|---|
+| Accuracy target not validated | PRD requires macro-F1 ≥ 0.88; current best is 0.764 (collar_design) |
+| Latency target not benchmarked | PRD requires ≤ 20 ms/image; `benchmark_attribute_latency.py` exists but not run with real checkpoints on target hardware |
+| Attribute group coverage incomplete | 8 of 14 FashionAI attribute groups implemented; fabric and craftsmanship attributes absent |
+| Multi-sample evaluation pending | Only one smoke-test image; no per-class confusion matrices |
+| Stage 6 integration pending | `GarmentPipeline` does not yet invoke `GarmentAttributePipeline` as a pipeline stage |
