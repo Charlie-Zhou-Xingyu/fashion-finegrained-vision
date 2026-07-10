@@ -197,6 +197,68 @@ class SamHqWrapper:
             "sam_latency_ms": float(latency_ms),
         }
 
+    def predict_all_masks(
+        self,
+        image_rgb: np.ndarray,
+        box_xyxy: list[float] | tuple[float, float, float, float] | np.ndarray,
+    ) -> list[dict]:
+        """
+        Predict ALL candidate masks using one box prompt (multimask mode).
+
+        Unlike :meth:`predict_with_box`, which returns only the highest-scoring
+        mask, this method returns all candidates SAM produces when
+        ``multimask_output=True``.  This is used by inner-garment detection to
+        search for a secondary object (inner collar) within an outerwear crop.
+
+        Args:
+            image_rgb: RGB image array with shape ``H x W x 3``.
+            box_xyxy: Box prompt in ``[x1, y1, x2, y2]`` format.
+
+        Returns:
+            List of dicts sorted descending by score::
+
+                [{"mask": np.ndarray (H×W uint8), "score": float}, ...]
+
+            Typically 3 candidates.  Empty list on failure.
+
+        Raises:
+            RuntimeError: If predictor is not initialized.
+            ValueError: If image or box input is invalid.
+        """
+        self._validate_image(image_rgb)
+        box = self._validate_box(box_xyxy)
+
+        if self.predictor is None:
+            raise RuntimeError("SAM-HQ predictor is not initialized.")
+
+        start_time = time.perf_counter()
+
+        self.predictor.set_image(image_rgb)
+
+        masks, scores, _ = self.predictor.predict(
+            point_coords=None,
+            point_labels=None,
+            box=box,
+            multimask_output=True,   # force multimask regardless of constructor setting
+        )
+
+        latency_ms = (time.perf_counter() - start_time) * 1000.0
+
+        masks_array = np.asarray(masks)
+        scores_array = np.asarray(scores, dtype=np.float32).reshape(-1)
+
+        candidates: list[dict] = []
+        for i in range(len(scores_array)):
+            m = masks_array[i]
+            candidates.append({
+                "mask": (m > 0).astype(np.uint8) * 255,
+                "score": float(scores_array[i]),
+                "sam_latency_ms": float(latency_ms),
+            })
+
+        candidates.sort(key=lambda d: d["score"], reverse=True)
+        return candidates
+
     @staticmethod
     def _validate_image(image_rgb: np.ndarray) -> None:
         """

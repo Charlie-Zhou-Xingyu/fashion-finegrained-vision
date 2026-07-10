@@ -1,0 +1,87 @@
+# =========================
+# Large external datasets
+# =========================
+
+D:/Aliintern/fashion-ai-data/
+D:\Aliintern\fashion-ai-data\
+
+# If there are mirrored dataset folders inside the repo
+data/raw/
+data/deepfashion2/
+data/fashionai/images/
+data/fashionai/raw/
+data/images/
+datasets/
+dataset/
+
+# =========================
+# Generated outputs
+# =========================
+
+outputs/
+runs/
+wandb/
+logs/
+visualizations/
+crops/
+masks/
+overlays/
+debug_outputs/
+tmp/
+temp/
+
+# =========================
+# Model weights / binaries
+# =========================
+
+models/
+weights/
+checkpoints/
+*.pt
+*.pth
+*.onnx
+*.engine
+*.safetensors
+*.ckpt
+*.bin
+
+# =========================
+# Images / videos
+# =========================
+
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.webp
+*.gif
+*.tif
+*.tiff
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# =========================
+# Large arrays / serialized data
+# =========================
+
+*.jsonl
+*.pkl
+*.pickle
+*.npy
+*.npz
+*.parquet
+*.arrow
+
+# =========================
+# Cache / environment
+# =========================
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+.DS_Store
+.ipynb_checkpoints/

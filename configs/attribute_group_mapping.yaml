@@ -1,0 +1,91 @@
+# PRD 3.1.3 Category-aware Attribute Group Mapping
+#
+# Maps PRD 5-class coarse garment categories to enabled attribute tasks,
+# target region types, and preferred crop input types.
+#
+# This is the authoritative config for CategoryGate
+# (src/fashion_vision/attributes/category_gate.py).
+#
+# Cross-references:
+#   - Coarse class names must match prd_5cls in configs/category_mapping.yaml.
+#   - Task names must be keys in configs/attribute_taxonomy.yaml.
+#   - crop_type values must be valid crop_input_type choices in
+#     tools/demo/predict_region_attribute_batch.py.
+
+version: "1.0"
+category_mapping_ref: configs/category_mapping.yaml
+taxonomy_ref: configs/attribute_taxonomy.yaml
+
+# coarse_class -> ordered list of enabled attribute tasks.
+# Order determines the output order in the final attribute response.
+coarse_class_to_tasks:
+  top:
+    - neckline_design
+    - collar_design
+    - neck_design
+    - sleeve_length
+  outerwear:
+    - lapel_design
+    - coat_length
+    - sleeve_length
+  pants:
+    - pant_length
+  skirt:
+    - skirt_length
+  dress:
+    - neckline_design
+    - skirt_length
+    - sleeve_length
+
+# attribute task -> garment region type used for localization / cropping.
+task_to_region:
+  neckline_design: collar
+  collar_design: collar
+  neck_design: collar
+  lapel_design: collar
+  sleeve_length: cuff
+  coat_length: hem
+  pant_length: leg_opening
+  skirt_length: hem
+
+# attribute task -> preferred crop_input_type during inference.
+# Matches crop_input_type choices in predict_region_attribute_batch.py.
+task_to_crop_type:
+  neckline_design: upper_crop
+  collar_design: upper_crop
+  neck_design: upper_crop
+  lapel_design: upper_crop
+  sleeve_length: expanded_crop
+  coat_length: expanded_crop
+  pant_length: expanded_crop
+  skirt_length: expanded_crop
+
+# Substring filters for backward-compatible filtering of region-crop JSONs
+# that contain fine_class_name (13-class DeepFashion2) but no coarse_class_name.
+# A record matches a coarse class if its fine_class_name contains any listed substring.
+# IMPORTANT: use "outwear" (not "outerwear") — actual fine class names are
+# "short sleeve outwear" and "long sleeve outwear".
+coarse_class_to_fine_class_substrings:
+  top:
+    - short sleeve top
+    - long sleeve top
+    - vest
+    - sling
+  outerwear:
+    - outwear
+  pants:
+    - shorts
+    - trousers
+  skirt:
+    - skirt
+  dress:
+    - dress
+
+# Substring filter for the "component" field in region-crop records.
+# Only tasks that require a component filter are listed here.
+# Tasks absent from this section have no component filter (equivalent to None /
+# the --component-contains "" default in predict_region_attribute_batch.py).
+# Values map directly to the --component-contains CLI argument.
+task_to_component_filter:
+  sleeve_length: sleeve
+  pant_length: pant
