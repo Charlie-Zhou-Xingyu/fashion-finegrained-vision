@@ -135,3 +135,60 @@ dist/
 htmlcov/
 .coverage.*
 pytest-report.xml
+
+# ============================================================
+# Local large archives / binary exports
+# ============================================================
+*.tar
+*.tar.gz
+*.zip
+*.rar
+*.7z
+*.docx
+*.pdf
+
+# ============================================================
+# Generated outputs — keep small benchmark JSON/MD/TXT only
+# ============================================================
+/outputs/*
+!/outputs/benchmarks/
+/outputs/benchmarks/*
+!/outputs/benchmarks/*.json
+!/outputs/benchmarks/*.md
+!/outputs/benchmarks/*.txt
+
+runs/
+artifacts/
+calibration_v1_results/
+calibration_v2_results/
+final_fashionpedia_yolov8s_balanced_export_with_onnx/
+
+# ============================================================
+# Local data / checkpoints (re-download on WSL2)
+# ============================================================
+data/
+datasets/
+checkpoints/
+
+# ============================================================
+# Temporary generated text dumps
+# ============================================================
+output_crops.txt
+output_jsons.txt
+output_masks.txt
+project_tree_dirs.txt
+search_region_code.txt
+test_output.txt
+p2_all_files.txt
+p2_eval_files.txt
+
+# ============================================================
+# Accidental shell / temp files
+# ============================================================
+powershell
+
+# ============================================================
+# Local assistant state
+# ============================================================
+.claude/
+.agents/
