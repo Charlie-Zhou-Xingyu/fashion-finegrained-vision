@@ -1,0 +1,47 @@
+# Benchmark config: Fast Path (YOLO + SAM + Landmark + Crop + Mask-aware crop)
+# Target: measure baseline latency and throughput before any optimization.
+
+benchmark:
+  name: "fast_path_baseline"
+  description: "Baseline Fast Path latency and throughput on unoptimized PyTorch pipeline"
+  pipeline_path: "fast"
+  status: "planned"  # not yet run
+
+dataset:
+  images_dir: "D:/Aliintern/fashion-ai-data/fashionai_attributes/round1_fashionAI_attributes_test_a/Images/lapel_design_labels"
+  num_images: 100
+  random_seed: 42
+  # garmented images only — filter out images with 0 YOLO detections
+
+models:
+  yolo:
+    weights: "models/detectors/yolov8n_deepfashion2_13cls_best.pt"
+    imgsz: 640
+    device: "cuda"
+  sam:
+    checkpoint: "checkpoints/sam_hq/sam_hq_vit_b.pth"
+    model_type: "vit_b"
+    device: "cuda"
+  landmark:
+    checkpoint: "outputs/landmark_predictor_resnet18/best.pt"
+    device: "cuda"
+
+batch_sizes: [1, 2, 4, 8]
+
+warmup:
+  iterations: 10
+  discard: true
+
+measurement:
+  iterations_per_batch: 100
+  sync_cuda: true
+  record_per_substage: true  # preprocess, h2d, model_forward, postprocess
+
+environment:
+  lock_gpu_clock: true
+  gpu_clock_mhz: 1695
+  cudnn_benchmark: false  # deterministic kernels for reproducible latency
+
+output:
+  dir: "outputs/benchmarks/fast_path"
+  formats: ["csv", "json"]

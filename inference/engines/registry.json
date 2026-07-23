@@ -1,0 +1,6 @@
+{
+  "_description": "TensorRT engine registry. Engines are built offline and stored in a model registry (S3/Git LFS). This file tracks metadata only.",
+  "_note": "No engines exist yet. This is a placeholder for tracking engine metadata once exports are complete.",
+  "_schema_version": "1.0",
+  "engines": []
+}

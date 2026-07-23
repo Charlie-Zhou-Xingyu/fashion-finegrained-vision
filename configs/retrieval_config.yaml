@@ -1,0 +1,66 @@
+version: "1.0.0"
+
+retrieval:
+  default_top_k: 3
+  max_top_k: 10
+
+scores:
+  exact_match: 1.0
+  contains_term_match: 0.96
+  alias_match: 0.92
+  title_match: 0.85
+  bm25_min_score: 0.25
+  bm25_max_score: 0.75
+
+normalization:
+  lowercase_ascii: true
+  strip_punctuation: true
+  normalize_spaces: true
+
+tokenization:
+  use_char_unigram: true
+  use_char_bigram: true
+  min_token_len: 1
+
+category_boost:
+  fabric: 1.05
+  material: 1.05
+  fiber: 1.05
+  sustainability: 1.02
+  supply_chain: 1.00
+  term: 1.00
+
+intent_category_map:
+  knowledge_qa/fabric:
+    - fabric
+    - material
+    - fiber
+  knowledge_qa/material:
+    - material
+    - fiber
+    - sustainability
+  knowledge_qa/term:
+    - term
+    - material
+    - fiber
+    - sustainability
+  knowledge_qa/sustainability:
+    - sustainability
+    - material
+  knowledge_qa/craft:
+    - term
+  craft_explanation:
+    - term
+  design_explanation/collar:
+    - term
+  attribute_query/fabric:
+    - fabric
+    - material
+    - fiber
+  attribute_query/general:
+    - term
+    - material
+    - fiber
+  fallback_unknown:
+    - term
+    - material

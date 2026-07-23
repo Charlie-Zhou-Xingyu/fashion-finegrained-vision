@@ -280,3 +280,95 @@ Every training run must record and report:
 - Do not run YOLO/SAM-HQ/training/full inference without explicit approval.
 - Do not commit without explicit approval.
 - Do not implement new features before reading the summary doc and confirming the plan.
+
+---
+
+## 9. Inference Optimization Operating Rules
+
+> Added: 2026-07-10.  Applies to all inference optimization work.
+
+### Project Status
+
+- Inference optimization is currently in **Planning / Pre-implementation**.
+- TensorRT engines, FastAPI serving, Docker deployment, and Qwen/LLM integration
+  do not exist yet.  Do not describe them as already completed.
+- Every latency/QPS number must be labeled as one of:
+  `[measured]`, `[estimated]`, `[target]`, or `[stretch]`.
+
+### Isolation Rule
+
+- Do **not** modify existing 3.1 pipeline logic under `tools/infer/` or
+  `src/fashion_vision/` unless explicitly requested.
+- New optimization code lives under `inference/`.
+- Existing code may be imported and wrapped, but not rewritten in-place.
+
+### Rollback Strategy
+
+Three layers:
+
+1. **Model-level fallback** — every optimized wrapper supports
+   `use_fallback=True`.  If a TensorRT engine is missing or invalid,
+   the wrapper falls back to the original PyTorch implementation.
+
+2. **Pipeline-level fallback** — optimized pipelines under
+   `inference/pipelines/` coexist with the original pipeline.
+   `tools/infer/garment_pipeline.py` remains the reference implementation.
+
+3. **Git-level fallback** — optimization work is isolated under
+   `inference/` and `docs/`.  It can be reverted without disturbing
+   existing 3.1 code.
+
+### Benchmark-First Rule
+
+Before optimizing any model:
+- Run baseline profiling.
+- Separate model-only latency from stage-level latency.
+- Record environment metadata (use `inference/env_capture.py`).
+- Report P50/P95/P99 where possible.
+- Record confidence intervals or multiple runs when practical.
+
+### Path-Specific SLA Rule
+
+Do not use a single "60 QPS end-to-end" claim without specifying the path:
+
+| Path | Modules | Notes |
+|---|---|---|
+| **Fast Path** | YOLO + SAM/MobileSAM + Landmark + Crop | Highest throughput target |
+| **Query Path** | Fast Path + Fashionpedia/DINO part localization | Query-dependent |
+| **Full Analysis Path** | Query Path + Attributes + Inner garment + optional LLM | Separate SLA |
+
+60 QPS may be plausible for the Fast Path with batching.  
+60 QPS is **not** claimed for the Full Analysis Path on one RTX 3090
+unless proven by benchmark.
+
+### Qwen / LLM Rule
+
+- Qwen or any 7B LLM is **not** currently integrated.
+- Do **not** load Qwen-VL or a 7B model inside the high-throughput CV process.
+- Use a vocab-first / synonym / embedding-retrieval approach before any
+  external LLM fallback (see `inference/llm/`).
+- If an LLM is required later, use an external service client rather than
+  co-loading the model with CV inference on the same GPU.
+
+### TensorRT Progression Rule
+
+Start TensorRT work in this order:
+
+1. Fashionpedia YOLO — ONNX already exists at
+   `models/detectors/fashionpedia_yolov8s_19cls_balanced_v1_best.onnx`.
+2. YOLOv8n garment detector.
+3. Landmark ResNet18.
+4. Attribute ResNet18 classifiers.
+5. MobileSAM encoder — only **after** segmentation quality evaluation is planned.
+6. DINO partial acceleration — only **after** cheap DINO optimizations (text cache).
+7. DINO full TensorRT export is a **stretch goal**, not a blocking milestone.
+
+### Reporting Rule
+
+After every work session, report:
+- Files created or modified.
+- Commands run.
+- Benchmark results, clearly labeled.
+- Whether existing 3.1 behavior was affected.
+- Risks discovered.
+- Recommended next step.

@@ -8,3 +8,6 @@ tqdm
 matplotlib
 pycocotools
 pytest
+fastapi>=0.100.0
+uvicorn[standard]
+pydantic>=2.0.0

@@ -85,7 +85,7 @@ def load_fp_images(max_per_part: int = 50) -> Dict[str, List[Tuple[Path, List[Li
         if resolved is None or not resolved.exists():
             continue
         x, y, w, h = ann["bbox"]
-        by_part[part].append((resolved, [x, y, x + w, y + h]))
+        by_part[part].append((resolved, [[x, y, x + w, y + h]]))
 
     # Limit per part
     for part in by_part:

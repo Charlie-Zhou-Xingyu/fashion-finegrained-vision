@@ -1,0 +1,88 @@
+# P0a.3 — Attribute templates for L1 fast-path attribute queries.
+#
+# Templates are selected by (attribute_name, source, locale).
+# The fallback chain is: source-specific → "default" → "unavailable".
+#
+# Variable placeholders:
+#   {value}          — the sanitised attribute value
+#   {garment_label}  — e.g. "商品", "上衣", "裤子" (derived from garment_category)
+
+version: "1.0.0"
+locale: "zh-CN"
+
+thresholds:
+  low_confidence: 0.6
+  high_confidence: 0.8
+
+# Attribute-name aliases.
+# When a query asks for the key on the left, the service looks up the key on
+# the right in the actual attributes dict.
+aliases:
+  collar: collar_design
+  sleeve: sleeve_length
+  neckline: neckline_design
+  pant_length: length
+  skirt_length: length
+  coat_length: length
+  dress_length: length
+
+attributes:
+  fabric:
+    display_name: "面料"
+    unavailable: "暂未获取到这件{garment_label}的面料信息，建议查看商品详情页或水洗标。"
+    merchant_input: "这件{garment_label}的面料信息标注为{value}。具体成分建议以商品详情页或水洗标为准。"
+    model_prediction: "当前属性识别结果显示，这件{garment_label}可能为{value}面料。仅凭图片无法准确确认具体纤维成分，建议以商品详情页或水洗标为准。"
+    manual_verified: "这件{garment_label}的面料已标注为{value}。"
+    request_raw: "这件{garment_label}的请求中标注面料为{value}。具体成分建议以商品详情页或水洗标为准。"
+    default: "这件{garment_label}的面料信息为{value}，建议以商品详情页或水洗标为准。"
+
+  color:
+    display_name: "颜色"
+    unavailable: "暂未获取到这件{garment_label}的颜色信息。"
+    model_prediction: "当前属性识别结果显示，这件{garment_label}可能为{value}。仅凭图片无法完全准确判断颜色，建议以实物为准。"
+    default: "这件{garment_label}的颜色为{value}。"
+
+  collar_design:
+    display_name: "领型"
+    unavailable: "暂未获取到这件{garment_label}的领型信息。"
+    default: "这件{garment_label}采用{value}设计。"
+
+  sleeve_length:
+    display_name: "袖长"
+    unavailable: "暂未获取到这件{garment_label}的袖长信息。"
+    default: "这件{garment_label}的袖长为{value}。"
+
+  length:
+    display_name: "长度"
+    unavailable: "暂未获取到这件{garment_label}的长度信息。"
+    default: "这件{garment_label}的长度属性为{value}。"
+
+  coat_length:
+    display_name: "衣长"
+    unavailable: "暂未获取到这件{garment_label}的衣长信息。"
+    default: "这件{garment_label}的衣长为{value}。"
+
+  dress_length:
+    display_name: "裙长"
+    unavailable: "暂未获取到这件{garment_label}的裙长信息。"
+    default: "这件{garment_label}的裙长为{value}。"
+
+  skirt_length:
+    display_name: "裙长"
+    unavailable: "暂未获取到这件{garment_label}的裙长信息。"
+    default: "这件{garment_label}的裙长为{value}。"
+
+  pant_length:
+    display_name: "裤长"
+    unavailable: "暂未获取到这件{garment_label}的裤长信息。"
+    default: "这件{garment_label}的裤长为{value}。"
+
+  garment_category:
+    display_name: "商品类别"
+    unavailable: "暂未获取到商品类别信息。"
+    default: "这件商品的类别为{value}。"
+
+  general:
+    display_name: "属性"
+    unavailable: "暂未获取到该属性信息。"
+    default: "该属性信息为{value}。"

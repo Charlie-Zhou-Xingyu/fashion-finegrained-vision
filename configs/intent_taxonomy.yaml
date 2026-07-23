@@ -1,0 +1,328 @@
+# P0a.2 — Intent taxonomy for rule-based intent classifier.
+#
+# Each intent entry has:
+#   primary_intent  — top-level intent category
+#   sub_intent      — optional sub-category (e.g. "fabric", "collar")
+#   keywords        — list of Chinese sub-strings; exact match → confidence 0.95
+#   patterns        — list of regex patterns; match → confidence 0.80
+#
+# Rules are evaluated from top to bottom.  The FIRST matching intent wins.
+# SPECIFIC rules (knowledge_qa, design_explanation) MUST come before
+# GENERAL rules (attribute_query, craft_explanation) to avoid false matches.
+# If nothing matches, the classifier returns fallback_unknown (primary_intent
+# only; sub_intent is null).
+
+intents:
+  # ── Chat / greeting — regex-only, NO keywords (to avoid substring false-match)
+  - primary_intent: chat
+    sub_intent: greeting
+    keywords: []
+    patterns:
+      - "^(你好|嗨|您好|早上好|下午好|晚上好|谢谢|感谢|再见|拜拜)\\s*$"
+
+  # ── P1.4a Region queries (answered from 3.1.2 localized_regions) ──────────
+  # Order inside this block: attribute before location before existence
+  # ("袖口是什么设计" must NOT hit location), count before existence,
+  # detail last (most general).
+  #
+  # IMPORTANT: all region_* patterns require a region keyword to avoid
+  # false-matching visual_instance_query ("检测框在哪里？") or
+  # attribute_query ("这件衣服是什么面料？").
+
+  # ponytail: shared region-keyword alternation used across all region_* rules.
+  # Keep in sync with inference/serving/region_query_mapper.py.
+
+  - primary_intent: region_attribute_query
+    sub_intent: null
+    keywords: []
+    patterns:
+      - ".*(领口|领子|翻领|立领|圆领|袖口|袖子|袖缘|口袋|拉链|下摆|衣摆|裙摆|肩部|肩章|肩带|腰部|腰带|腰带扣|图案|花纹|装饰|帽子|帽兜|连帽|蝴蝶结|亮片|扣子|纽扣|按扣|扣环|丝带|流苏|珠子|铆钉|贴花|花朵|鞋子|鞋|包).*(什么设计|什么形状|什么样式|什么工艺|怎么设计).*"
+
+  - primary_intent: region_location_query
+    sub_intent: null
+    keywords: []
+    patterns:
+      - ".*(领口|领子|翻领|立领|圆领|袖口|袖子|袖缘|口袋|拉链|下摆|衣摆|裙摆|肩部|肩章|肩带|腰部|腰带|腰带扣|图案|花纹|装饰|帽子|帽兜|连帽|蝴蝶结|亮片|扣子|纽扣|按扣|扣环|丝带|流苏|珠子|铆钉|贴花|花朵|鞋子|鞋|包).*(在哪里|在哪|什么地方|位置在哪里|在哪儿|位置).*"
+      - ".*(在哪里|在哪|什么地方|位置在哪里|在哪儿|位置).*(领口|领子|翻领|立领|圆领|袖口|袖子|袖缘|口袋|拉链|下摆|衣摆|裙摆|肩部|肩章|肩带|腰部|腰带|腰带扣|图案|花纹|装饰|帽子|帽兜|连帽|蝴蝶结|亮片|扣子|纽扣|按扣|扣环|丝带|流苏|珠子|铆钉|贴花|花朵|鞋子|鞋|包).*"
+
+  - primary_intent: region_count_query
+    sub_intent: null
+    keywords:
+      - 几个
+      - 有多少个
+      - 多少个
+      - 数量
+    patterns:
+      - ".*(几个|多少个|有多少个|数量).*(口袋|扣子|拉链|亮片|钮扣|纽扣|珠子|铆钉|蝴蝶结|装饰|图案|花朵|丝带|流苏|贴花|肩章).*"
+      - ".*(口袋|扣子|拉链|亮片|钮扣|纽扣|珠子|铆钉|蝴蝶结|装饰|图案|花朵|丝带|流苏|贴花|肩章).*(几个|多少个|有多少个|数量).*"
+
+  - primary_intent: region_existence_query
+    sub_intent: null
+    keywords: []
+    patterns:
+      - ".*(有没有|有无|是否有|有.*吗|有吗).*(口袋|拉链|亮片|蝴蝶结|帽子|帽兜|纽扣|扣子|丝带|流苏|珠子|铆钉|贴花|花朵|装饰|图案|肩章|腰带|下摆|肩带|领口|领子|袖子|袖口|按扣|扣环|连帽).*"
+
+  - primary_intent: region_detail_query
+    sub_intent: null
+    keywords:
+      - 有哪些细节
+      - 有哪些局部
+      - 有哪些局部设计
+      - 有什么细节
+      - 有什么装饰
+      - 有哪些装饰
+      - 有哪些服饰细节
+      - 细节有哪些
+      - 有哪些服饰细节
+    patterns:
+      - ".*(有哪些|有什么|哪些).*(细节|局部|装饰|设计).*"
+      - ".*(细节|局部).*(有哪些|有什么).*"
+
+  # ── P1.3 Visual instance queries (answered from 3.1.1 garment_instances) ───
+  # Order inside this block matters: segmentation before existence
+  # ("有没有分割结果" must NOT hit existence), location before count.
+  - primary_intent: visual_instance_query
+    sub_intent: segmentation
+    keywords:
+      - 分割结果
+      - 分割掩码
+      - 有没有分割
+      - 有没有掩码
+    patterns:
+      - ".*(有没有|有无|是否有).*(分割|掩码).*"
+      - ".*(分割|掩码).*(结果|存在|吗).*"
+
+  - primary_intent: visual_instance_query
+    sub_intent: location
+    keywords:
+      - 检测框在哪里
+    patterns:
+      - ".*(衣服|服饰|上衣|裤子|裙子|外套|连衣裙|检测框|实例).*(在哪里|在哪儿|在哪|什么位置).*"
+
+  - primary_intent: visual_instance_query
+    sub_intent: count
+    keywords:
+      - 几件衣服
+      - 几件服饰
+      - 多少件衣服
+      - 多少件服饰
+    patterns:
+      - ".*(图|照片|画面|检测).*(几件|多少件|数量).*"
+
+  - primary_intent: visual_instance_query
+    sub_intent: existence
+    keywords: []
+    patterns:
+      - ".*(有没有|有无|是否有|检测到).*(上衣|裤子|裙子|外套|连衣裙).*"
+
+  - primary_intent: visual_instance_query
+    sub_intent: detection
+    keywords:
+      - 检测到了什么
+      - 检测到什么
+      - 识别到了什么
+      - 识别到什么
+    patterns:
+      - ".*(图里|图中|图片里|画面中|照片里).*(有什么|检测|识别).*"
+
+  # ── Knowledge QA (specific — must precede generic attribute/craft rules) ───
+  - primary_intent: knowledge_qa
+    sub_intent: fabric
+    keywords:
+      - 面料特点
+      - 面料特性
+      - 面料知识
+      - 棉和麻的区别
+      - 面料对比
+      - 面料区别
+      - 面料优缺点
+    patterns:
+      - "^(纯棉|全棉|棉麻|真丝|丝绸|羊毛|羊绒|涤纶|尼龙|牛仔|亚麻|莫代尔|纤维|化纤|纺织|粘胶).*(是什么面料|是什么材质|是什么|好吗|怎么样|透气|保暖)"
+      - ".*(面料|棉|麻|丝|毛|涤纶|尼龙).*(区别|对比|特点|特性|知识|优缺点).*"
+
+  - primary_intent: knowledge_qa
+    sub_intent: craft
+    keywords:
+      - 工艺是什么
+      - 什么是工艺
+      - 是什么工艺
+      - 工艺知识
+      - 工艺介绍
+    patterns:
+      - ".*(水洗|染色|印花|刺绣|缝制|做旧|工艺).*(是什么|什么意思|好吗)"
+      - ".*工艺.*(流程|步骤|方法|知识|介绍).*"
+
+  - primary_intent: knowledge_qa
+    sub_intent: style
+    keywords:
+      - 风格特点
+      - 穿搭风格
+      - 韩系
+      - 日系
+      - 欧美风
+      - 简约风
+    patterns:
+      - ".*(风格|穿搭).*(特点|类型|分类|介绍|知识).*"
+
+  # knowledge_qa/term moved BELOW attribute_query to prevent "是什么" from
+  # capturing product queries like "这件衣服是什么面料？"
+
+  # ── Design explanation (specific — must precede attribute_query/collar) ────
+  - primary_intent: design_explanation
+    sub_intent: collar
+    keywords:
+      - 领口设计
+      - 领子设计
+      - 领口特点
+    patterns:
+      - ".*领.*(设计|特点|风格|解析).*"
+
+  # ── Styling advice ────────────────────────────────────────────────────────
+  - primary_intent: styling_advice
+    sub_intent: match
+    keywords:
+      - 搭配
+      - 配什么
+      - 怎么搭
+      - 怎么配
+      - 搭什么
+      - 配什么裤子
+      - 配什么裙子
+      - 配什么外套
+      - 配什么鞋
+    patterns:
+      - ".*(搭配|配什么|怎么搭|怎么配|搭什么).*"
+
+  - primary_intent: styling_advice
+    sub_intent: occasion
+    keywords:
+      - 适合什么场合
+      - 什么场合穿
+      - 上班穿
+      - 约会穿
+      - 面试穿
+      - 出席什么场合
+    patterns:
+      - ".*(场合|上班|约会|面试|聚会|通勤).*"
+
+  # ── Content generation ────────────────────────────────────────────────────
+  - primary_intent: content_generation
+    sub_intent: tags
+    keywords:
+      - 生成标签
+      - 属性标签
+      - 打标签
+      - 自动标签
+    patterns:
+      - ".*(标签|打标).*"
+
+  - primary_intent: content_generation
+    sub_intent: copy
+    keywords:
+      - 生成文案
+      - 卖点文案
+      - 商品文案
+      - 商品描述
+      - 产品文案
+      - 写文案
+    patterns:
+      - ".*(文案|卖点).*"
+
+  # ── Craft explanation (general — after knowledge_qa/term) ──────────────────
+  - primary_intent: craft_explanation
+    sub_intent: null
+    keywords:
+      - 工艺
+      - 做工
+      - 水洗
+      - 染色
+      - 印花工艺
+      - 刺绣
+      - 缝制
+    patterns:
+      - ".*(工艺|做工|水洗|染色|印花|刺绣|缝制).*"
+
+  # ── Attribute queries (most general — MUST come last) ─────────────────────
+  - primary_intent: attribute_query
+    sub_intent: fabric
+    keywords:
+      - 什么面料
+      - 什么材质
+      - 啥面料
+      - 啥材质
+      - 面料是什么
+      - 材质是什么
+      - 什么成分
+      - 什么料子
+      - 啥料子
+    patterns:
+      - ".*(面料|材质|成分|料子).*"
+
+  - primary_intent: attribute_query
+    sub_intent: color
+    keywords:
+      - 什么颜色
+      - 啥颜色
+      - 颜色是什么
+      - 什么色
+      - 啥色
+    patterns:
+      - ".*颜[色色].*"
+
+  - primary_intent: attribute_query
+    sub_intent: collar
+    keywords:
+      - 什么领
+      - 领型
+      - 领口类型
+      - 什么领口
+      - 什么领子
+      - 领子是什么
+      - 圆领
+      - V领
+      - 翻领
+      - 立领
+    patterns:
+      - ".*(领口|领子|领型).*"
+
+  - primary_intent: attribute_query
+    sub_intent: sleeve
+    keywords:
+      - 什么袖
+      - 袖长
+      - 袖型
+      - 长袖
+      - 短袖
+      - 袖子是什么
+      - 什么袖子
+    patterns:
+      - ".*(袖子|袖长|袖型).*"
+
+  - primary_intent: attribute_query
+    sub_intent: length
+    keywords:
+      - 多长
+      - 长度
+      - 衣长
+      - 裤长
+      - 裙长
+      - 什么长度
+    patterns:
+      - ".*(长度|衣长|裤长|裙长).*"
+
+  # ── Generic knowledge_qa/term (must come AFTER attribute_query/* so that
+  #     "这件衣服是什么面料" hits attribute_query, not this rule) ─────────
+  - primary_intent: knowledge_qa
+    sub_intent: term
+    keywords:
+      - 什么意思
+      - 什么是
+      - 是什么
+      - 定义
+      - 术语
+    patterns:
+      - "^(什么是|什么意思).*"
+      - ".*(术语|定义).*"
+
+# ── Default intent when no rule matches ────────────────────────────────────
+default_intent: fallback_unknown

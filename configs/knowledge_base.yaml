@@ -1,0 +1,550 @@
+version: 1.0.0
+locale: zh-CN
+source_policy:
+  default_review_status: manual_review_required
+  notes: 'Seed knowledge entries are extracted by an engineer, not a domain expert. All entries require manual review by a
+    fashion/textile professional before production use.  The source document (Materials Terminology Guide 2020) may be outdated.
+
+    '
+documents:
+- id: material_term_001
+  category: material
+  term: Material
+  zh_term: 材料
+  aliases:
+  - material
+  - 材料
+  - 纺织材料
+  - 服装材料
+  title: 材料（Material）
+  content: '材料是用于制造纺织品的特定物质。在纺织行业中，"材料"一词可作为纤维 和非纤维材料的统称。纺织交易所将材料定义为可转化为纱线的纤维，或通过 其他生产工艺达到可加工状态的非纤维材料。初级加工可能包括轧棉、制浆、 碎料、清洗、鞣制等步骤。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: low
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 5
+    page_end: 5
+    section: Fiber & Materials Terminology / Material
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - material
+  - definition
+  - textile
+  risk_note: ''
+- id: fiber_term_001
+  category: fiber
+  term: Fiber
+  zh_term: 纤维
+  aliases:
+  - fiber
+  - 纤维
+  - 纺织纤维
+  - 纱线原料
+  title: 纤维（Fiber）
+  content: '纤维是转化为纱线（通常进一步织成面料和成品）的材料。纤维可分为短纤维 和长丝纤维两种。短纤维具有有限长度，如棉、羊毛等；长丝纤维理论上具有 无限长度，是连续纤维。在纺织品中，纤维是构成面料的基本单元。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: low
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 5
+    page_end: 5
+    section: Fiber & Materials Terminology / Material
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - fiber
+  - definition
+  - textile
+  risk_note: ''
+- id: nonfiber_term_001
+  category: material
+  term: Non-fiber
+  zh_term: 非纤维材料
+  aliases:
+  - non-fiber
+  - 非纤维
+  - 非纤维材料
+  title: 非纤维材料（Non-fiber）
+  content: '非纤维材料指不转化为纱线，而是通过其他生产工艺（如羽绒的清洗和干燥、 皮革的鞣制、橡胶的生产）达到可加工状态的材料。这类材料可以直接成为 产品的组成部分。常见的非纤维材料包括皮革、羽绒和橡胶。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: low
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 5
+    page_end: 5
+    section: Fiber & Materials Terminology / Material
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - non-fiber
+  - definition
+  - material
+  risk_note: ''
+- id: raw_materials_001
+  category: material
+  term: Raw materials
+  zh_term: 原材料
+  aliases:
+  - raw materials
+  - 原材料
+  - 原料
+  - 初级原料
+  title: 原材料（Raw materials）
+  content: '纺织行业使用的原材料可以是初级（原生）材料，也可以是从消费前或消费后 废物流中回收并重新投入生产循环的二级原料。原材料可分为可再生和不可 再生两类。原材料通常处于未加工或最低限度加工的状态。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: low
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 5
+    page_end: 5
+    section: Fiber & Materials Terminology / Material
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - raw-materials
+  - definition
+  - supply-chain
+  risk_note: ''
+- id: renewable_materials_001
+  category: material
+  term: Renewable raw materials
+  zh_term: 可再生原材料
+  aliases:
+  - renewable raw materials
+  - 可再生原材料
+  - 可再生材料
+  - 可再生资源
+  title: 可再生原材料（Renewable raw materials）
+  content: '可再生原材料指使用时通常不会耗尽的资源。快速可再生材料通常来自生长 迅速的来源，在十年或更短时间内即可生长或培育并收获。例如棉、羊毛及 用于制造人造纤维素纤维的特定木材。可再生材料可以通过可持续项目生产， 也可以采用常规方式生产。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: low
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 5
+    page_end: 5
+    section: Fiber & Materials Terminology / Material
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - renewable
+  - definition
+  - sustainability
+  risk_note: ''
+- id: nonrenewable_materials_001
+  category: material
+  term: Non-renewable raw materials
+  zh_term: 不可再生原材料
+  aliases:
+  - non-renewable raw materials
+  - 不可再生原材料
+  - 不可再生资源
+  - 有限资源
+  title: 不可再生原材料（Non-renewable raw materials）
+  content: '不可再生原材料又称有限资源，指无法以与消耗速度相匹配的方式自然再生的 自然资源。例如碳基化石燃料（传统合成纤维和材料的基础原料）。地球矿物、 金属矿石及特定含水层中的地下水也是不可再生资源。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: low
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 5
+    page_end: 5
+    section: Fiber & Materials Terminology / Material
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - non-renewable
+  - definition
+  - sustainability
+  risk_note: ''
+- id: recycled_materials_001
+  category: material
+  term: Recycled raw materials
+  zh_term: 再生原材料
+  aliases:
+  - recycled raw materials
+  - 再生原材料
+  - 回收材料
+  - 再生纤维
+  - recycled
+  - recycled material
+  title: 再生原材料（Recycled raw materials）
+  content: '再生原材料可来自可再生或不可再生原料，指原本会成为废物的材料，经过 收集、分离、加工后重新回到经济循环中，作为原材料或产品使用。再生材料 通常被认为属于材料可持续组合方案的一部分。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: medium
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 5
+    page_end: 5
+    section: Fiber & Materials Terminology / Material
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - recycled
+  - definition
+  - sustainability
+  risk_note: ''
+- id: preferred_material_001
+  category: material
+  term: Preferred Material
+  zh_term: 优选材料
+  aliases:
+  - preferred material
+  - 优选材料
+  - 优选纤维
+  - preferred fiber
+  title: 优选材料（Preferred Material）
+  content: '纺织交易所将优选纤维或材料定义为与常规生产相比，在环境和/或社会 可持续性成果和影响方面有所改善的材料。优选材料包括优选可再生材料和 优选再生材料。评估标准涵盖原料生产、加工、产品完整性和科学验证。 具体的优选材料清单可能随行业标准和认证体系的更新而变化。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: medium
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 6
+    page_end: 7
+    section: Preferred Material
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - preferred
+  - definition
+  - sustainability
+  risk_note: ''
+- id: conventional_material_001
+  category: material
+  term: Conventional material
+  zh_term: 常规材料
+  aliases:
+  - conventional material
+  - 常规材料
+  - 传统材料
+  - 非优选材料
+  title: 常规材料（Conventional material）
+  content: '纺织交易所将常规材料定义为未按照可持续项目（标准、认证、法规、倡议 或流程）的规范生产的材料。与之对应，优选材料则经过特定的可持续性认证 或评估。常规生产并不意味着质量差，而是指在可持续性方面尚未达到行业 认可的更优标准。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: low
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 6
+    page_end: 6
+    section: Preferred Material
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - conventional
+  - definition
+  - material
+  risk_note: ''
+- id: circularity_001
+  category: sustainability
+  term: Circularity
+  zh_term: 循环性
+  aliases:
+  - circularity
+  - 循环性
+  - 循环经济
+  - circular economy
+  title: 循环性（Circularity）
+  content: '循环经济是基于"设计消除"废物和污染、保持产品和材料在使用中、再生 自然系统的原则。在纺织行业中，循环性意味着从传统的"获取-制造-丢弃" 线性模式转向将废物视为资源的新模式，通过回收、再利用和可再生设计 减少对原生材料的依赖和对环境的压力。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: medium
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 10
+    page_end: 10
+    section: A note on Circularity
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - circularity
+  - definition
+  - sustainability
+  risk_note: ''
+- id: plant_fibers_001
+  category: fiber
+  term: Plant-based fibers and materials
+  zh_term: 植物基纤维与材料
+  aliases:
+  - plant-based fibers
+  - 植物纤维
+  - 植物基材料
+  - 天然纤维
+  title: 植物基纤维与材料（Plant-based fibers and materials）
+  content: '植物基纤维和材料可分为常规可再生、优选可再生或回收再生三类。优选 可再生植物基材料以更可持续的方式种植或采收。包括田间种植的作物如 棉、亚麻（亚麻布）、大麻，或人工林/森林中的作物如乳胶（橡胶）， 以及野生植物如荨麻。植物基材料可来源于种子（棉）、茎（亚麻、大麻）、
+    汁液（橡胶）或叶子（剑麻）。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: low
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 6
+    page_end: 6
+    section: Fiber & Materials Modules
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - plant-based
+  - fiber
+  - material-category
+  risk_note: ''
+- id: animal_fibers_001
+  category: fiber
+  term: Animal-derived fibers and materials
+  zh_term: 动物源纤维与材料
+  aliases:
+  - animal-derived fibers
+  - 动物纤维
+  - 动物源材料
+  - 动物毛
+  title: 动物源纤维与材料（Animal-derived fibers and materials）
+  content: '动物源纤维和材料可分为常规可再生、优选可再生或回收再生三类。优选 可再生动物纤维/材料以更可持续的方式养殖。来源包括家养动物（如羊、 山羊、牛及部分水禽）和野生动物（如郊狼、负鼠、鳄鱼）的皮毛和毛发。 蚕丝也属于此类，可来自养殖或野生蚕。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: low
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 6
+    page_end: 6
+    section: Fiber & Materials Modules
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - animal-derived
+  - fiber
+  - material-category
+  risk_note: ''
+- id: mmcf_001
+  category: fiber
+  term: Manmade Cellulosic Fibers
+  zh_term: 人造纤维素纤维
+  aliases:
+  - manmade cellulosic fibers
+  - 人造纤维素纤维
+  - 再生纤维素纤维
+  - MMCF
+  title: 人造纤维素纤维（Manmade Cellulosic Fibers）
+  content: '人造纤维素纤维如粘胶、莫代尔、莱赛尔和醋酯纤维，主要来源于林业或 其他植物（如竹子），以及越来越多的来自废弃纤维素的回收原料。这类 纤维被视为可再生的（除非以不可持续的方式采伐）。它们通过工业纤维素 工艺从原料中制成。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: low
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 6
+    page_end: 6
+    section: Fiber & Materials Modules
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - mmcf
+  - manmade-cellulosic
+  - fiber
+  risk_note: ''
+- id: synthetic_fibers_001
+  category: fiber
+  term: Synthetic fibers and materials
+  zh_term: 合成纤维与材料
+  aliases:
+  - synthetic fibers
+  - 合成纤维
+  - 化纤
+  - 化学纤维
+  title: 合成纤维与材料（Synthetic fibers and materials）
+  content: '合成纤维和材料可分为常规、回收和生物基三类。常规合成纤维（如原生 涤纶、锦纶和合成橡胶）以从地球开采的不可再生化石燃料为基础，通过 石化工艺制成。它们也可以来自消费后塑料废物，通过机械或化学回收制成 新的纺织合成材料。生物基合成材料则来源于玉米、甘蔗等植物。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: medium
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 6
+    page_end: 6
+    section: Fiber & Materials Modules
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - synthetic
+  - fiber
+  - material-category
+  risk_note: ''
+- id: cotton_001
+  category: fiber
+  term: Cotton
+  zh_term: 棉
+  aliases:
+  - cotton
+  - 棉
+  - 棉花
+  - 纯棉
+  - 全棉
+  title: 棉（Cotton）
+  content: '棉是纺织行业中使用最广泛的天然纤维之一，来源于棉属植物的种子纤维。 棉属于植物基纤维，可分为常规棉和多种优选棉（如有机棉、公平贸易棉、 再生棉等）。纺织交易所的 CFMB 项目中包含专门的棉模块，涵盖有机棉、 Better
+    Cotton Initiative (BCI)、非洲产棉 (CmiA) 等多个可持续发展项目。 棉纤维为短纤维，具有良好的吸湿性和透气性，适用于各类服装。
+
+    '
+  allowed_usage:
+  - knowledge_qa
+  - explanation
+  - internal_test
+  risk_level: low
+  source: materials_terminology_guide_2020
+  source_type: pdf
+  source_url: null
+  source_ref:
+    document_title: Materials Terminology Guide 2020
+    page_start: 6
+    page_end: 10
+    section: Fiber & Materials Modules / Cotton Module
+  review_status: manual_review_required
+  reviewed_by: null
+  last_reviewed_at: null
+  version: 1.0.0
+  tags:
+  - cotton
+  - fiber
+  - natural-fiber
+  risk_note: ''
+sources:
+  materials_terminology_guide_2020:
+    title: Materials Terminology Guide 2020
+    publisher: Textile Exchange
+    year: 2020
+    version: Version 1
+    copyright: Textile Exchange © 2020
+    source_type: pdf
+    source_url: null
+    license: unknown
+    usage_note: Used as an internal reference for manually reviewed seed entries. Do not expose verbatim text without permission
+      review.

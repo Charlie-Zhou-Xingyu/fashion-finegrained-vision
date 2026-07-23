@@ -639,12 +639,18 @@ def test_predict_from_json_same_det_id_same_image_single_group(
 def test_predict_from_json_missing_image_path_does_not_crash(
     pipeline, tmp_path
 ) -> None:
-    """Records without image_path fall back to raw det_id as the grouping key."""
+    """Records without image_path fall back to raw det_id as the grouping key.
+
+    ``_get_tasks_for_class`` is patched to {} (same pattern as the other
+    pipeline tests) so the grouping logic is exercised without requiring a
+    local model checkpoint — ``error is None`` must hold on any dev machine.
+    """
     crops = [
         _make_crop_record(det_id="det0", class_name="long sleeve top"),
     ]
     p = _write_region_crops_json(tmp_path, crops)
-    results = pipeline.predict_from_json(p)
+    with patch.object(pipeline, "_get_tasks_for_class", return_value={}):
+        results = pipeline.predict_from_json(p)
     assert len(results) == 1
     assert results[0]["det_id"] == "det0"
     assert results[0]["error"] is None

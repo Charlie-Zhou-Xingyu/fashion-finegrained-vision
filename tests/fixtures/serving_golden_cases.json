@@ -1,0 +1,294 @@
+[
+  {
+    "id": "attr_fabric_from_request",
+    "endpoint": "/v1/mm/qa",
+    "method": "POST",
+    "description": "Request attributes provided → attribute_answer, no vision warning",
+    "request": {
+      "query": "这件衣服是什么面料？",
+      "attributes": {
+        "fabric": {"value": "棉", "attribute_confidence": 0.86, "source": "request_raw"}
+      },
+      "garment_category": "shirt"
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["answer", "answer_type", "sources", "meta"],
+      "data_answer_type": "attribute_answer",
+      "required_meta": {
+        "attribute_source": "request",
+        "provided_attributes_used": true
+      },
+      "required_warning_codes": [],
+      "forbidden_warning_codes": ["vision_provider_mock", "vision_input_missing"],
+      "forbidden_response_substrings": ["SECRET_BASE64_DO_NOT_LEAK"]
+    }
+  },
+  {
+    "id": "attr_color_missing_no_image",
+    "endpoint": "/v1/mm/qa",
+    "method": "POST",
+    "description": "Ask color, no attrs, no image → unavailable, no vision warning",
+    "request": {
+      "query": "这件衣服是什么颜色？",
+      "attributes": {}
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["answer", "answer_type", "sources", "meta"],
+      "required_warning_codes": ["attribute_unavailable"],
+      "forbidden_warning_codes": ["vision_input_missing", "vision_provider_mock"]
+    }
+  },
+  {
+    "id": "attr_fabric_image_url_mock",
+    "endpoint": "/v1/mm/qa",
+    "method": "POST",
+    "description": "image_url + fabric query, no attrs → vision_provider_mock + unavailable",
+    "request": {
+      "query": "这件衣服是什么面料？",
+      "image_url": "http://example.com/img.jpg"
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["answer", "answer_type", "sources", "meta"],
+      "required_warning_codes": ["vision_provider_mock", "attribute_unavailable"],
+      "forbidden_response_substrings": ["SECRET_BASE64_DO_NOT_LEAK"],
+      "forbidden_data_response_key": true
+    }
+  },
+  {
+    "id": "attr_request_over_image",
+    "endpoint": "/v1/mm/qa",
+    "method": "POST",
+    "description": "Both attrs + image_url → request wins, no vision_provider_mock",
+    "request": {
+      "query": "这件衣服是什么面料？",
+      "attributes": {
+        "fabric": {"value": "棉", "attribute_confidence": 0.9, "source": "request_raw"}
+      },
+      "image_url": "http://example.com/img.jpg"
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["answer", "answer_type", "sources", "meta"],
+      "data_answer_type": "attribute_answer",
+      "required_meta": {
+        "attribute_source": "request",
+        "provided_attributes_used": true
+      },
+      "forbidden_warning_codes": ["vision_provider_mock", "vision_input_missing"]
+    }
+  },
+  {
+    "id": "knowledge_fiber_basic",
+    "endpoint": "/v1/mm/qa",
+    "method": "POST",
+    "description": "Knowledge query → RagService, knowledge_answer, no vision warning",
+    "request": {
+      "query": "纤维是什么"
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["answer", "answer_type", "sources", "meta"],
+      "data_answer_type": "knowledge_answer",
+      "required_source_types": ["knowledge_base"],
+      "forbidden_warning_codes": ["vision_provider_mock", "vision_input_missing"]
+    }
+  },
+  {
+    "id": "knowledge_with_garment_category",
+    "endpoint": "/v1/mm/qa",
+    "method": "POST",
+    "description": "Knowledge query + garment_category → no error",
+    "request": {
+      "query": "棉是什么材料",
+      "garment_category": "shirt"
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["answer", "answer_type", "sources", "meta"],
+      "forbidden_warning_codes": ["vision_provider_mock"]
+    }
+  },
+  {
+    "id": "knowledge_image_url_mock",
+    "endpoint": "/v1/mm/qa",
+    "method": "POST",
+    "description": "image_url + knowledge query → RAG still works, mock vision doesn't block",
+    "request": {
+      "query": "棉是什么",
+      "image_url": "http://example.com/img.jpg"
+    },
+    "expect": {
+      "status": "success",
+      "required_warning_codes": ["vision_provider_mock"],
+      "forbidden_warning_codes": []
+    }
+  },
+  {
+    "id": "rag_retrieve_fiber",
+    "endpoint": "/v1/rag/retrieve",
+    "method": "POST",
+    "description": "RAG retrieve → hits non-empty, source_ref/review_status present",
+    "request": {
+      "query": "纤维是什么",
+      "top_k": 3
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["query", "normalized_query", "hits", "meta"],
+      "hit_required_keys": ["id", "category", "term", "zh_term", "title", "source", "source_type", "review_status"],
+      "forbidden_keys_recursive": ["vision", "image_bytes", "SECRET_BASE64"]
+    }
+  },
+  {
+    "id": "rag_retrieve_top_k_clamp",
+    "endpoint": "/v1/rag/retrieve",
+    "method": "POST",
+    "description": "top_k at max limit → success, hits capped",
+    "request": {
+      "query": "纤维",
+      "top_k": 50
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["query", "normalized_query", "hits", "meta"]
+    }
+  },
+  {
+    "id": "intent_attribute_fabric",
+    "endpoint": "/v1/intent/classify",
+    "method": "POST",
+    "description": "Intent classify → attribute_query/fabric",
+    "request": {
+      "query": "这是什么面料"
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["primary_intent", "sub_intent", "intent_confidence", "classifier_level"],
+      "data_primary_intent": "attribute_query",
+      "data_sub_intent": "fabric",
+      "data_classifier_level": "rule"
+    }
+  },
+  {
+    "id": "intent_knowledge",
+    "endpoint": "/v1/intent/classify",
+    "method": "POST",
+    "description": "Intent classify → knowledge_qa",
+    "request": {
+      "query": "纤维是什么"
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["primary_intent", "sub_intent", "intent_confidence"],
+      "data_primary_intent": "knowledge_qa"
+    }
+  },
+  {
+    "id": "mm_qa_image_bytes_no_leak",
+    "endpoint": "/v1/mm/qa",
+    "method": "POST",
+    "description": "image_bytes secret must NOT appear in response JSON",
+    "request": {
+      "query": "这件衣服是什么面料？",
+      "image_bytes": "SECRET_BASE64_DO_NOT_LEAK_xyz"
+    },
+    "expect": {
+      "status": "success",
+      "forbidden_response_substrings": ["SECRET_BASE64_DO_NOT_LEAK_xyz"],
+      "required_meta": {}
+    }
+  },
+  {
+    "id": "merchant_selling_points_basic",
+    "endpoint": "/v1/merchant/content/generate",
+    "method": "POST",
+    "description": "Selling points from attrs with fabric/color/style",
+    "request": {
+      "content_type": "selling_points",
+      "attributes": {
+        "fabric": {"value": "棉"},
+        "color": {"value": "白色"},
+        "style": {"value": "通勤"}
+      }
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["content_type", "generated_content", "blocked_claims", "sources", "meta"],
+      "required_source_types": ["product_attribute"],
+      "forbidden_warning_codes": [],
+      "forbidden_response_substrings": ["100%"]
+    }
+  },
+  {
+    "id": "merchant_title_basic",
+    "endpoint": "/v1/merchant/content/generate",
+    "method": "POST",
+    "description": "Title from fabric/color/style/category",
+    "request": {
+      "content_type": "title",
+      "garment_category": "衬衫",
+      "attributes": {
+        "fabric": {"value": "棉"},
+        "color": {"value": "白色"}
+      }
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["content_type", "generated_content", "blocked_claims", "sources", "meta"],
+      "forbidden_warning_codes": []
+    }
+  },
+  {
+    "id": "merchant_empty_attrs",
+    "endpoint": "/v1/merchant/content/generate",
+    "method": "POST",
+    "description": "Empty attributes → content_input_missing",
+    "request": {
+      "content_type": "selling_points",
+      "attributes": {}
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["content_type", "generated_content", "blocked_claims", "sources", "meta"],
+      "required_warning_codes": ["content_input_missing"]
+    }
+  },
+  {
+    "id": "merchant_policy_blocked",
+    "endpoint": "/v1/merchant/content/generate",
+    "method": "POST",
+    "description": "Blocked function claim → policy blocked",
+    "request": {
+      "content_type": "selling_points",
+      "attributes": {
+        "fabric": "棉",
+        "function": "抗菌"
+      }
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["content_type", "generated_content", "blocked_claims", "sources", "meta"],
+      "required_warning_codes": ["content_policy_blocked"]
+    }
+  },
+  {
+    "id": "merchant_max_length",
+    "endpoint": "/v1/merchant/content/generate",
+    "method": "POST",
+    "description": "max_length applied to generated content",
+    "request": {
+      "content_type": "title",
+      "max_copy_length": 10,
+      "attributes": {
+        "fabric": {"value": "棉麻混纺材质"}
+      }
+    },
+    "expect": {
+      "status": "success",
+      "data_keys": ["content_type", "generated_content", "blocked_claims", "sources", "meta"]
+    }
+  }
+]

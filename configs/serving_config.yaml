@@ -1,0 +1,82 @@
+# P0a.1 — Serving layer configuration.
+# Values here will be consumed by inference/serving/deps.py.
+# Do NOT hard-code these in application code.
+
+service:
+  name: "fashion-vision-serving"
+  version: "p0a-api-schema"
+  description: "P0a API schema skeleton — services not yet implemented."
+
+schema:
+  version: "1.0.0"
+
+health:
+  implemented_modules:
+    - schemas
+    - app
+    - deps
+    - intent_classifier
+    - attribute_service
+    - rag_service
+    - qa_orchestrator
+    - vision_provider_mock
+    - vision_provider_real_adapter   # P1.1 experimental shell (disabled by default)
+    - content_generation_service
+  pending_modules:
+    - rag_service
+    - qa_orchestrator
+    - content_service
+    - cache_service
+    - small_llm
+    - mllm_client
+    - vision_backend_fashion_vision_3_1   # real 3.1 invocation not wired in P1.1
+
+# P1.1 — Vision provider selection (feature flag).
+# Default is ALWAYS mock.  Real provider only activates when BOTH
+# provider=real AND real_enabled=true (or the env-var equivalents:
+# VISION_PROVIDER / VISION_REAL_ENABLED / VISION_TIMEOUT_MS / VISION_CHECKPOINT_ROOT).
+vision:
+  provider: mock            # mock | real
+  real_enabled: false
+  real_provider:
+    backend: fashion_vision_3_1
+    mode: segmentation_only              # segmentation_only (P1.2) | null (P1.1 probing)
+    checkpoint_root: outputs/
+    timeout_ms: 10000                    # raised for CPU SAM (override on GPU servers)
+    max_image_bytes: 5242880             # 5 MiB (applies to the raw image_bytes payload)
+    allow_image_url_download: false      # P1.1: never download image_url
+    fail_open_to_mock: true
+    yolo_device: cpu                     # cpu | cuda | auto (auto → CUDA if available)
+    sam_device: cpu                      # cpu | cuda | auto
+    cleanup_temp_files: true             # remove temp dirs in finally block
+
+# P1.4b — Region localization backend (3.1.2).
+# Default is ALWAYS disabled.  Real backend only activates when
+# backend=fashionpedia (or full) AND enable_real=true.
+region_backend:
+  backend: disabled               # disabled | fashionpedia | full
+  enable_real: false
+  model_path: models/detectors/fashionpedia_yolov8s_19cls_balanced_v1_best.pt
+  device: cpu                     # cpu | cuda | auto
+  confidence_threshold: 0.5
+  timeout_ms: 5000
+
+# P1.4f — 3.1.3 attribute extraction backend.
+# Default is ALWAYS disabled.  Real backend only activates when enable_real=true.
+attribute_backend:
+  backend: disabled               # disabled | fashionai | 313 | real
+  enable_real: false
+  device: cpu                     # cpu | cuda
+
+# P0a mock — will be replaced by IntentRouter in P0a.2.
+mock:
+  visual_keywords:
+    - 图片
+    - 看图
+    - 图里
+    - 这张图
+    - 图中
+    - 照片
+    - 看看
+  qa_answer: "P0a API schema is ready. Intent routing and services will be implemented in later steps."
+  need_image_clarification: "该问题需要商品图片来进行视觉分析，请上传图片后重试。"

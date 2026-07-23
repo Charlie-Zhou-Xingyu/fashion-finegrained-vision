@@ -19,42 +19,42 @@ version: "1.0"
 
 tasks:
   neckline_design:
-    checkpoint: outputs/p2_neckline_design_resnet18_seed2/best.pt
+    checkpoint: models/attributes/p2_neckline_design_resnet18_seed2/best.pt
     label_map:  data/fashionai_attribute_index/label_map_neckline_design.json
     arch: resnet18
     img_size: 224
     region_filter: collar   # --region arg to predict_region_attribute_batch.py
 
   collar_design:
-    checkpoint: outputs/p2_collar_design_resnet18_seed2/best.pt  # baseline; multiview_v2 not trained
+    checkpoint: models/attributes/p2_collar_design_resnet18_seed2/best.pt  # baseline; multiview_v2 not trained
     label_map:  data/fashionai_attribute_index/label_map_collar_design.json
     arch: resnet18
     img_size: 224
     region_filter: collar
 
   neck_design:
-    checkpoint: outputs/p2_neck_design_resnet18_seed2/best.pt  # baseline; multiview_v2 not trained
+    checkpoint: models/attributes/p2_neck_design_resnet18_seed2/best.pt  # baseline; multiview_v2 not trained
     label_map:  data/fashionai_attribute_index/label_map_neck_design.json
     arch: resnet18
     img_size: 224
     region_filter: collar
 
   lapel_design:
-    checkpoint: outputs/p2_lapel_design_resnet18_seed2/best.pt  # baseline; multiview_v2 not trained
+    checkpoint: models/attributes/p2_lapel_design_resnet18_seed2/best.pt  # baseline; multiview_v2 not trained
     label_map:  data/fashionai_attribute_index/label_map_lapel_design.json
     arch: resnet18
     img_size: 224
     region_filter: collar
 
   sleeve_length:
-    checkpoint: outputs/p2_sleeve_length_multiview_v2_pipeline_resnet18_seed2/best.pt
+    checkpoint: models/attributes/p2_sleeve_length_multiview_v2_pipeline_resnet18_seed2/best.pt
     label_map:  data/fashionai_attribute_index/label_map_sleeve_length.json
     arch: resnet18
     img_size: 224
     region_filter: all      # component_contains from attribute_group_mapping.yaml
 
   coat_length:
-    checkpoint: outputs/p2_coat_length_resnet18_seed2/best.pt  # baseline; multiview_v2 not trained
+    checkpoint: models/attributes/p2_coat_length_resnet18_seed2/best.pt  # baseline; multiview_v2 not trained
     label_map:  data/fashionai_attribute_index/label_map_coat_length.json
     arch: resnet18
     img_size: 224
@@ -62,14 +62,14 @@ tasks:
     class_contains: outwear  # matches "short sleeve outwear" / "long sleeve outwear"
 
   pant_length:
-    checkpoint: outputs/p2_pant_length_multiview_v2_pipeline_resnet18_seed2/best.pt
+    checkpoint: models/attributes/p2_pant_length_multiview_v2_pipeline_resnet18_seed2/best.pt
     label_map:  data/fashionai_attribute_index/label_map_pant_length.json
     arch: resnet18
     img_size: 224
     region_filter: all      # component_contains from attribute_group_mapping.yaml
 
   skirt_length:
-    checkpoint: outputs/p2_skirt_length_multiview_v2_pipeline_resnet18_seed2/best.pt
+    checkpoint: models/attributes/p2_skirt_length_multiview_v2_pipeline_resnet18_seed2/best.pt
     label_map:  data/fashionai_attribute_index/label_map_skirt_length.json
     arch: resnet18
     img_size: 224
