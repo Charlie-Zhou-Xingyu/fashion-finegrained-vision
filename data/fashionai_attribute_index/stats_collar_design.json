@@ -1,0 +1,81 @@
+{
+  "dataset_root": "D:/Aliintern/fashion-ai-data/fashionai_attributes/round1_fashionAI_attributes_test_a",
+  "answer_csv": "D:/Aliintern/fashion-ai-data/fashionai_attributes/round1_fashionAI_attributes_test_a/Tests/round1_fashionAI_attributes_answer_a.csv",
+  "task": "collar_design_labels",
+  "task_short_name": "collar_design",
+  "total_csv_rows": 10080,
+  "task_rows": 1082,
+  "valid_samples": 1064,
+  "invalid_samples": 18,
+  "missing_images": 0,
+  "raw_label_vector_length_distribution": {
+    "5": 1082
+  },
+  "raw_label_distribution": {
+    "nynnn": 256,
+    "nnnny": 244,
+    "nnynn": 210,
+    "ynnnn": 183,
+    "nnnyn": 171,
+    "ymnnn": 7,
+    "ynnnm": 7,
+    "nmynn": 4
+  },
+  "raw_label_id_distribution": {
+    "0": 183,
+    "1": 256,
+    "2": 210,
+    "3": 171,
+    "4": 244
+  },
+  "label_id_distribution": {
+    "0": 183,
+    "1": 256,
+    "2": 210,
+    "3": 171,
+    "4": 244
+  },
+  "split_distribution": {
+    "train": 851,
+    "val": 106,
+    "test": 107
+  },
+  "split_label_distribution": {
+    "test": {
+      "1": 25,
+      "2": 21,
+      "4": 25,
+      "3": 17,
+      "0": 19
+    },
+    "train": {
+      "4": 195,
+      "1": 205,
+      "3": 137,
+      "0": 146,
+      "2": 168
+    },
+    "val": {
+      "1": 26,
+      "4": 24,
+      "3": 17,
+      "2": 21,
+      "0": 18
+    }
+  },
+  "raw_id_to_label_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4
+  },
+  "label_id_to_raw_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4
+  },
+  "warnings": []
+}

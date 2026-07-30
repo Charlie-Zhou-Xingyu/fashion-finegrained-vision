@@ -1,0 +1,108 @@
+{
+  "dataset_root": "D:/Aliintern/fashion-ai-data/fashionai_attributes/round1_fashionAI_attributes_test_a",
+  "answer_csv": "D:/Aliintern/fashion-ai-data/fashionai_attributes/round1_fashionAI_attributes_test_a/Tests/round1_fashionAI_attributes_answer_a.csv",
+  "task": "coat_length_labels",
+  "task_short_name": "coat_length",
+  "total_csv_rows": 10080,
+  "task_rows": 1453,
+  "valid_samples": 1398,
+  "invalid_samples": 55,
+  "missing_images": 0,
+  "raw_label_vector_length_distribution": {
+    "8": 1453
+  },
+  "raw_label_distribution": {
+    "nnnnnynn": 272,
+    "nnnnnnny": 244,
+    "nnynnnnn": 227,
+    "nnnnynnn": 175,
+    "nnnnnnyn": 139,
+    "nynnnnnn": 130,
+    "nnnynnnn": 123,
+    "ynnnnnnn": 88,
+    "nymnnnnn": 23,
+    "nnmynnnn": 13,
+    "nnnnmynn": 10,
+    "nnnnnymn": 4,
+    "nnnymnnn": 3,
+    "nnnnnnym": 2
+  },
+  "raw_label_id_distribution": {
+    "0": 88,
+    "1": 130,
+    "2": 227,
+    "3": 123,
+    "4": 175,
+    "5": 272,
+    "6": 139,
+    "7": 244
+  },
+  "label_id_distribution": {
+    "0": 88,
+    "1": 130,
+    "2": 227,
+    "3": 123,
+    "4": 175,
+    "5": 272,
+    "6": 139,
+    "7": 244
+  },
+  "split_distribution": {
+    "train": 1118,
+    "val": 140,
+    "test": 140
+  },
+  "split_label_distribution": {
+    "test": {
+      "5": 27,
+      "4": 17,
+      "3": 13,
+      "7": 25,
+      "2": 22,
+      "1": 13,
+      "6": 14,
+      "0": 9
+    },
+    "train": {
+      "5": 218,
+      "3": 98,
+      "4": 140,
+      "2": 182,
+      "0": 70,
+      "7": 195,
+      "1": 104,
+      "6": 111
+    },
+    "val": {
+      "7": 24,
+      "4": 18,
+      "0": 9,
+      "3": 12,
+      "5": 27,
+      "2": 23,
+      "1": 13,
+      "6": 14
+    }
+  },
+  "raw_id_to_label_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7
+  },
+  "label_id_to_raw_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7
+  },
+  "warnings": []
+}

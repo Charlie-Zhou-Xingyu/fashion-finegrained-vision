@@ -1,0 +1,48 @@
+{
+  "task": "neck_design",
+  "source_task": "neck_design_labels",
+  "num_classes": 5,
+  "raw_attr_values": {
+    "0": "Invisible",
+    "1": "Turtle Neck",
+    "2": "Ruffle Semi-High Collar",
+    "3": "Low Turtle Neck",
+    "4": "Draped Collar"
+  },
+  "observed_raw_label_ids": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "raw_id_to_label_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4
+  },
+  "label_id_to_raw_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4
+  },
+  "id_to_label": {
+    "0": "Invisible",
+    "1": "Turtle Neck",
+    "2": "Ruffle Semi-High Collar",
+    "3": "Low Turtle Neck",
+    "4": "Draped Collar"
+  },
+  "label_to_id": {
+    "Invisible": 0,
+    "Turtle Neck": 1,
+    "Ruffle Semi-High Collar": 2,
+    "Low Turtle Neck": 3,
+    "Draped Collar": 4
+  },
+  "note": "raw_label_id is the original FashionAI y-position. label_id is the contiguous training target id."
+}

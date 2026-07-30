@@ -1,0 +1,54 @@
+{
+  "task": "pant_length",
+  "source_task": "pant_length_labels",
+  "num_classes": 6,
+  "raw_attr_values": {
+    "0": "Invisible",
+    "1": "Short Pant",
+    "2": "Mid Length",
+    "3": "3/4 Length",
+    "4": "Cropped Pant",
+    "5": "Full Length"
+  },
+  "observed_raw_label_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "raw_id_to_label_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5
+  },
+  "label_id_to_raw_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5
+  },
+  "id_to_label": {
+    "0": "Invisible",
+    "1": "Short Pant",
+    "2": "Mid Length",
+    "3": "3/4 Length",
+    "4": "Cropped Pant",
+    "5": "Full Length"
+  },
+  "label_to_id": {
+    "Invisible": 0,
+    "Short Pant": 1,
+    "Mid Length": 2,
+    "3/4 Length": 3,
+    "Cropped Pant": 4,
+    "Full Length": 5
+  },
+  "note": "raw_label_id is the original FashionAI y-position. label_id is the contiguous training target id."
+}

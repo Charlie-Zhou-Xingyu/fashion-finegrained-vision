@@ -1,0 +1,66 @@
+{
+  "task": "coat_length",
+  "source_task": "coat_length_labels",
+  "num_classes": 8,
+  "raw_attr_values": {
+    "0": "Invisible",
+    "1": "High Waist Length",
+    "2": "Regular Length",
+    "3": "Long Length",
+    "4": "Micro Length",
+    "5": "Knee Length",
+    "6": "Midi Length",
+    "7": "Ankle&Floor Length"
+  },
+  "observed_raw_label_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "raw_id_to_label_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7
+  },
+  "label_id_to_raw_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7
+  },
+  "id_to_label": {
+    "0": "Invisible",
+    "1": "High Waist Length",
+    "2": "Regular Length",
+    "3": "Long Length",
+    "4": "Micro Length",
+    "5": "Knee Length",
+    "6": "Midi Length",
+    "7": "Ankle&Floor Length"
+  },
+  "label_to_id": {
+    "Invisible": 0,
+    "High Waist Length": 1,
+    "Regular Length": 2,
+    "Long Length": 3,
+    "Micro Length": 4,
+    "Knee Length": 5,
+    "Midi Length": 6,
+    "Ankle&Floor Length": 7
+  },
+  "note": "raw_label_id is the original FashionAI y-position. label_id is the contiguous training target id."
+}

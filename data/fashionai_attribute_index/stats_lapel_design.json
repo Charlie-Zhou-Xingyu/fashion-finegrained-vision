@@ -1,0 +1,79 @@
+{
+  "dataset_root": "D:/Aliintern/fashion-ai-data/fashionai_attributes/round1_fashionAI_attributes_test_a",
+  "answer_csv": "D:/Aliintern/fashion-ai-data/fashionai_attributes/round1_fashionAI_attributes_test_a/Tests/round1_fashionAI_attributes_answer_a.csv",
+  "task": "lapel_design_labels",
+  "task_short_name": "lapel_design",
+  "total_csv_rows": 10080,
+  "task_rows": 900,
+  "valid_samples": 899,
+  "invalid_samples": 1,
+  "missing_images": 0,
+  "raw_label_vector_length_distribution": {
+    "5": 900
+  },
+  "raw_label_distribution": {
+    "nnynn": 257,
+    "nynnn": 198,
+    "nnnny": 184,
+    "ynnnn": 139,
+    "nnnyn": 121,
+    "nmnyn": 1
+  },
+  "raw_label_id_distribution": {
+    "0": 139,
+    "1": 198,
+    "2": 257,
+    "3": 121,
+    "4": 184
+  },
+  "label_id_distribution": {
+    "0": 139,
+    "1": 198,
+    "2": 257,
+    "3": 121,
+    "4": 184
+  },
+  "split_distribution": {
+    "train": 719,
+    "val": 90,
+    "test": 90
+  },
+  "split_label_distribution": {
+    "test": {
+      "1": 20,
+      "2": 25,
+      "3": 12,
+      "0": 14,
+      "4": 19
+    },
+    "train": {
+      "1": 158,
+      "3": 97,
+      "2": 206,
+      "0": 111,
+      "4": 147
+    },
+    "val": {
+      "2": 26,
+      "4": 18,
+      "1": 20,
+      "0": 14,
+      "3": 12
+    }
+  },
+  "raw_id_to_label_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4
+  },
+  "label_id_to_raw_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4
+  },
+  "warnings": []
+}

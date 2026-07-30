@@ -1,0 +1,48 @@
+{
+  "task": "collar_design",
+  "source_task": "collar_design_labels",
+  "num_classes": 5,
+  "raw_attr_values": {
+    "0": "Invisible",
+    "1": "Shirt Collar",
+    "2": "Peter Pan",
+    "3": "Puritan Collar",
+    "4": "Rib Collar"
+  },
+  "observed_raw_label_ids": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "raw_id_to_label_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4
+  },
+  "label_id_to_raw_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4
+  },
+  "id_to_label": {
+    "0": "Invisible",
+    "1": "Shirt Collar",
+    "2": "Peter Pan",
+    "3": "Puritan Collar",
+    "4": "Rib Collar"
+  },
+  "label_to_id": {
+    "Invisible": 0,
+    "Shirt Collar": 1,
+    "Peter Pan": 2,
+    "Puritan Collar": 3,
+    "Rib Collar": 4
+  },
+  "note": "raw_label_id is the original FashionAI y-position. label_id is the contiguous training target id."
+}

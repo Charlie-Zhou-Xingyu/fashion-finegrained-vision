@@ -1,0 +1,67 @@
+{
+  "task": "sleeve_length",
+  "source_task": "sleeve_length_labels",
+  "num_classes": 8,
+  "raw_attr_values": {
+    "0": "Invisible",
+    "1": "Sleeveless",
+    "2": "Cup Sleeves",
+    "3": "Short Sleeves",
+    "4": "Elbow Sleeves",
+    "5": "3/4 Sleeves",
+    "6": "Wrist Length",
+    "7": "Long Sleeves",
+    "8": "Extra Long Sleeves"
+  },
+  "observed_raw_label_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "raw_id_to_label_id": {
+    "1": 0,
+    "2": 1,
+    "3": 2,
+    "4": 3,
+    "5": 4,
+    "6": 5,
+    "7": 6,
+    "8": 7
+  },
+  "label_id_to_raw_id": {
+    "0": 1,
+    "1": 2,
+    "2": 3,
+    "3": 4,
+    "4": 5,
+    "5": 6,
+    "6": 7,
+    "7": 8
+  },
+  "id_to_label": {
+    "0": "Sleeveless",
+    "1": "Cup Sleeves",
+    "2": "Short Sleeves",
+    "3": "Elbow Sleeves",
+    "4": "3/4 Sleeves",
+    "5": "Wrist Length",
+    "6": "Long Sleeves",
+    "7": "Extra Long Sleeves"
+  },
+  "label_to_id": {
+    "Sleeveless": 0,
+    "Cup Sleeves": 1,
+    "Short Sleeves": 2,
+    "Elbow Sleeves": 3,
+    "3/4 Sleeves": 4,
+    "Wrist Length": 5,
+    "Long Sleeves": 6,
+    "Extra Long Sleeves": 7
+  },
+  "note": "raw_label_id is the original FashionAI y-position. label_id is the contiguous training target id."
+}

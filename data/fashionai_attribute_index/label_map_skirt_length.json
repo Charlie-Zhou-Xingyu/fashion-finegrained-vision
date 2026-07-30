@@ -1,0 +1,54 @@
+{
+  "task": "skirt_length",
+  "source_task": "skirt_length_labels",
+  "num_classes": 6,
+  "raw_attr_values": {
+    "0": "Invisible",
+    "1": "Short Length",
+    "2": "Knee Length",
+    "3": "Midi Length",
+    "4": "Ankle Length",
+    "5": "Floor Length"
+  },
+  "observed_raw_label_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "raw_id_to_label_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5
+  },
+  "label_id_to_raw_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5
+  },
+  "id_to_label": {
+    "0": "Invisible",
+    "1": "Short Length",
+    "2": "Knee Length",
+    "3": "Midi Length",
+    "4": "Ankle Length",
+    "5": "Floor Length"
+  },
+  "label_to_id": {
+    "Invisible": 0,
+    "Short Length": 1,
+    "Knee Length": 2,
+    "Midi Length": 3,
+    "Ankle Length": 4,
+    "Floor Length": 5
+  },
+  "note": "raw_label_id is the original FashionAI y-position. label_id is the contiguous training target id."
+}

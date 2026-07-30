@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "eval_case_schema",
+  "title": "P1.0a Eval Case Schema",
+  "description": "Schema for every eval case line in eval/datasets/*.jsonl. Validation is performed by the lightweight validator in eval/scripts/run_serving_eval.py (no jsonschema dependency). Each JSONL line must be one JSON object conforming to this schema.",
+  "type": "object",
+  "required": [
+    "id",
+    "task_type",
+    "input",
+    "expected",
+    "tags",
+    "difficulty",
+    "review_status",
+    "source_ref",
+    "notes"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Globally unique case id across ALL datasets, e.g. intent_001."
+    },
+    "task_type": {
+      "type": "string",
+      "enum": [
+        "intent",
+        "attribute_qa",
+        "rag_retrieval",
+        "mm_qa",
+        "content_generation",
+        "vision_attribute"
+      ],
+      "description": "Must match the dataset file the case lives in."
+    },
+    "input": {
+      "type": "object",
+      "description": "Request payload for the mapped endpoint. For vision_attribute this is a manifest-only descriptor; image_uri must use the placeholder:// scheme and the runner never loads it."
+    },
+    "expected": {
+      "type": "object",
+      "description": "Declarative expectations consumed by the runner checkers. Supported keys include: status_code, status, primary_intent, sub_intent, required_data_keys, data_equals, required_substrings, forbidden_substrings, forbidden_answer_substrings, required_warning_codes, allowed_warning_codes, required_source_types, required_meta, required_meta_keys, min_hits, max_hits, required_hit_ids, required_fields_in_hits, content_type, min_blocked_claims, llm_used, content_blocks_present."
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Free-form coverage tags, e.g. attribute_query/fabric, synonym, empty_query."
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": ["easy", "medium", "hard"]
+    },
+    "review_status": {
+      "type": "string",
+      "enum": ["seed", "manual_reviewed", "needs_review"]
+    },
+    "source_ref": {
+      "type": "object",
+      "description": "Provenance of the case (dataset/author/date/grounding). Must be an object."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Human-readable rationale, known gaps, or caveats."
+    }
+  },
+  "additionalProperties": false,
+  "x-content-rules": [
+    "No raw image_bytes content anywhere in a dataset.",
+    "No real secrets or tokens; the string SECRET_BASE64_DO_NOT_LEAK must not appear in datasets.",
+    "vision_attribute input.image_uri must start with placeholder://.",
+    "Case ids must be globally unique across all dataset files."
+  ]
+}

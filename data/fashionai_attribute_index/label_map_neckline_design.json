@@ -1,0 +1,78 @@
+{
+  "task": "neckline_design",
+  "source_task": "neckline_design_labels",
+  "num_classes": 10,
+  "raw_attr_values": {
+    "0": "Invisible",
+    "1": "Strapless Neck",
+    "2": "Deep V Neckline",
+    "3": "Straight Neck",
+    "4": "V Neckline",
+    "5": "Square Neckline",
+    "6": "Off Shoulder",
+    "7": "Round Neckline",
+    "8": "Sweat Heart Neck",
+    "9": "One Shoulder Neckline"
+  },
+  "observed_raw_label_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "raw_id_to_label_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9
+  },
+  "label_id_to_raw_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9
+  },
+  "id_to_label": {
+    "0": "Invisible",
+    "1": "Strapless Neck",
+    "2": "Deep V Neckline",
+    "3": "Straight Neck",
+    "4": "V Neckline",
+    "5": "Square Neckline",
+    "6": "Off Shoulder",
+    "7": "Round Neckline",
+    "8": "Sweat Heart Neck",
+    "9": "One Shoulder Neckline"
+  },
+  "label_to_id": {
+    "Invisible": 0,
+    "Strapless Neck": 1,
+    "Deep V Neckline": 2,
+    "Straight Neck": 3,
+    "V Neckline": 4,
+    "Square Neckline": 5,
+    "Off Shoulder": 6,
+    "Round Neckline": 7,
+    "Sweat Heart Neck": 8,
+    "One Shoulder Neckline": 9
+  },
+  "note": "raw_label_id is the original FashionAI y-position. label_id is the contiguous training target id."
+}

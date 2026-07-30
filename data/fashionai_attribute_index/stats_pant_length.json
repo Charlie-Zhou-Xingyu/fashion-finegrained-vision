@@ -1,0 +1,90 @@
+{
+  "dataset_root": "D:/Aliintern/fashion-ai-data/fashionai_attributes/round1_fashionAI_attributes_test_a",
+  "answer_csv": "D:/Aliintern/fashion-ai-data/fashionai_attributes/round1_fashionAI_attributes_test_a/Tests/round1_fashionAI_attributes_answer_a.csv",
+  "task": "pant_length_labels",
+  "task_short_name": "pant_length",
+  "total_csv_rows": 10080,
+  "task_rows": 949,
+  "valid_samples": 919,
+  "invalid_samples": 30,
+  "missing_images": 0,
+  "raw_label_vector_length_distribution": {
+    "6": 949
+  },
+  "raw_label_distribution": {
+    "nynnnn": 198,
+    "ynnnnn": 187,
+    "nnnynn": 149,
+    "nnnnny": 144,
+    "nnynnn": 134,
+    "nnnnyn": 107,
+    "nnmynn": 13,
+    "nnnymn": 10,
+    "nnnnmy": 6,
+    "nmynnn": 1
+  },
+  "raw_label_id_distribution": {
+    "0": 187,
+    "1": 198,
+    "2": 134,
+    "3": 149,
+    "4": 107,
+    "5": 144
+  },
+  "label_id_distribution": {
+    "0": 187,
+    "1": 198,
+    "2": 134,
+    "3": 149,
+    "4": 107,
+    "5": 144
+  },
+  "split_distribution": {
+    "train": 735,
+    "val": 92,
+    "test": 92
+  },
+  "split_label_distribution": {
+    "test": {
+      "3": 15,
+      "0": 18,
+      "1": 20,
+      "2": 14,
+      "4": 10,
+      "5": 15
+    },
+    "train": {
+      "5": 115,
+      "0": 150,
+      "3": 119,
+      "1": 158,
+      "4": 86,
+      "2": 107
+    },
+    "val": {
+      "3": 15,
+      "2": 13,
+      "5": 14,
+      "1": 20,
+      "4": 11,
+      "0": 19
+    }
+  },
+  "raw_id_to_label_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5
+  },
+  "label_id_to_raw_id": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5
+  },
+  "warnings": []
+}

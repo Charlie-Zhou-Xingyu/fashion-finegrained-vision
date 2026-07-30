@@ -1,0 +1,108 @@
+{
+  "dataset_root": "D:/Aliintern/fashion-ai-data/fashionai_attributes/round1_fashionAI_attributes_test_a",
+  "answer_csv": "D:/Aliintern/fashion-ai-data/fashionai_attributes/round1_fashionAI_attributes_test_a/Tests/round1_fashionAI_attributes_answer_a.csv",
+  "task": "sleeve_length_labels",
+  "task_short_name": "sleeve_length",
+  "total_csv_rows": 10080,
+  "task_rows": 1740,
+  "valid_samples": 1695,
+  "invalid_samples": 45,
+  "missing_images": 0,
+  "raw_label_vector_length_distribution": {
+    "9": 1740
+  },
+  "raw_label_distribution": {
+    "nnynnnnnn": 364,
+    "nnnnnnnny": 246,
+    "nynnnnnnn": 201,
+    "nnnnnnnyn": 198,
+    "nnnynnnnn": 198,
+    "nnnnnynnn": 173,
+    "nnnnynnnn": 164,
+    "nnnnnnynn": 151,
+    "nnnnnnmyn": 16,
+    "nnnnymnnn": 14,
+    "nnnnnymnn": 9,
+    "nnymnnnnn": 4,
+    "nymnnnnnn": 1,
+    "nnnmynnnn": 1
+  },
+  "raw_label_id_distribution": {
+    "1": 201,
+    "2": 364,
+    "3": 198,
+    "4": 164,
+    "5": 173,
+    "6": 151,
+    "7": 198,
+    "8": 246
+  },
+  "label_id_distribution": {
+    "0": 201,
+    "1": 364,
+    "2": 198,
+    "3": 164,
+    "4": 173,
+    "5": 151,
+    "6": 198,
+    "7": 246
+  },
+  "split_distribution": {
+    "train": 1355,
+    "val": 169,
+    "test": 171
+  },
+  "split_label_distribution": {
+    "test": {
+      "5": 15,
+      "1": 37,
+      "2": 20,
+      "6": 20,
+      "3": 17,
+      "0": 20,
+      "7": 24,
+      "4": 18
+    },
+    "train": {
+      "1": 291,
+      "2": 158,
+      "0": 161,
+      "7": 197,
+      "6": 158,
+      "3": 131,
+      "4": 138,
+      "5": 121
+    },
+    "val": {
+      "0": 20,
+      "5": 15,
+      "1": 36,
+      "3": 16,
+      "2": 20,
+      "4": 17,
+      "7": 25,
+      "6": 20
+    }
+  },
+  "raw_id_to_label_id": {
+    "1": 0,
+    "2": 1,
+    "3": 2,
+    "4": 3,
+    "5": 4,
+    "6": 5,
+    "7": 6,
+    "8": 7
+  },
+  "label_id_to_raw_id": {
+    "0": 1,
+    "1": 2,
+    "2": 3,
+    "3": 4,
+    "4": 5,
+    "5": 6,
+    "6": 7,
+    "7": 8
+  },
+  "warnings": []
+}
