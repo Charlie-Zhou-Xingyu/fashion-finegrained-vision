@@ -23,6 +23,8 @@ health:
     - vision_provider_real_adapter   # P1.1 experimental shell (disabled by default)
     - content_generation_service
     - mllm_client                         # P2 mock tier (see mllm: block below)
+    - rag_hybrid_retrieval                # P2 dense+rerank fusion (off by default, see rag: block)
+    - grounded_generation                 # P2 cited MLLM answers (off by default, see rag: block)
   pending_modules:
     - rag_service
     - qa_orchestrator
@@ -97,3 +99,38 @@ mock:
     - 看看
   qa_answer: "P0a API schema is ready. Intent routing and services will be implemented in later steps."
   need_image_clarification: "该问题需要商品图片来进行视觉分析，请上传图片后重试。"
+
+# P2 — RAG enhancements (PRD §3.3).  Every switch defaults to OFF so the
+# deterministic lexical RagService is the baseline; each real component fails
+# open to it with a warning.  Env overrides: RAG_DENSE_ENABLED,
+# RAG_RERANKER_ENABLED, RAG_GENERATION_ENABLED, RAG_ALLOW_MODEL_DOWNLOAD,
+# RAG_EMBEDDING_MODEL, RAG_RERANKER_MODEL, RAG_INDEX_CACHE_DIR, RAG_DEVICE.
+rag:
+  dense:
+    enabled: false
+    embedding_model: BAAI/bge-m3         # hub id or LOCAL DIRECTORY (~2.2 GB); dense vectors only.
+                                         # Offline deployments should point at a directory: with
+                                         # allow_model_download=false FlagEmbedding insists the hub
+                                         # cache snapshot is byte-complete (README, onnx/, ...).
+    index_backend: faiss                 # faiss (exact IndexFlatIP) | numpy (exact matmul, no extra
+                                         # deps; use on macOS where pip faiss + torch clash on libomp).
+                                         # chroma is not implemented.
+    index_cache_dir: outputs/rag_index   # embeddings cached by (model, kb_version, docs) fingerprint
+    allow_model_download: false          # false → HF offline; missing weights = fall back to lexical
+    device: cpu                          # cpu | cuda | mps
+    fusion: rrf                          # reciprocal rank fusion with the lexical ranking
+    rrf_k: 60
+    candidate_multiplier: 3              # dense candidates = top_k * 3
+  reranker:
+    enabled: false
+    model: BAAI/bge-reranker-v2-m3       # cross-encoder; sigmoid scores replace fused scores
+    top_n: 10                            # rerank at most this many (never fewer than top_k)
+    min_score: 0.0                       # evidence gate on the reranker's sigmoid score; 0 = off.
+                                         # Observed on the 15-doc KB (CPU smoke test): on-topic
+                                         # queries 0.11–0.63, off-KB queries 0.00–0.06. Untuned —
+                                         # set from a labelled query set before relying on it.
+  generation:
+    enabled: false                       # use mllm_client for a cited answer on the knowledge route
+    max_context_hits: 3
+    max_new_tokens: 256
+    require_citation: true               # uncited reply → template answer + warning

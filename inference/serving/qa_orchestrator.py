@@ -10,10 +10,13 @@ Used by ``/v1/mm/qa`` (replaces the P0a mock).
 
 from __future__ import annotations
 
+import base64
 import logging
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Mapping, Optional
 
+from inference.rag.generation import build_grounded_prompt, check_grounding
+from inference.rag.settings import GenerationSettings, load_serving_config, resolve_rag_settings
 from inference.serving.schemas import WarningItem, WarningSeverity
 from inference.serving.vision_context import build_vision_context
 
@@ -252,6 +255,21 @@ def _attr_name_from_intent(intent: Dict[str, Any], query: str) -> Optional[str]:
     return "general"
 
 
+def _decode_image_bytes(value: Any) -> Optional[bytes]:
+    """Accept raw bytes or a (data-URI or plain) base64 string; None on failure."""
+    if value is None:
+        return None
+    if isinstance(value, (bytes, bytearray)):
+        return bytes(value)
+    if isinstance(value, str):
+        payload = value.split(",", 1)[1] if value.startswith("data:") and "," in value else value
+        try:
+            return base64.b64decode(payload, validate=False) or None
+        except (ValueError, TypeError):
+            return None
+    return None
+
+
 def _knowledge_answer(hits: List[Any], warnings: List[WarningItem]) -> Dict[str, Any]:
     """Build a deterministic knowledge answer from RAG hits."""
     if not hits:
@@ -310,7 +328,10 @@ class QaOrchestrator:
              content_generation → unsupported
              fallback_unknown / chat → unsupported
 
-    Does NOT call any LLM, MLLM, visual pipeline, or external service.
+    Calls no LLM unless ``rag.generation.enabled`` is on AND an available
+    ``mllm_client`` is injected; even then the knowledge route only generates
+    when retrieval produced evidence, and an uncited reply falls back to the
+    deterministic template (see ``inference.rag.generation``).
     """
 
     def __init__(
@@ -319,14 +340,20 @@ class QaOrchestrator:
         attribute_service: Any,
         rag_service: Any,
         vision_provider: Any = None,
+        mllm_client: Any = None,
+        generation_settings: Optional[GenerationSettings] = None,
     ) -> None:
         self._intent = intent_classifier
         self._attr = attribute_service
         self._rag = rag_service
         self._vision = vision_provider
-        logger.info("QaOrchestrator v%s loaded (vision=%s)",
+        self._mllm = mllm_client
+        self._gen = generation_settings or resolve_rag_settings(load_serving_config()).generation
+        logger.info("QaOrchestrator v%s loaded (vision=%s, mllm=%s, generation=%s)",
                      ORCHESTRATOR_VERSION,
-                     "mock" if vision_provider is None else type(vision_provider).__name__)
+                     "mock" if vision_provider is None else type(vision_provider).__name__,
+                     "none" if mllm_client is None else type(mllm_client).__name__,
+                     "on" if self._gen.enabled else "off")
 
     # ── Public API ─────────────────────────────────────────────────────────
 
@@ -419,7 +446,8 @@ class QaOrchestrator:
             return self._route_attribute(q, effective_attrs, garment_category, intent_dict, warnings, used_tools, vc)
         elif primary in ("knowledge_qa", "design_explanation", "craft_explanation"):
             return self._route_knowledge(q, effective_attrs, primary, sub, warnings, used_tools,
-                                         garment_category=garment_category, meta=vc)
+                                         garment_category=garment_category, meta=vc,
+                                         image_bytes=image_bytes)
         elif primary == "styling_advice":
             return self._route_styling(q, effective_attrs, primary, sub, warnings, used_tools, vc)
         elif primary == "visual_instance_query":
@@ -470,8 +498,8 @@ class QaOrchestrator:
         warnings: List[WarningItem], tools: List[str],
         garment_category: Optional[str] = None,
         meta: Any = None,
+        image_bytes: Optional[Any] = None,
     ) -> QAOrchestratorResult:
-        tools.append("rag_service")
         ctx = dict(attrs) if attrs else {}
         if garment_category:
             ctx.setdefault("garment_category", garment_category)
@@ -479,21 +507,89 @@ class QaOrchestrator:
             query=q, primary_intent=primary, sub_intent=sub,
             top_k=3, attribute_context=ctx if ctx else None,
         )
+        tools.extend(getattr(r, "used_tools", None) or ["rag_service"])
         for w in r.warnings:
             if w.code != "no_hits":
                 warnings.append(w)
         ka = _knowledge_answer(r.hits, warnings)
-        tools.append("template_answer")
+        answer = ka["answer"]
+        gen_meta: Dict[str, Any] = {"generation": "template"}
+        if r.hits and self._gen.enabled and self._mllm is not None:
+            generated = self._generate_grounded(q, r.hits, warnings, tools, image_bytes)
+            if generated is not None:
+                answer, gen_meta = generated["text"], generated["meta"]
+        if gen_meta["generation"] == "template":
+            tools.append("template_answer")
         all_sources = list(ka.get("sources", []))
         if meta is not None and hasattr(meta, "sources") and meta.sources:
             all_sources.extend(meta.sources)
+        retrieval_meta = (getattr(r, "meta", None) or {}).get("retrieval")
         return QAOrchestratorResult(
-            query=q, answer=ka["answer"], answer_type=ka["answer_type"],
+            query=q, answer=answer, answer_type=ka["answer_type"],
             intent={"primary_intent": primary, "sub_intent": sub, "confidence": 0.0},
             answer_confidence=ka["answer_confidence"],
             sources=all_sources, warnings=warnings, used_tools=tools,
-            meta=_build_result_meta("knowledge_qa", meta, rag_hit_count=len(r.hits)),
+            meta=_build_result_meta("knowledge_qa", meta, rag_hit_count=len(r.hits),
+                                     retrieval=retrieval_meta, **gen_meta),
         )
+
+    def _generate_grounded(
+        self, q: str, hits: List[Any], warnings: List[WarningItem], tools: List[str],
+        image_bytes: Optional[Any],
+    ) -> Optional[Dict[str, Any]]:
+        """Ask the MLLM for a cited answer over the retrieved hits; None → use template."""
+        if not self._mllm.is_available():
+            warnings.append(WarningItem(
+                code="mllm_generation_skipped", scope="qa",
+                message="多模态大模型不可用，使用模板回答。",
+                severity=WarningSeverity.info,
+            ))
+            return None
+        system_prompt, user_prompt, ctx_ids = build_grounded_prompt(q, hits, self._gen.max_context_hits)
+        try:
+            res = self._mllm.chat(
+                query=user_prompt, system_prompt=system_prompt,
+                image_bytes=_decode_image_bytes(image_bytes),
+                context={"knowledge_ids": ctx_ids},
+                max_new_tokens=self._gen.max_new_tokens, temperature=0.0,
+            )
+        except Exception as exc:
+            logger.exception("MLLM generation failed")
+            warnings.append(WarningItem(
+                code="mllm_generation_failed", scope="qa",
+                message=f"大模型生成失败，已回退为模板回答：{type(exc).__name__}",
+                severity=WarningSeverity.warn,
+            ))
+            return None
+        warnings.extend(getattr(res, "warnings", []) or [])
+        tools.extend(getattr(res, "used_tools", None) or ["mllm_client"])
+        text = (getattr(res, "text", None) or "").strip()
+        if not text:
+            warnings.append(WarningItem(
+                code="mllm_empty_answer", scope="qa",
+                message="大模型未返回内容，使用模板回答。",
+                severity=WarningSeverity.info,
+            ))
+            return None
+        grounded, cited = check_grounding(text, len(ctx_ids))
+        if self._gen.require_citation and not grounded:
+            warnings.append(WarningItem(
+                code="generation_ungrounded", scope="qa",
+                message="模型回答未引用知识条目，已回退为模板回答。",
+                severity=WarningSeverity.warn,
+            ))
+            return None
+        res_meta = getattr(res, "meta", None) or {}
+        return {
+            "text": text,
+            "meta": {
+                "generation": "mllm",
+                "cited_context_indices": cited,
+                "cited_knowledge_ids": [ctx_ids[i - 1] for i in cited],
+                "mllm_provider": res_meta.get("provider"),
+                "mllm_latency_ms": getattr(res, "latency_ms", None),
+            },
+        }
 
     # ── P1.3 Visual instance query ───────────────────────────────────────────
 
@@ -1284,10 +1380,12 @@ def get_qa_orchestrator() -> QaOrchestrator:
         from inference.serving.attribute_service import get_attribute_service
         from inference.serving.rag_service import get_rag_service
         from inference.serving.vision_provider import get_vision_provider
+        from inference.llm.mllm_client import get_mllm_client
         _orchestrator = QaOrchestrator(
             intent_classifier=get_classifier(),
             attribute_service=get_attribute_service(),
             rag_service=get_rag_service(),
             vision_provider=get_vision_provider(),
+            mllm_client=get_mllm_client(),
         )
     return _orchestrator

@@ -1,11 +1,19 @@
 """
-P0a.4.2-hardened — RagService: Exact / Alias / BM25-like retrieval.
+P0a.4.2-hardened / P2-hybrid — RagService: lexical retrieval, optionally fused
+with dense retrieval and cross-encoder reranking.
 
 Loads the seed knowledge base and retrieval config.  Supports exact-match,
 alias-match, title-match, and simplified BM25-like token-overlap scoring with
 category filtering, stable ranking, and comprehensive metadata passthrough.
 
-Does NOT depend on FAISS, BGE, Redis, LLM, or the 3.1 vision pipeline.
+P2 (PRD §3.3), all default-OFF via the ``rag:`` config block / env vars:
+* dense retrieval (BGE-M3 + FAISS) fused with the lexical ranking by
+  reciprocal rank fusion — RRF because lexical tier scores and cosine
+  similarities are not on a common scale;
+* cross-encoder reranking (BGE-reranker-v2-m3) of the fused head.
+Both fail open to the lexical result with a warning, at startup and per query.
+
+Does NOT depend on Redis, LLM, or the 3.1 vision pipeline.
 Does NOT generate answers — only returns ranked hits with full metadata.
 """
 
@@ -21,6 +29,8 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import yaml
 
+from inference.rag.dense import build_dense_retriever, build_reranker
+from inference.rag.settings import RagSettings, load_serving_config, resolve_rag_settings
 from inference.serving.schemas import WarningItem, WarningSeverity
 
 logger = logging.getLogger(__name__)
@@ -91,7 +101,7 @@ class RetrievalResult:
         }
 
 
-_MATCH_PRIORITY = {"exact": 0, "alias": 1, "title": 2, "bm25": 3}
+_MATCH_PRIORITY = {"exact": 0, "alias": 1, "title": 2, "bm25": 3, "dense": 4}
 
 # ── KB validation ──────────────────────────────────────────────────────────────
 
@@ -266,6 +276,10 @@ class RagService:
         self,
         kb_path: Optional[Path] = None,
         config_path: Optional[Path] = None,
+        *,
+        rag_settings: Optional[RagSettings] = None,
+        dense_retriever: Any = None,
+        reranker: Any = None,
     ) -> None:
         cfg_path = config_path or _DEFAULT_RETRIEVAL_CONFIG_PATH
         with open(cfg_path, "r", encoding="utf-8") as fh:
@@ -292,6 +306,47 @@ class RagService:
 
         logger.info("RagService loaded: %d documents, %d sources, kb_version=%s",
                      len(self._docs), len(self._sources), self._kb_version)
+
+        # ── P2 hybrid stack (default off; injected fakes bypass the builders) ──
+        self._id_to_idx: Dict[str, int] = {doc["id"]: i for i, doc in enumerate(self._docs)}
+        self._rag_settings: RagSettings = rag_settings or resolve_rag_settings(load_serving_config())
+        self._startup_warnings: List[WarningItem] = []
+        if dense_retriever is None:
+            dense_retriever, err = build_dense_retriever(
+                self._dense_documents(), self._rag_settings.dense, self._kb_version,
+            )
+            if err:
+                self._startup_warnings.append(WarningItem(
+                    code="dense_retriever_unavailable", scope="rag",
+                    message=f"Dense retrieval disabled, lexical only: {err}",
+                    severity=WarningSeverity.warn,
+                ))
+        if reranker is None:
+            reranker, err = build_reranker(self._rag_settings.reranker)
+            if err:
+                self._startup_warnings.append(WarningItem(
+                    code="reranker_unavailable", scope="rag",
+                    message=f"Reranking disabled: {err}",
+                    severity=WarningSeverity.warn,
+                ))
+        self._dense = dense_retriever
+        self._reranker = reranker
+
+    def _dense_documents(self) -> List[Tuple[str, str]]:
+        """(id, passage) pairs for embedding — title + terms + content + aliases."""
+        return [(doc["id"], self._doc_passage(doc)) for doc in self._docs]
+
+    @staticmethod
+    def _doc_passage(doc: Dict[str, Any]) -> str:
+        parts = [doc.get("title") or ""]
+        terms = " / ".join(t for t in (doc.get("zh_term"), doc.get("term")) if t)
+        if terms:
+            parts.append(terms)
+        parts.append(doc.get("content") or "")
+        aliases = [a for a in doc.get("aliases", []) if a]
+        if aliases:
+            parts.append("别名：" + "、".join(aliases))
+        return "。".join(p.strip("。 ") for p in parts if p)
 
     # ── Public API ─────────────────────────────────────────────────────────
 
@@ -381,6 +436,21 @@ class RagService:
         hits = self._search(nq, expanded_nq, effective_cats)
         hits = self._deduplicate_and_rank(hits)
 
+        # P2: dense fusion + reranking (no-ops unless configured).
+        used_tools = ["rag_service"]
+        warnings.extend(self._startup_warnings)
+        retrieval_meta: Dict[str, Any] = {
+            "retrieval_mode": "lexical", "dense_used": False, "reranker_used": False,
+        }
+        raw_query = (query or "").strip()
+        dense_query = " ".join([raw_query] + [t for t in expanded_nq.split(" ") if t and t not in nq])
+        if self._dense is not None:
+            hits = self._fuse_dense(
+                dense_query, hits, effective_cats, final_top_k, warnings, used_tools, retrieval_meta,
+            )
+        if self._reranker is not None and hits:
+            hits = self._rerank(raw_query, hits, final_top_k, warnings, used_tools, retrieval_meta)
+
         # Clamp scores to [0, 1] (A6).
         for h in hits:
             h.score = round(max(0.0, min(1.0, h.score)), 4)
@@ -396,7 +466,7 @@ class RagService:
 
         return RetrievalResult(
             query=query or "", normalized_query=nq,
-            hits=hits, used_tools=["rag_service"],
+            hits=hits, used_tools=used_tools,
             warnings=warnings,
             meta={
                 "effective_categories": effective_cats,
@@ -405,8 +475,122 @@ class RagService:
                 "kb_version": self._kb_version,
                 "attribute_context_keys": ctx_keys,
                 "expanded_query": expanded_nq,
+                "retrieval": retrieval_meta,
             },
         )
+
+    # ── P2 hybrid internals ─────────────────────────────────────────────────
+
+    def _fuse_dense(
+        self, dense_query: str, lexical_hits: List[RetrievalHit], categories: List[str],
+        final_top_k: int, warnings: List[WarningItem], used_tools: List[str],
+        retrieval_meta: Dict[str, Any],
+    ) -> List[RetrievalHit]:
+        """Reciprocal-rank-fuse the lexical ranking with dense candidates.
+
+        RRF score = Σ 1/(k + rank) over the lists a doc appears in; it is then
+        normalised by the best achievable value (rank 1 in both lists) so the
+        returned ``score`` stays in [0, 1] like the lexical tiers.  A doc found
+        by both retrievers therefore always outranks one found by only one at
+        the same rank — the property we want from hybrid retrieval.
+        """
+        ds = self._rag_settings.dense
+        allowed = {doc["id"] for doc in self._docs if not categories or doc.get("category") in categories}
+        n_cand = max(final_top_k * ds.candidate_multiplier, final_top_k)
+        try:
+            dense_hits = self._dense.search(dense_query, allowed_ids=allowed, top_k=n_cand)
+        except Exception as exc:
+            logger.exception("dense search failed; using lexical hits only")
+            warnings.append(WarningItem(
+                code="dense_search_failed", scope="rag",
+                message=f"Dense retrieval failed, lexical only: {type(exc).__name__}",
+                severity=WarningSeverity.warn,
+            ))
+            return lexical_hits
+
+        used_tools.append(f"dense_retriever:{getattr(self._dense, 'name', 'unknown')}")
+        retrieval_meta.update({
+            "retrieval_mode": "hybrid_rrf", "dense_used": True,
+            "dense_candidates": len(dense_hits), "rrf_k": ds.rrf_k,
+        })
+
+        k = ds.rrf_k
+        best_possible = 2.0 / (k + 1)
+        lex_by_id = {h.id: h for h in lexical_hits}
+        lex_rank = {h.id: r for r, h in enumerate(lexical_hits)}
+        dense_rank = {doc_id: r for r, (doc_id, _) in enumerate(dense_hits)}
+        dense_score = {doc_id: s for doc_id, s in dense_hits}
+
+        fused: List[RetrievalHit] = []
+        for doc_id in dict.fromkeys(list(lex_rank) + list(dense_rank)):
+            rrf = 0.0
+            if doc_id in lex_rank:
+                rrf += 1.0 / (k + lex_rank[doc_id] + 1)
+            if doc_id in dense_rank:
+                rrf += 1.0 / (k + dense_rank[doc_id] + 1)
+            hit = lex_by_id.get(doc_id)
+            if hit is None:
+                idx = self._id_to_idx.get(doc_id)
+                if idx is None:      # dense returned an id the KB no longer has
+                    continue
+                hit = self._make_hit(idx, 0.0, "dense")
+            hit.metadata["retrieval"] = {
+                "lexical_score": lex_by_id[doc_id].score if doc_id in lex_by_id else None,
+                "lexical_match_type": hit.match_type if doc_id in lex_by_id else None,
+                "dense_score": round(dense_score[doc_id], 4) if doc_id in dense_score else None,
+                "rrf_score": round(rrf, 6),
+            }
+            hit.score = rrf / best_possible
+            fused.append(hit)
+        fused.sort(key=lambda h: (-h.score, _MATCH_PRIORITY.get(h.match_type, 99), h.id))
+        return fused
+
+    def _rerank(
+        self, raw_query: str, hits: List[RetrievalHit], final_top_k: int,
+        warnings: List[WarningItem], used_tools: List[str], retrieval_meta: Dict[str, Any],
+    ) -> List[RetrievalHit]:
+        """Cross-encoder rerank of the head; the returned top_k is always fully reranked."""
+        top_n = min(len(hits), max(self._rag_settings.reranker.top_n, final_top_k))
+        head, tail = hits[:top_n], hits[top_n:]
+        candidates = [(h.id, self._doc_passage(self._docs[self._id_to_idx[h.id]])) for h in head]
+        try:
+            scored = self._reranker.rerank(raw_query, candidates)
+        except Exception as exc:
+            logger.exception("rerank failed; keeping pre-rerank order")
+            warnings.append(WarningItem(
+                code="rerank_failed", scope="rag",
+                message=f"Reranking failed, order unchanged: {type(exc).__name__}",
+                severity=WarningSeverity.warn,
+            ))
+            return hits
+        score_map = dict(scored)
+        for h in head:
+            info = h.metadata.setdefault("retrieval", {})
+            info["pre_rerank_score"] = h.score
+            info["rerank_score"] = round(score_map.get(h.id, 0.0), 4)
+            h.score = score_map.get(h.id, 0.0)
+        head.sort(key=lambda h: (-h.score, _MATCH_PRIORITY.get(h.match_type, 99), h.id))
+        used_tools.append(f"reranker:{getattr(self._reranker, 'name', 'unknown')}")
+        retrieval_meta.update({"reranker_used": True, "reranked_n": len(head)})
+
+        # Evidence gate: a cross-encoder score is absolute (P(relevant)), unlike
+        # the rank-only fused score, so a floor on it can say "nothing relevant"
+        # instead of returning the least-irrelevant document.
+        min_score = self._rag_settings.reranker.min_score
+        if min_score > 0.0:
+            kept = [h for h in head if h.score >= min_score]
+            dropped = len(head) - len(kept)
+            if dropped:
+                retrieval_meta["rerank_dropped_below_min_score"] = dropped
+                if not kept:
+                    warnings.append(WarningItem(
+                        code="no_relevant_evidence", scope="rag",
+                        message=f"所有候选的重排分数均低于阈值 {min_score}，判定为知识库未覆盖。",
+                        severity=WarningSeverity.info,
+                    ))
+            # the tail was never scored by the reranker, so it cannot pass the gate
+            return kept
+        return head + tail
 
     # ── Internals ───────────────────────────────────────────────────────────
 

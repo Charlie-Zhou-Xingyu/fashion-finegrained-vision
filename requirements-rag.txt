@@ -1,0 +1,21 @@
+# Optional RAG / Agent stack (PRD §3.3 / §3.4).  Not required by the serving
+# package: every component is default-off and imported lazily; without these
+# the service runs in lexical-only mode and says so in its warnings.
+# Versions are the ones the hybrid smoke test was run with (macOS, CPU).
+#
+#   pip install -r requirements.txt -r requirements-rag.txt
+#
+# Weights (fetched once, ~4.5 GB): BAAI/bge-m3 (needs pytorch_model.bin,
+# colbert_linear.pt, sparse_linear.pt) and BAAI/bge-reranker-v2-m3.  Point
+# rag.dense.embedding_model at the local snapshot directory for offline use.
+
+FlagEmbedding==1.4.2          # BGEM3FlagModel / FlagReranker
+sentence-transformers==6.0.1  # FlagEmbedding dependency
+faiss-cpu==1.15.1             # only for index_backend: faiss.  On macOS this pip wheel
+                              # vendors libomp.dylib and crashes alongside torch's copy
+                              # (exit 139); use index_backend: numpy there, or conda-forge faiss.
+langgraph==0.2.28             # inference/agent/qa_graph.py
+langgraph-checkpoint<2.0      # langgraph 0.2.28 is incompatible with checkpoint 2.x
+langchain-core==0.2.43        # PRD pins LangChain 0.2.x
+langchain==0.2.0
+langchain-community==0.2.0
