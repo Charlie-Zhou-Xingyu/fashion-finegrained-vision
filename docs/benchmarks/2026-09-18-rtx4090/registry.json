@@ -1,0 +1,69 @@
+{
+  "_description": "TensorRT engine registry as it stood on the pod (paths are the pod's /workspace/trtllm_work). Reconstructed verbatim from the session.",
+  "_schema_version": "1.0",
+  "engines": [
+    {
+      "name": "Qwen-7B-Chat_trtllm",
+      "model": "Qwen-7B-Chat",
+      "framework": "tensorrt_llm",
+      "engine_dir": "/workspace/trtllm_work/engine_out_qwen7b/trt_engine",
+      "quant_ckpt_dir": "/workspace/trtllm_work/engine_out_qwen7b/trt_ckpt",
+      "dtype": "float16",
+      "qformat": "int4_awq",
+      "kv_cache_dtype": "int8",
+      "paged_kv_cache": true,
+      "tp_size": 1,
+      "max_batch_size": 8,
+      "max_input_len": 2048,
+      "max_output_len": 512,
+      "build_env": {"tensorrt_llm_version": "0.10.0", "gpu_name": "NVIDIA GeForce RTX 4090"},
+      "built_at": "2026-09-18T03:55:19.758952+00:00"
+    },
+    {
+      "name": "Qwen-VL-7B-Chat_vit_trt",
+      "model": "Qwen-VL-7B-Chat (vision encoder / ViT submodule)",
+      "framework": "tensorrt (plain, not tensorrt_llm)",
+      "engine_dir": "/workspace/trtllm_work/TensorRT-LLM/examples/qwenvl/plan/visual_encoder",
+      "dtype": "float16",
+      "output_shape": "[-1, 256, 4096]",
+      "note": "paired with the text decoder via lookup_plugin embedding injection; verified end-to-end with examples/qwenvl/run.py — ViT latency 56ms, text decoder 1.02s"
+    },
+    {
+      "name": "Qwen-VL-7B-Chat_text_decoder_trtllm_bs64",
+      "model": "Qwen-VL-7B-Chat (text decoder only)",
+      "framework": "tensorrt_llm",
+      "engine_dir": "/workspace/trtllm_work/qwenvl_engine_bs64",
+      "quant_ckpt_dir": "/workspace/trtllm_work/qwenvl_ckpt",
+      "dtype": "float16",
+      "qformat": "int4_weight_only",
+      "kv_cache_dtype": "int8",
+      "paged_kv_cache": true,
+      "lookup_plugin": true,
+      "max_prompt_embedding_table_size": 2048,
+      "max_batch_size": 64,
+      "max_input_len": 1024,
+      "max_output_len": 256,
+      "benchmark_qps_100tok": {"bs1": 1.63, "bs8": 11.15, "bs16": 21.40, "bs32": 39.53, "bs64": 57.94},
+      "note": "canonical engine. max_bs=8 and max_bs=80 builds deleted after benchmarking (numbers in results_verbatim.md); max_bs=96 OOM at build; vision sanity check 3/3 with this engine + ViT plan."
+    },
+    {
+      "name": "Qwen-VL-7B-Chat_text_decoder_trtllm_sq_bs64",
+      "model": "Qwen-VL-7B-Chat (text decoder only)",
+      "framework": "tensorrt_llm",
+      "engine_dir": "/workspace/trtllm_work/qwenvl_engine_sq_bs64",
+      "quant_ckpt_dir": "/workspace/trtllm_work/qwenvl_sq_ckpt",
+      "dtype": "float16",
+      "qformat": "W8A8_SQ_PER_CHANNEL_PER_TOKEN_PLUGIN (smoothquant 0.5)",
+      "kv_cache_dtype": "int8",
+      "paged_kv_cache": true,
+      "lookup_plugin": true,
+      "max_prompt_embedding_table_size": 2048,
+      "max_batch_size": 64,
+      "max_input_len": 1024,
+      "max_output_len": 256,
+      "requires_library_patch": "inference/deployment/patches/patch_trtllm_0_10_0_qwen_smoothquant.py",
+      "benchmark_qps_100tok": {"bs1": 1.00, "bs8": 7.43, "bs32": 27.31, "bs64": 49.50},
+      "verdict": "slower than W4A16 on ~10-token prompts (1.62x at bs1 -> 1.17x at bs64); FASTER by 27-45% at bs>=32 on 500/1000-token prompts; ROUGE within noise of FP16 (n=20). Route by input length."
+    }
+  ]
+}

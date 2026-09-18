@@ -1,0 +1,41 @@
+Lines from trtllm-build logs, verbatim (bytes). Paths are the pod's.
+
+qwenvl_engine (max_batch_size=8, max_input_len=2048, max_output_len=1024, W4A16 + INT8 KV, lookup_plugin):
+  Total Activation Memory: 1434457600
+  Total Weights Memory: 5735682560
+  Engine generation completed in 64.7296 seconds
+  Serialized rank0.engine: 5740068748 bytes
+  Runtime load: Loaded engine size 5474 MiB; Max KV cache pages per sequence: 40; Max tokens in paged KV cache: 60288 (Allocating 15804137472 bytes)
+
+qwenvl_engine_bs64 (max_batch_size=64, max_input_len=1024, max_output_len=256):
+  Total Scratch Memory: 1074003968
+  Total Activation Memory: 5737813504
+  Total Weights Memory: 5735682560
+  Engine generation completed in 70.7493 seconds
+  Peak memory during build: CPU 15232 MiB; TRT allocators peak GPU 8257 MiB
+
+qwenvl_engine_bs80 (max_batch_size=80, max_input_len=1024, max_output_len=256):
+  Total Scratch Memory: 1342504960
+  Total Activation Memory: 7172265472
+  Total Weights Memory: 5735682560
+  Engine generation completed in 70.7394 seconds
+  Runtime load: TRTGptModel maxBatchSize 80; mMaxAttentionWindowSize 1280; Allocated 6840.01 MiB execution context; Max KV cache pages per sequence 20; Max tokens in paged KV cache 40320 (Allocating 10569646080 bytes)
+
+qwenvl_engine (max_batch_size=96): build failed — OutOfMemory during tactic selection (6443499520-byte and 3222274048-byte allocations refused).
+
+engine_out_qwen7b (Qwen-7B-Chat, INT4-AWQ + INT8 KV, max_batch_size=8):
+  Total Activation Memory: 1392513536
+  Total Weights Memory: 5848375300
+  Engine generation completed in 67.0992 seconds
+  Runtime load: Loaded engine size 5581 MiB; Max tokens in paged KV cache 60288
+
+ViT plan (visual_encoder_fp16.plan, examples/qwenvl/vit_onnx_trt.py --only_trt):
+  Total Weights Memory: 3879040256
+  Total Activation Memory: 199492608
+  Engine generation completed in 98.576 seconds; plan file 3895781716 bytes
+  Output tensor: Half[-1,256,4096]; input Float[-1,3,448,448]
+
+qwenvl_engine_sq_bs64 (W8A8 SmoothQuant, patched quantize.py): SQ_BUILD_OK; build-stats lines not captured. Engine dir 8.4G.
+
+tokens_per_block (default, from engine config.json of qwenvl_engine_bs64): 64
+max_num_tokens: 65536; opt_num_tokens: 64; use_paged_context_fmha: false; enable_chunked_context: null

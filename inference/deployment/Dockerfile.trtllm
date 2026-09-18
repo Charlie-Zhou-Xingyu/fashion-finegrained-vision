@@ -1,0 +1,35 @@
+# GPU-server-only. Builds and serves the Qwen-VL TensorRT-LLM engine.
+# Does NOT build on macOS/ARM — this image is amd64 + CUDA only.
+#
+# Build:
+#   docker build -f inference/deployment/Dockerfile.trtllm -t fashion-mllm-trtllm .
+#
+# Build the engine once (writes into a mounted volume so it survives
+# container restarts — engine builds take a while and need calibration data):
+#   docker run --gpus all -v $(pwd)/engines:/engines fashion-mllm-trtllm \
+#     python inference/engines/qwen_vl_trtllm_builder.py \
+#       --hf-model-dir /models/Qwen-VL-7B-Chat --output-root /engines/qwen-vl-7b
+#
+# Serve:
+#   docker run --gpus all -p 8082:8082 -v $(pwd)/engines:/engines fashion-mllm-trtllm
+
+FROM nvcr.io/nvidia/pytorch:24.05-py3
+
+WORKDIR /app
+
+COPY requirements-gpu-server.txt .
+RUN pip install --no-cache-dir -r requirements-gpu-server.txt
+
+COPY inference/ inference/
+COPY configs/ configs/
+
+# TensorRT-LLM 0.10.0 cannot build SmoothQuant (W8A8) engines for Qwen v1
+# out of the box (2x-wide MLP shape mismatch in smooth_quantize_plugin).
+# One-line, idempotent, self-verifying library fix — see the script's docstring
+# and docs/tensorrt_llm_integration.md, pitfall 6. Fails the build if the
+# installed tensorrt_llm no longer matches the line it targets.
+RUN python3 inference/deployment/patches/patch_trtllm_0_10_0_qwen_smoothquant.py
+
+EXPOSE 8082
+
+CMD ["uvicorn", "inference.serving.trtllm_server:app", "--host", "0.0.0.0", "--port", "8082"]

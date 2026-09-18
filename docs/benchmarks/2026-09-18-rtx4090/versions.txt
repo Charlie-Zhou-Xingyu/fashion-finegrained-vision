@@ -1,0 +1,14 @@
+GPU: NVIDIA GeForce RTX 4090 (24564 MiB), driver 570.195.03, host CUDA 12.8 (nvcc 12.8.93)
+OS: Ubuntu 24.04 (RunPod image runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404; its system torch 2.8.0 / Python 3.12 were NOT used)
+Env: Miniconda, conda-forge, python 3.10.21
+tensorrt_llm 0.10.0
+tensorrt 10.0.1 (tensorrt-cu12 / _libs / _bindings pinned to 10.0.1 — pip's default resolution to 11.3.0.99 ships libnvinfer.so.11 and breaks the import)
+torch 2.2.2+cu121 (tensorrt_llm's resolver downgrades a 2.3.0 install to this)
+torchvision 0.17.2+cu121
+transformers 4.40.2
+cuda-python 12.5.0 (13.x breaks `from cuda import cudart`)
+pynvml 11.5.0 (nvidia-ml-py's shim lacks __version__)
+nvidia-modelopt 0.11.2
+datasets 2.19.0 (5.x drops script-based datasets; ccdv/cnn_dailymail needs them)
+OpenMPI 4.1.6 (apt: openmpi-bin libopenmpi-dev) for libmpi.so.40
+Library patch: tensorrt_llm/quantization/quantize.py smooth_quantize_plugin — see inference/deployment/patches/

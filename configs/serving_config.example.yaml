@@ -22,13 +22,14 @@ health:
     - vision_provider_mock
     - vision_provider_real_adapter   # P1.1 experimental shell (disabled by default)
     - content_generation_service
+    - mllm_client                         # P2 mock tier (see mllm: block below)
   pending_modules:
     - rag_service
     - qa_orchestrator
     - content_service
     - cache_service
     - small_llm
-    - mllm_client
+    - mllm_client_real                    # P2 real tier — needs GPU server + built engine
     - vision_backend_fashion_vision_3_1   # real 3.1 invocation not wired in P1.1
 
 # P1.1 — Vision provider selection (feature flag).
@@ -67,6 +68,22 @@ attribute_backend:
   backend: disabled               # disabled | fashionai | 313 | real
   enable_real: false
   device: cpu                     # cpu | cuda
+
+# P2 — Multimodal LLM client selection (3.2 module, Qwen-VL-7B-Chat).
+# Default is ALWAYS mock (never fabricates an answer).  Real backend only
+# activates when BOTH provider=real AND real_enabled=true (or the env-var
+# equivalents: MLLM_PROVIDER / MLLM_REAL_ENABLED / MLLM_ENDPOINT / MLLM_MODEL).
+# The endpoint is served by inference/serving/trtllm_server.py on a GPU
+# server (TensorRT-LLM, PagedAttention + INT4-AWQ weights + INT8 KV cache);
+# see docs/tensorrt_llm_integration.md for how to build and run it.
+mllm:
+  provider: mock             # mock | real
+  real_enabled: false
+  endpoint: "http://localhost:8082"
+  model: "qwen-vl-7b-chat"
+  timeout_s: 5.0
+  max_retries: 1
+  fail_open_to_mock: true    # HTTP/engine failure degrades to mock, never crashes the request
 
 # P0a mock — will be replaced by IntentRouter in P0a.2.
 mock:

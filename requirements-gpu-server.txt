@@ -1,0 +1,65 @@
+# GPU-server-only requirements for inference/engines/qwen_vl_trtllm_builder.py
+# and inference/serving/trtllm_server.py.
+#
+# Do NOT install this on the Mac dev machine (Apple Silicon / no CUDA) — it
+# will fail: none of tensorrt_llm/tensorrt/onnxruntime-gpu ship macOS/ARM
+# wheels, full stop. requirements.txt stays CPU/Mac-safe on its own; this
+# file is additive, for the GPU box only.
+#
+# Version pins matched to TensorRT-LLM 0.10 (see docs/tensorrt_llm_integration.md
+# for why these do NOT match the PRD's literal "TensorRT 8.6.1" — that pin is
+# for a much older TensorRT-LLM release and is incompatible with 0.10).
+#
+# These exact pins were verified end-to-end on a rented RunPod RTX 4090
+# (Ubuntu 24.04, driver 570.195/CUDA 12.8, conda-forge python=3.10 env) —
+# not just what the release notes claim. `pip install tensorrt_llm==0.10.0`
+# alone resolves several sub-packages to versions that DON'T work with it
+# (see docs/tensorrt_llm_integration.md for why each pin below exists);
+# `torch` in particular gets silently downgraded to 2.2.2 by tensorrt_llm's
+# own dependency chain regardless of what you ask pip to install initially —
+# that's expected, not a mistake in this file.
+#
+# Recommended base image: nvcr.io/nvidia/pytorch:24.05-py3 (CUDA 12.4 +
+# PyTorch 2.3 preinstalled) — installing on top of it is far less painful
+# than building the CUDA/PyTorch/TensorRT stack from a bare Ubuntu image.
+# Also needs a system OpenMPI install (not a pip package):
+#   apt-get install -y openmpi-bin libopenmpi-dev
+
+--extra-index-url https://pypi.nvidia.com
+
+torch==2.2.2               # tensorrt_llm==0.10.0's own resolver lands here regardless of a 2.3.0 request
+tensorrt_llm==0.10.0
+tensorrt==10.0.1
+tensorrt-cu12==10.0.1       # MUST pin explicitly — plain `tensorrt==10.0.1` lets pip pick tensorrt-cu12's
+                             # latest (11.3.0.99 as of writing), which ships libnvinfer.so.11 while
+                             # tensorrt_llm 0.10.0's compiled bindings look for libnvinfer.so.10 —
+                             # import fails with "libnvinfer.so.10: cannot open shared object file"
+cuda-python==12.5.0         # pip resolves this to the latest (13.x) otherwise, which restructured its
+                             # API (`from cuda import cudart` no longer works) — breaks tensorrt_llm 0.10.0's
+                             # `_ipc_utils.py` import
+pynvml==11.5.0               # NOT nvidia-ml-py — tensorrt_llm's profiler.py reads pynvml.__version__,
+                             # which nvidia-ml-py's pynvml-compat shim doesn't provide
+onnxruntime-gpu==1.17.1
+transformers>=4.37.0,<4.42.0   # pin range TensorRT-LLM 0.10's examples/ are tested against
+accelerate>=0.28.0
+datasets>=2.16.0                # calibration dataset loading for quantize.py
+torchvision==0.17.2        # Qwen-VL's modeling_qwen.py imports visual.py unconditionally (even for
+                             # text-only quantization) which imports torchvision — needed even though
+                             # we don't use the vision path yet (see multimodal caveat in the docs)
+einops                      # Qwen's custom modeling code
+matplotlib                  # pulled in by transformers' dynamic-module check for Qwen's tokenizer code
+requests>=2.31.0
+fastapi>=0.100.0
+uvicorn[standard]
+pydantic>=2.0.0
+
+# From TensorRT-LLM/examples/quantization/requirements.txt — installed everything
+# EXCEPT nemo-toolkit[all], which that file pulls in for NeMo-checkpoint quantization
+# only (`--nemo_ckpt_path`, unused here) and fails to build (`youtokentome` needs Cython
+# that isn't installed). tensorrt_llm.quantization.quantize_by_modelopt imports `nemo`
+# lazily inside the NeMo-only code path, not at module load — confirmed safe to skip
+# for the `--model_dir` (HuggingFace checkpoint) path this project uses.
+rouge_score~=0.1.2
+transformers_stream_generator==0.0.4
+tiktoken
+mpmath==1.3.0
