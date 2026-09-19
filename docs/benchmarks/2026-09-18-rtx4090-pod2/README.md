@@ -22,6 +22,14 @@ RTN + INT8 KV cache, `lookup_plugin`, `max_input_len=1024`, `max_output_len=256`
 pod #1 bs64 static-batching figures reproduce on pod #2 within 1 % (57.94 →
 57.38 QPS at bs64 W1).
 
+`f_to_k/` — the later chains on the same pod (F prefix-caching baseline,
+G W8A8-on-executor and the failed FP16-KV convert (disk full), G2/I the
+FP16-KV paged-context multimodal engine incl. `*.errors.txt` with the exact
+runtime assertions, H/I/J HTTP load tests and guard proofs (`h_*_live.txt`,
+`h_health_*.json`), K the text-only paged-context engine where prefix
+caching works, `gpuutil_*.csv` nvidia-smi samples, every `chain_*.sh` as run,
+and the SQ / text-only engine configs).
+
 Not in this directory: the ViT plan (built after the archive was taken; see
 `after_chain.log` for pass 1's OOM and `vit_pass2` in the docs) and the
 SmoothQuant W8A8 engine (not rebuilt on pod #2 — D/E did not need it).

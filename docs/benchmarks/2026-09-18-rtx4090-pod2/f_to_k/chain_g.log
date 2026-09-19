@@ -1,0 +1,14 @@
+=== G_START 00:17:47 ===
+=== G1 BUILD_SQ96 (int8 kv, no pcf) 00:17:47 ===
+BUILD_SQ96_OK
+=== D_START tag=g1_sq96 policy=GUARANTEED_NO_EVICT 00:19:40 ===
+D_g1_sq96_GUARANTEED_NO_EVICT_OK
+1 MiB
+=== G2 CONVERT_FP16KV 00:22:40 ===
+CONVERT_FP16KV_FAILED
+  File "/workspace/trtllm_work/miniconda3/envs/trtllm/lib/python3.10/site-packages/tensorrt_llm/models/modeling_utils.py", line 480, in save_checkpoint
+    save_file(weights, os.path.join(output_dir, f'rank{rank}.safetensors'))
+  File "/workspace/trtllm_work/miniconda3/envs/trtllm/lib/python3.10/site-packages/safetensors/torch.py", line 323, in save_file
+    serialize_file(
+safetensors._safetensors_rust.SafetensorError: Error while serializing: I/O error: No space left on device (os error 28)
+=== G_DONE 00:24:46 ===

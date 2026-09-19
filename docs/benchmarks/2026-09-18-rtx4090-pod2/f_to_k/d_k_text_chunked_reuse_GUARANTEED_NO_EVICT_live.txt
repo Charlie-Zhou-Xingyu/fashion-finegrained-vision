@@ -1,0 +1,14 @@
+### k_text_chunked_reuse policy=GUARANTEED_NO_EVICT block_reuse=True chunked=True engine={'max_batch_size': 96, 'max_input_len': 1024, 'max_output_len': 256, 'max_num_tokens': 16384, 'max_beam_width': 1} end_id=151643
+[load] executor ready in 6.3s
+[W3 burst-long in= 500 n=  8] trials=[1.273, 0.789] mean=1.031s QPS=7.76 prefill_tok/s=3879 p50=0.789s max=0.789s peak_active=8 kv_blocks=31/468 queued_peak=0
+[W3 burst-long in= 500 n= 32] trials=[1.125, 1.126] mean=1.125s QPS=28.44 prefill_tok/s=14219 p50=1.126s max=1.126s peak_active=32 kv_blocks=103/468 queued_peak=0
+[W3 burst-long in= 500 n= 96] trials=[3.624, 3.617] mean=3.620s QPS=26.52 prefill_tok/s=13259 p50=2.932s max=3.617s peak_active=96 kv_blocks=145/468 queued_peak=63
+[W3 burst-long in=1000 n=  8] trials=[1.363, 0.803] mean=1.083s QPS=7.39 prefill_tok/s=7386 p50=0.803s max=0.803s peak_active=8 kv_blocks=39/468 queued_peak=0
+[W3 burst-long in=1000 n= 32] trials=[1.951, 1.951] mean=1.951s QPS=16.40 prefill_tok/s=16400 p50=1.167s max=1.951s peak_active=32 kv_blocks=93/468 queued_peak=15
+[W3 burst-long in=1000 n= 96] trials=[4.609, 4.598] mean=4.604s QPS=20.85 prefill_tok/s=20853 p50=2.415s max=4.598s peak_active=96 kv_blocks=93/468 queued_peak=79
+[W5 shared-prefix in= 960 (prefix=900) n=  8] trials=[0.785, 0.784] mean=0.785s QPS=10.20 prompt_tok/s=9788 p50=0.784s max=0.784s peak_active=8 kv_blocks=38/468 queued_peak=0
+[W5 shared-prefix in= 960 (prefix=900) n= 32] trials=[1.868, 1.87] mean=1.869s QPS=17.12 prompt_tok/s=16435 p50=1.071s max=1.870s peak_active=32 kv_blocks=76/468 queued_peak=15
+[W5 shared-prefix in= 960 (prefix=900) n= 96] trials=[4.14, 4.14] mean=4.140s QPS=23.19 prompt_tok/s=22261 p50=2.168s max=4.140s peak_active=96 kv_blocks=76/468 queued_peak=79
+[sample] ' \n这个问题无法回答，因为缺少关于外套的详细描述。请提供更多关于外套的描述，例如颜色、款式、长度、厚度等信息，以便于回答。 \n例如，如果这件'
+[done] results -> /workspace/trtllm_work/logs/executor_k_text_chunked_reuse_GUARANTEED_NO_EVICT.json
+D_RUN_OK

@@ -1,0 +1,10 @@
+=== qwenvl_engine_bs64 closed-loop C=64 ===
+[W4 closed-loop C= 64 T=30s] QPS=59.26 tok/s=5926 p50=1.104s p95=1.107s max=1.109s done=1792 peak_active=64 peak_sched=64 mean_active=63.4 queued_peak=0 kv_blocks=128/708 mean_iter_ms=10.96
+samples=120/217 gpu_util mean=98.8% p10=98% min=98% | mem_util mean=68.2% | power mean=448W
+=== qwenvl_engine_bs128 closed-loop C=128 ===
+grep: logs/gpuutil_128_C128_live.txt: No such file or directory
+samples=10/18 gpu_util mean=0.0% p10=0% min=0% | mem_util mean=0.0% | power mean=85W
+=== qwenvl_engine_bs64 closed-loop C=8 ===
+[W4 closed-loop C=  8 T=30s] QPS=10.96 tok/s=1096 p50=0.717s p95=0.719s max=0.719s done=336 peak_active=8 peak_sched=8 mean_active=7.9 queued_peak=0 kv_blocks=16/708 mean_iter_ms=7.1
+samples=114/207 gpu_util mean=98.0% p10=98% min=98% | mem_util mean=83.7% | power mean=310W
+GPUUTIL_DONE

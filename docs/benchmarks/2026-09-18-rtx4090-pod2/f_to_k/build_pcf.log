@@ -1,0 +1,56 @@
+[TensorRT-LLM] TensorRT-LLM version: 0.10.0
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set bert_attention_plugin to float16.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set gpt_attention_plugin to float16.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set gemm_plugin to float16.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set nccl_plugin to float16.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set lookup_plugin to float16.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set lora_plugin to None.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set moe_plugin to float16.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set mamba_conv1d_plugin to float16.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set context_fmha to True.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set context_fmha_fp32_acc to False.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set paged_kv_cache to True.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set remove_input_padding to True.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set use_custom_all_reduce to True.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set multi_block_mode to False.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set enable_xqa to True.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set attention_qk_half_accumulation to False.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set tokens_per_block to 64.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set use_paged_context_fmha to True.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set use_fp8_context_fmha to False.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set use_context_fmha_for_generation to False.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set multiple_profiles to False.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set paged_state to True.
+[09/19/2026-00:13:36] [TRT-LLM] [I] Set streamingllm to False.
+[09/19/2026-00:13:36] [TRT-LLM] [W] remove_input_padding is enabled, while opt_num_tokens is not set, setting to max_batch_size*max_beam_width. 
+
+[09/19/2026-00:13:36] [TRT-LLM] [I] Compute capability: (8, 9)
+[09/19/2026-00:13:36] [TRT-LLM] [I] SM count: 128
+[09/19/2026-00:13:36] [TRT-LLM] [I] SM clock: 3105 MHz
+[09/19/2026-00:13:36] [TRT-LLM] [I] int4 TFLOPS: 813
+[09/19/2026-00:13:36] [TRT-LLM] [I] int8 TFLOPS: 406
+[09/19/2026-00:13:36] [TRT-LLM] [I] fp8 TFLOPS: 406
+[09/19/2026-00:13:36] [TRT-LLM] [I] float16 TFLOPS: 203
+[09/19/2026-00:13:36] [TRT-LLM] [I] bfloat16 TFLOPS: 203
+[09/19/2026-00:13:36] [TRT-LLM] [I] float32 TFLOPS: 101
+[09/19/2026-00:13:36] [TRT-LLM] [I] Total Memory: 23 GiB
+[09/19/2026-00:13:36] [TRT-LLM] [I] Memory clock: 10501 MHz
+[09/19/2026-00:13:36] [TRT-LLM] [I] Memory bus width: 384
+[09/19/2026-00:13:36] [TRT-LLM] [I] Memory bandwidth: 1008 GB/s
+[09/19/2026-00:13:36] [TRT-LLM] [I] PCIe speed: 5000 Mbps
+[09/19/2026-00:13:36] [TRT-LLM] [I] PCIe link width: 16
+[09/19/2026-00:13:36] [TRT-LLM] [I] PCIe bandwidth: 10 GB/s
+Traceback (most recent call last):
+  File "/workspace/trtllm_work/miniconda3/envs/trtllm/bin/trtllm-build", line 6, in <module>
+    sys.exit(main())
+  File "/workspace/trtllm_work/miniconda3/envs/trtllm/lib/python3.10/site-packages/tensorrt_llm/commands/build.py", line 496, in main
+    parallel_build(source, build_config, args.output_dir, workers,
+  File "/workspace/trtllm_work/miniconda3/envs/trtllm/lib/python3.10/site-packages/tensorrt_llm/commands/build.py", line 377, in parallel_build
+    passed = build_and_save(rank, rank % workers, ckpt_dir,
+  File "/workspace/trtllm_work/miniconda3/envs/trtllm/lib/python3.10/site-packages/tensorrt_llm/commands/build.py", line 336, in build_and_save
+    engine = build_model(build_config,
+  File "/workspace/trtllm_work/miniconda3/envs/trtllm/lib/python3.10/site-packages/tensorrt_llm/commands/build.py", line 329, in build_model
+    return build(model, build_config)
+  File "/workspace/trtllm_work/miniconda3/envs/trtllm/lib/python3.10/site-packages/tensorrt_llm/builder.py", line 723, in build
+    raise RuntimeError(
+RuntimeError: Paged Context FMHA doesn't work with int8 kv cache currently.

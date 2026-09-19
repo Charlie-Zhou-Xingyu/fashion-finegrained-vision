@@ -1,0 +1,20 @@
+### g1_sq96 policy=GUARANTEED_NO_EVICT block_reuse=False chunked=False engine={'max_batch_size': 96, 'max_input_len': 1024, 'max_output_len': 256, 'max_num_tokens': 16384, 'max_beam_width': 1} end_id=151643
+[load] executor ready in 9.4s
+[W1 burst-short n=  1] trials=[1.051, 1.024, 1.024] mean=1.033s QPS=0.97 tok/s=97 p50=1.024s max=1.024s peak_active=1 kv_blocks=2/769 iters=100
+[W1 burst-short n=  8] trials=[1.094, 1.094, 1.094] mean=1.094s QPS=7.31 tok/s=731 p50=1.094s max=1.094s peak_active=8 kv_blocks=16/769 iters=100
+[W1 burst-short n= 32] trials=[1.181, 1.181, 1.181] mean=1.181s QPS=27.10 tok/s=2710 p50=1.181s max=1.181s peak_active=32 kv_blocks=64/769 iters=100
+[W1 burst-short n= 96] trials=[1.451, 1.45, 1.45] mean=1.450s QPS=66.20 tok/s=6620 p50=1.449s max=1.450s peak_active=96 kv_blocks=192/769 iters=100
+[W3 burst-long in= 500 n=  8] trials=[1.334, 1.335] mean=1.334s QPS=6.00 prefill_tok/s=2998 p50=1.335s max=1.335s peak_active=8 kv_blocks=80/769 queued_peak=0
+[W3 burst-long in= 500 n= 32] trials=[2.209, 2.209] mean=2.209s QPS=14.48 prefill_tok/s=7242 p50=2.209s max=2.209s peak_active=32 kv_blocks=320/769 queued_peak=0
+[W3 burst-long in= 500 n= 96] trials=[5.589, 5.588] mean=5.589s QPS=17.18 prefill_tok/s=8589 p50=4.161s max=5.588s peak_active=96 kv_blocks=760/769 queued_peak=64
+[W3 burst-long in=1000 n=  8] trials=[1.594, 1.593] mean=1.594s QPS=5.02 prefill_tok/s=5020 p50=1.593s max=1.593s peak_active=8 kv_blocks=144/769 queued_peak=0
+[W3 burst-long in=1000 n= 32] trials=[3.277, 3.278] mean=3.277s QPS=9.76 prefill_tok/s=9764 p50=3.278s max=3.278s peak_active=32 kv_blocks=576/769 queued_peak=16
+[W3 burst-long in=1000 n= 96] trials=[9.75, 9.751] mean=9.750s QPS=9.85 prefill_tok/s=9846 p50=7.863s max=9.751s peak_active=96 kv_blocks=756/769 queued_peak=80
+[W4 closed-loop C= 64 T=30s] QPS=47.41 tok/s=4741 p50=1.308s p95=1.309s max=1.310s done=1472 peak_active=64 peak_sched=64 mean_active=63.4 queued_peak=0 kv_blocks=128/769 mean_iter_ms=12.95
+[W4 closed-loop C= 96 T=30s] QPS=64.00 tok/s=6400 p50=1.456s p95=1.457s max=1.534s done=2016 peak_active=96 peak_sched=96 mean_active=94.8 queued_peak=0 kv_blocks=192/769 mean_iter_ms=14.41
+[W5 shared-prefix in= 960 (prefix=900) n=  8] trials=[1.577, 1.576] mean=1.576s QPS=5.07 prompt_tok/s=4872 p50=1.576s max=1.576s peak_active=8 kv_blocks=136/769 queued_peak=0
+[W5 shared-prefix in= 960 (prefix=900) n= 32] trials=[3.189, 3.19] mean=3.189s QPS=10.03 prompt_tok/s=9632 p50=3.174s max=3.190s peak_active=32 kv_blocks=544/769 queued_peak=15
+[W5 shared-prefix in= 960 (prefix=900) n= 96] trials=[9.503, 9.503] mean=9.503s QPS=10.10 prompt_tok/s=9698 p50=8.043s max=9.503s peak_active=96 kv_blocks=765/769 queued_peak=79
+[sample] ' A：这件外套是用羊毛和棉混纺纱线编织而成的。 B：哦，我明白了。那它一定很保暖，而且手感柔软。 C：是的，它的'
+[done] results -> /workspace/trtllm_work/logs/executor_g1_sq96_GUARANTEED_NO_EVICT.json
+D_RUN_OK

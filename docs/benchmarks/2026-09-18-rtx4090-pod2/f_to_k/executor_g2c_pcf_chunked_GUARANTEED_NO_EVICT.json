@@ -1,0 +1,46 @@
+{
+ "engine": {
+  "max_batch_size": 96,
+  "max_input_len": 1024,
+  "max_output_len": 256,
+  "max_num_tokens": 16384,
+  "max_beam_width": 1
+ },
+ "policy": "GUARANTEED_NO_EVICT",
+ "W3_in500_n8": {
+  "trials": [
+   1.2810415009735152,
+   1.282444818993099
+  ],
+  "qps": 6.241500052244623,
+  "iter": {
+   "iters": 100,
+   "peak_active": 8,
+   "mean_active": 8.0,
+   "peak_scheduled": 8,
+   "peak_queued": 0,
+   "peak_kv_blocks": 80,
+   "max_kv_blocks": 468,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 12.82
+  }
+ },
+ "W3_in500_n32": {
+  "trials": [
+   3.686339613981545,
+   3.6856147900107317
+  ],
+  "qps": 8.681551253944388,
+  "iter": {
+   "iters": 100,
+   "peak_active": 32,
+   "mean_active": 32.0,
+   "peak_scheduled": 32,
+   "peak_queued": 0,
+   "peak_kv_blocks": 320,
+   "max_kv_blocks": 468,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 36.86
+  }
+ }
+}

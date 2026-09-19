@@ -1,0 +1,36 @@
+=== G2H_START 00:26:19 ===
+overlay          90G   65G   26G  72% /
+CONVERT_FP16KV_OK
+BUILD_PCF_FP16KV_OK
+=== D_START tag=g2a_pcf_plain policy=GUARANTEED_NO_EVICT 00:29:05 ===
+D_g2a_pcf_plain_GUARANTEED_NO_EVICT_OK
+1 MiB
+=== D_START tag=g2b_pcf_reuse policy=GUARANTEED_NO_EVICT 00:33:19 ===
+D_g2b_pcf_reuse_GUARANTEED_NO_EVICT_OK
+1 MiB
+=== D_START tag=g2c_pcf_chunked policy=GUARANTEED_NO_EVICT 00:33:32 ===
+D_g2c_pcf_chunked_GUARANTEED_NO_EVICT_OK
+1 MiB
+=== D_START tag=g2d_pcf_chunked_reuse policy=GUARANTEED_NO_EVICT 00:33:57 ===
+D_g2d_pcf_chunked_reuse_GUARANTEED_NO_EVICT_OK
+1 MiB
+=== G2_DONE 00:34:11 ===
+=== H_START tag=w4a16_short engine=qwenvl_engine_bs96_mnt16k env=[MLLM_MAX_QUEUE=1024] 00:34:11 ===
+{"status":"ok","mode":"text_only","backend":"executor","engine":{"max_batch_size":96,"max_input_len":1024,"max_output_len":256,"max_num_tokens":16384,"paged_context_fmha":false,"quant_algo":"W4A16","kv_cache_quant_algo":"INT8"},"limits":{"max_new_tokens":256,"max_input_tokens":1024,"max_image_bytes":5242880,"max_queue":1024,"request_timeout_s":30.0},"executor":{"in_flight":0,"block_reuse":false,"chunked_context":false},"latency":{"completed":0,"rejected":{"413":0,"429":0,"504":0,"500":0},"n":0}}
+H_w4a16_short_OK
+=== H_START tag=w4a16_long engine=qwenvl_engine_bs96_mnt16k env=[MLLM_MAX_QUEUE=1024] 00:36:32 ===
+{"status":"ok","mode":"text_only","backend":"executor","engine":{"max_batch_size":96,"max_input_len":1024,"max_output_len":256,"max_num_tokens":16384,"paged_context_fmha":false,"quant_algo":"W4A16","kv_cache_quant_algo":"INT8"},"limits":{"max_new_tokens":256,"max_input_tokens":1024,"max_image_bytes":5242880,"max_queue":1024,"request_timeout_s":30.0},"executor":{"in_flight":0,"block_reuse":false,"chunked_context":false},"latency":{"completed":0,"rejected":{"413":0,"429":0,"504":0,"500":0},"n":0}}
+H_w4a16_long_OK
+=== H_START tag=sq_long engine=qwenvl_engine_sq_bs96 env=[MLLM_MAX_QUEUE=1024] 00:37:46 ===
+{"status":"ok","mode":"text_only","backend":"executor","engine":{"max_batch_size":96,"max_input_len":1024,"max_output_len":256,"max_num_tokens":16384,"paged_context_fmha":false,"quant_algo":"W8A8_SQ_PER_CHANNEL_PER_TOKEN_PLUGIN","kv_cache_quant_algo":"INT8"},"limits":{"max_new_tokens":256,"max_input_tokens":1024,"max_image_bytes":5242880,"max_queue":1024,"request_timeout_s":30.0},"executor":{"in_flight":0,"block_reuse":false,"chunked_context":false},"latency":{"completed":0,"rejected":{"413":0,"429":0,"504":0,"500":0},"n":0}}
+H_sq_long_OK
+=== H_START tag=sq_short engine=qwenvl_engine_sq_bs96 env=[MLLM_MAX_QUEUE=1024] 00:39:07 ===
+{"status":"ok","mode":"text_only","backend":"executor","engine":{"max_batch_size":96,"max_input_len":1024,"max_output_len":256,"max_num_tokens":16384,"paged_context_fmha":false,"quant_algo":"W8A8_SQ_PER_CHANNEL_PER_TOKEN_PLUGIN","kv_cache_quant_algo":"INT8"},"limits":{"max_new_tokens":256,"max_input_tokens":1024,"max_image_bytes":5242880,"max_queue":1024,"request_timeout_s":30.0},"executor":{"in_flight":0,"block_reuse":false,"chunked_context":false},"latency":{"completed":0,"rejected":{"413":0,"429":0,"504":0,"500":0},"n":0}}
+H_sq_short_OK
+=== H_START tag=pcf_reuse_long engine=qwenvl_engine_bs96_fp16kv_pcf env=[MLLM_MAX_QUEUE=1024 MLLM_KV_BLOCK_REUSE=1 MLLM_CHUNKED_CONTEXT=1] 00:39:57 ===
+{"status":"ok","mode":"text_only","backend":"executor","engine":{"max_batch_size":96,"max_input_len":1024,"max_output_len":256,"max_num_tokens":16384,"paged_context_fmha":true,"quant_algo":"W4A16","kv_cache_quant_algo":null},"limits":{"max_new_tokens":256,"max_input_tokens":1024,"max_image_bytes":5242880,"max_queue":1024,"request_timeout_s":30.0},"executor":{"in_flight":0,"block_reuse":true,"chunked_context":true},"latency":{"completed":0,"rejected":{"413":0,"429":0,"504":0,"500":0},"n":0}}
+H_pcf_reuse_long_OK
+=== H_START tag=limits engine=qwenvl_engine_bs96_mnt16k env=[MLLM_MAX_QUEUE=8 MLLM_MAX_INPUT_TOKENS=64] 00:41:13 ===
+{"status":"ok","mode":"text_only","backend":"executor","engine":{"max_batch_size":96,"max_input_len":1024,"max_output_len":256,"max_num_tokens":16384,"paged_context_fmha":false,"quant_algo":"W4A16","kv_cache_quant_algo":"INT8"},"limits":{"max_new_tokens":256,"max_input_tokens":64,"max_image_bytes":5242880,"max_queue":8,"request_timeout_s":30.0},"executor":{"in_flight":0,"block_reuse":false,"chunked_context":false},"latency":{"completed":0,"rejected":{"413":0,"429":0,"504":0,"500":0},"n":0}}
+H_limits_OK
+=== H_DONE 00:41:40 ===

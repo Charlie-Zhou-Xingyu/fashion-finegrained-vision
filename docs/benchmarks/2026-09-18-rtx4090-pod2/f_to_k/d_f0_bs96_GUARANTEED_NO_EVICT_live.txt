@@ -1,0 +1,8 @@
+### f0_bs96 policy=GUARANTEED_NO_EVICT block_reuse=False chunked=False engine={'max_batch_size': 96, 'max_input_len': 1024, 'max_output_len': 256, 'max_num_tokens': 16384, 'max_beam_width': 1} end_id=151643
+[load] executor ready in 7.1s
+[W5 shared-prefix in= 960 (prefix=900) n=  8] trials=[1.591, 1.591] mean=1.591s QPS=5.03 prompt_tok/s=4827 p50=1.591s max=1.591s peak_active=8 kv_blocks=136/935 queued_peak=0
+[W5 shared-prefix in= 960 (prefix=900) n= 32] trials=[5.416, 5.417] mean=5.416s QPS=5.91 prompt_tok/s=5672 p50=5.405s max=5.417s peak_active=32 kv_blocks=544/935 queued_peak=15
+[W5 shared-prefix in= 960 (prefix=900) n= 96] trials=[15.742, 15.751] mean=15.746s QPS=6.10 prompt_tok/s=5853 p50=13.142s max=15.751s peak_active=96 kv_blocks=935/935 queued_peak=79
+[sample] ' \n这个问题没有提供足够的信息来确定外套的面料。需要更多的信息，例如颜色、款式、品牌等。请提供更多的信息以便于确定外套的面料。 \n如果您需要帮助确定'
+[done] results -> /workspace/trtllm_work/logs/executor_f0_bs96_GUARANTEED_NO_EVICT.json
+D_RUN_OK

@@ -1,0 +1,13 @@
+### i2c_pcf_chunked policy=GUARANTEED_NO_EVICT block_reuse=False chunked=True engine={'max_batch_size': 96, 'max_input_len': 1024, 'max_output_len': 256, 'max_num_tokens': 16384, 'max_beam_width': 1} end_id=151643
+[load] executor ready in 6.3s
+[W3 burst-long in= 500 n=  8] trials=[1.279, 1.281] mean=1.280s QPS=6.25 prefill_tok/s=3124 p50=1.281s max=1.281s peak_active=8 kv_blocks=80/468 queued_peak=0
+[W3 burst-long in= 500 n= 32] trials=[3.686, 3.687] mean=3.687s QPS=8.68 prefill_tok/s=4340 p50=3.687s max=3.687s peak_active=32 kv_blocks=320/468 queued_peak=0
+[W3 burst-long in=500 n=96] ERROR RuntimeError: request 151: Encountered an error in forwardAsync function: [TensorRT-LLM][ERROR] Assertion failed: Tensor 'tasks' has invalid shape (16500), expected (-1) (/ho
+[W3 burst-long in=1000 n=  8] trials=[1.847, 1.847] mean=1.847s QPS=4.33 prefill_tok/s=4332 p50=1.847s max=1.847s peak_active=8 kv_blocks=144/468 queued_peak=0
+[W3 burst-long in=1000 n=32] ERROR RuntimeError: request 232: Encountered an error in forwardAsync function: [TensorRT-LLM][ERROR] Assertion failed: Tensor 'tasks' has invalid shape (17000), expected (-1) (/ho
+[W3 burst-long in=1000 n=96] ERROR RuntimeError: request 293: Encountered an error in forwardAsync function: [TensorRT-LLM][ERROR] Assertion failed: Tensor 'tasks' has invalid shape (17000), expected (-1) (/ho
+[W4 closed-loop C= 64 T=30s] QPS=54.52 tok/s=5452 p50=1.183s p95=1.186s max=1.187s done=1664 peak_active=64 peak_sched=64 mean_active=63.4 queued_peak=0 kv_blocks=128/468 mean_iter_ms=11.72
+[W4 closed-loop C= 96 T=30s] QPS=59.81 tok/s=5981 p50=1.662s p95=1.665s max=1.666s done=1807 peak_active=96 peak_sched=96 mean_active=93.9 queued_peak=0 kv_blocks=192/468 mean_iter_ms=16.39
+[sample] ' \n这个问题无法回答，因为缺少关于外套的详细描述。请提供更多关于外套的描述，例如颜色、款式、长度、厚度等信息，以便于回答。 \n例如，如果这件'
+[done] results -> /workspace/trtllm_work/logs/executor_i2c_pcf_chunked_GUARANTEED_NO_EVICT.json
+D_RUN_OK

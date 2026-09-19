@@ -1,0 +1,56 @@
+{
+ "engine": {
+  "max_batch_size": 96,
+  "max_input_len": 1024,
+  "max_output_len": 256,
+  "max_num_tokens": 16384,
+  "max_beam_width": 1
+ },
+ "policy": "GUARANTEED_NO_EVICT",
+ "W4_C64": {
+  "C": 64,
+  "duration_s": 30.0,
+  "wall_s": 30.81,
+  "completed_total": 1664,
+  "completed_in_window": 1472,
+  "qps_window": 54.52,
+  "tok_s_window": 5452.0,
+  "p50_s": 1.185,
+  "p95_s": 1.187,
+  "max_s": 1.188,
+  "iter": {
+   "iters": 2626,
+   "peak_active": 64,
+   "mean_active": 63.4,
+   "peak_scheduled": 64,
+   "peak_queued": 0,
+   "peak_kv_blocks": 128,
+   "max_kv_blocks": 468,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 11.73
+  }
+ },
+ "W4_C96": {
+  "C": 96,
+  "duration_s": 30.0,
+  "wall_s": 31.63,
+  "completed_total": 1816,
+  "completed_in_window": 1624,
+  "qps_window": 60.15,
+  "tok_s_window": 6015.0,
+  "p50_s": 1.665,
+  "p95_s": 1.667,
+  "max_s": 1.668,
+  "iter": {
+   "iters": 1923,
+   "peak_active": 96,
+   "mean_active": 94.4,
+   "peak_scheduled": 96,
+   "peak_queued": 0,
+   "peak_kv_blocks": 192,
+   "max_kv_blocks": 468,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 16.45
+  }
+ }
+}

@@ -1,0 +1,20 @@
+### g2a_pcf_plain policy=GUARANTEED_NO_EVICT block_reuse=False chunked=False engine={'max_batch_size': 96, 'max_input_len': 1024, 'max_output_len': 256, 'max_num_tokens': 16384, 'max_beam_width': 1} end_id=151643
+[load] executor ready in 6.5s
+[W1 burst-short n=  1] trials=[0.641, 0.612, 0.613] mean=0.622s QPS=1.61 tok/s=161 p50=0.613s max=0.613s peak_active=1 kv_blocks=2/468 iters=100
+[W1 burst-short n=  8] trials=[0.717, 0.715, 0.716] mean=0.716s QPS=11.18 tok/s=1118 p50=0.716s max=0.716s peak_active=8 kv_blocks=16/468 iters=100
+[W1 burst-short n= 32] trials=[0.838, 0.84, 0.838] mean=0.838s QPS=38.17 tok/s=3817 p50=0.838s max=0.838s peak_active=32 kv_blocks=64/468 iters=100
+[W1 burst-short n= 96] trials=[1.675, 1.676, 1.676] mean=1.675s QPS=57.30 tok/s=5730 p50=1.676s max=1.676s peak_active=96 kv_blocks=192/468 iters=100
+[W3 burst-long in= 500 n=  8] trials=[1.283, 1.283] mean=1.283s QPS=6.24 prefill_tok/s=3118 p50=1.283s max=1.283s peak_active=8 kv_blocks=80/468 queued_peak=0
+[W3 burst-long in= 500 n= 32] trials=[3.688, 3.688] mean=3.688s QPS=8.68 prefill_tok/s=4338 p50=3.688s max=3.688s peak_active=32 kv_blocks=320/468 queued_peak=0
+[W3 burst-long in= 500 n= 96] trials=[10.636, 10.639] mean=10.637s QPS=9.02 prefill_tok/s=4512 p50=9.721s max=10.639s peak_active=96 kv_blocks=460/468 queued_peak=64
+[W3 burst-long in=1000 n=  8] trials=[1.849, 1.849] mean=1.849s QPS=4.33 prefill_tok/s=4327 p50=1.849s max=1.849s peak_active=8 kv_blocks=144/468 queued_peak=0
+[W3 burst-long in=1000 n= 32] trials=[6.705, 6.697] mean=6.701s QPS=4.78 prefill_tok/s=4776 p50=5.669s max=6.697s peak_active=32 kv_blocks=468/468 queued_peak=16
+[W3 burst-long in=1000 n= 96] trials=[19.357, 19.361] mean=19.359s QPS=4.96 prefill_tok/s=4959 p50=12.289s max=19.361s peak_active=96 kv_blocks=468/468 queued_peak=80
+[W4 closed-loop C= 64 T=30s] QPS=54.52 tok/s=5452 p50=1.187s p95=1.189s max=1.190s done=1664 peak_active=64 peak_sched=64 mean_active=63.4 queued_peak=0 kv_blocks=128/468 mean_iter_ms=11.76
+[W4 closed-loop C= 96 T=30s] QPS=60.44 tok/s=6044 p50=1.665s p95=1.667s max=1.668s done=1824 peak_active=96 peak_sched=96 mean_active=95.0 queued_peak=0 kv_blocks=192/468 mean_iter_ms=16.49
+[W5 shared-prefix in= 960 (prefix=900) n=  8] trials=[1.814, 1.813] mean=1.813s QPS=4.41 prompt_tok/s=4235 p50=1.813s max=1.813s peak_active=8 kv_blocks=136/468 queued_peak=0
+[W5 shared-prefix in= 960 (prefix=900) n= 32] trials=[6.546, 6.543] mean=6.544s QPS=4.89 prompt_tok/s=4694 p50=5.147s max=6.543s peak_active=32 kv_blocks=459/468 queued_peak=15
+[W5 shared-prefix in= 960 (prefix=900) n= 96] trials=[18.723, 18.723] mean=18.723s QPS=5.13 prompt_tok/s=4922 p50=12.374s max=18.723s peak_active=96 kv_blocks=459/468 queued_peak=79
+[sample] ' \n这个问题无法回答，因为缺少关于外套的详细描述。请提供更多关于外套的描述，例如颜色、款式、长度、厚度等信息，以便于回答。 \n例如，如果这件'
+[done] results -> /workspace/trtllm_work/logs/executor_g2a_pcf_plain_GUARANTEED_NO_EVICT.json
+D_RUN_OK

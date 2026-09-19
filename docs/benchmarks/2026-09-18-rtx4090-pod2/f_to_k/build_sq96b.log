@@ -1,0 +1,145 @@
+[TensorRT-LLM] TensorRT-LLM version: 0.10.0
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set bert_attention_plugin to float16.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set gpt_attention_plugin to float16.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set gemm_plugin to float16.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set nccl_plugin to float16.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set lookup_plugin to float16.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set lora_plugin to None.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set moe_plugin to float16.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set mamba_conv1d_plugin to float16.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set context_fmha to True.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set context_fmha_fp32_acc to False.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set paged_kv_cache to True.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set remove_input_padding to True.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set use_custom_all_reduce to True.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set multi_block_mode to False.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set enable_xqa to True.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set attention_qk_half_accumulation to False.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set tokens_per_block to 64.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set use_paged_context_fmha to False.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set use_fp8_context_fmha to False.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set use_context_fmha_for_generation to False.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set multiple_profiles to False.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set paged_state to True.
+[09/19/2026-00:17:50] [TRT-LLM] [I] Set streamingllm to False.
+[09/19/2026-00:17:50] [TRT-LLM] [W] remove_input_padding is enabled, while opt_num_tokens is not set, setting to max_batch_size*max_beam_width. 
+
+[09/19/2026-00:17:50] [TRT-LLM] [I] Compute capability: (8, 9)
+[09/19/2026-00:17:50] [TRT-LLM] [I] SM count: 128
+[09/19/2026-00:17:50] [TRT-LLM] [I] SM clock: 3105 MHz
+[09/19/2026-00:17:50] [TRT-LLM] [I] int4 TFLOPS: 813
+[09/19/2026-00:17:50] [TRT-LLM] [I] int8 TFLOPS: 406
+[09/19/2026-00:17:50] [TRT-LLM] [I] fp8 TFLOPS: 406
+[09/19/2026-00:17:50] [TRT-LLM] [I] float16 TFLOPS: 203
+[09/19/2026-00:17:50] [TRT-LLM] [I] bfloat16 TFLOPS: 203
+[09/19/2026-00:17:50] [TRT-LLM] [I] float32 TFLOPS: 101
+[09/19/2026-00:17:50] [TRT-LLM] [I] Total Memory: 23 GiB
+[09/19/2026-00:17:50] [TRT-LLM] [I] Memory clock: 10501 MHz
+[09/19/2026-00:17:50] [TRT-LLM] [I] Memory bus width: 384
+[09/19/2026-00:17:50] [TRT-LLM] [I] Memory bandwidth: 1008 GB/s
+[09/19/2026-00:17:50] [TRT-LLM] [I] PCIe speed: 2500 Mbps
+[09/19/2026-00:17:50] [TRT-LLM] [I] PCIe link width: 16
+[09/19/2026-00:17:50] [TRT-LLM] [I] PCIe bandwidth: 5 GB/s
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT-LLM] [W] Parameter was initialized as DataType.HALF but set to DataType.FLOAT
+[09/19/2026-00:17:50] [TRT] [I] [MemUsageChange] Init CUDA: CPU +33, GPU +0, now: CPU 281, GPU 395 (MiB)
+[09/19/2026-00:17:53] [TRT] [I] [MemUsageChange] Init builder kernel library: CPU +1774, GPU +314, now: CPU 2191, GPU 709 (MiB)
+[09/19/2026-00:17:53] [TRT] [W] profileSharing0806 is on by default in TensorRT 10.0. This flag is deprecated and has no effect.
+[09/19/2026-00:17:53] [TRT-LLM] [I] Set smooth_quant_gemm_plugin to float16.
+[09/19/2026-00:17:53] [TRT-LLM] [I] Set rmsnorm_quantization_plugin to float16.
+[09/19/2026-00:17:53] [TRT-LLM] [I] Set layernorm_quantization_plugin to float16.
+[09/19/2026-00:17:53] [TRT-LLM] [I] Set quantize_per_token_plugin to True.
+[09/19/2026-00:17:53] [TRT-LLM] [I] Set quantize_tensor_plugin to True.
+[09/19/2026-00:17:53] [TRT-LLM] [I] Set nccl_plugin to None.
+[09/19/2026-00:17:53] [TRT-LLM] [I] Set use_custom_all_reduce to True.
+[09/19/2026-00:17:53] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/31/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/ln_f/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/19/2026-00:17:53] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/ln_f/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/ln_f/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/19/2026-00:17:53] [TRT-LLM] [I] Build TensorRT engine Unnamed Network 0
+[09/19/2026-00:17:53] [TRT] [W] Unused Input: position_ids
+[09/19/2026-00:17:53] [TRT] [W] Calibrator is not being used. Users must provide dynamic range for all tensors that are not Int32 or Bool.
+[09/19/2026-00:17:53] [TRT] [W] Detected layernorm nodes in FP16.
+[09/19/2026-00:17:53] [TRT] [W] Running layernorm after self-attention in FP16 may cause overflow. Exporting the model to the latest available ONNX opset (later than opset 17) to use the INormalizationLayer, or forcing layernorm layers to run in FP32 precision can help with preserving accuracy.
+[09/19/2026-00:17:53] [TRT] [W] [RemoveDeadLayers] Input Tensor position_ids is unused or used only at compile-time, but is not being removed.
+[09/19/2026-00:17:53] [TRT] [I] Global timing cache in use. Profiling results in this builder pass will be stored.
+[09/19/2026-00:18:45] [TRT] [I] [GraphReduction] The approximate region cut reduction algorithm is called.
+[09/19/2026-00:18:45] [TRT] [I] Detected 17 inputs and 1 output network tensors.
+[09/19/2026-00:18:55] [TRT] [I] Total Host Persistent Memory: 246368
+[09/19/2026-00:18:55] [TRT] [I] Total Device Persistent Memory: 0
+[09/19/2026-00:18:55] [TRT] [I] Total Scratch Memory: 268500992
+[09/19/2026-00:18:55] [TRT] [I] [BlockAssignment] Started assigning block shifts. This will take 980 steps to complete.
+[09/19/2026-00:18:56] [TRT] [I] [BlockAssignment] Algorithm ShiftNTopDown took 97.1001ms to assign 17 blocks to 980 nodes requiring 1303975424 bytes.
+[09/19/2026-00:18:56] [TRT] [I] Total Activation Memory: 1303975424
+[09/19/2026-00:18:56] [TRT] [I] Total Weights Memory: 8978358272
+[09/19/2026-00:19:31] [TRT] [I] Engine generation completed in 97.506 seconds.
+[09/19/2026-00:19:31] [TRT] [I] [MemUsageStats] Peak memory usage of TRT CPU/GPU memory allocators: CPU 48 MiB, GPU 8563 MiB
+[09/19/2026-00:19:36] [TRT] [I] [MemUsageStats] Peak memory usage during Engine building and serialization: CPU: 21355 MiB
+[09/19/2026-00:19:36] [TRT-LLM] [I] Total time of building Unnamed Network 0: 00:01:42
+[09/19/2026-00:19:36] [TRT] [I] Serialized 26 bytes of code generator cache.
+[09/19/2026-00:19:36] [TRT] [I] Serialized 99048 bytes of compilation cache.
+[09/19/2026-00:19:36] [TRT] [I] Serialized 99 timing cache entries
+[09/19/2026-00:19:36] [TRT-LLM] [I] Timing cache serialized to model.cache
+[09/19/2026-00:19:36] [TRT-LLM] [I] Serializing engine to /workspace/trtllm_work/qwenvl_engine_sq_bs96/rank0.engine...
+[09/19/2026-00:19:37] [TRT-LLM] [I] Engine serialized. Total time: 00:00:01
+[09/19/2026-00:19:38] [TRT-LLM] [I] Total time of building all engines: 00:01:48

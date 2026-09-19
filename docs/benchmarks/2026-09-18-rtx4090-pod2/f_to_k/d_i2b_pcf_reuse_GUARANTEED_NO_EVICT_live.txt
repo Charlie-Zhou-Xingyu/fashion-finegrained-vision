@@ -1,0 +1,14 @@
+### i2b_pcf_reuse policy=GUARANTEED_NO_EVICT block_reuse=True chunked=False engine={'max_batch_size': 96, 'max_input_len': 1024, 'max_output_len': 256, 'max_num_tokens': 16384, 'max_beam_width': 1} end_id=151643
+[load] executor ready in 6.3s
+[W3 burst-long in=500 n=8] ERROR RuntimeError: request 24: Encountered an error in forwardAsync function: Invalid input shape (/home/jenkins/agent/workspace/LLM/release-0.10/L0_PostMerge/tensorrt_llm/cpp/ten
+[W3 burst-long in=500 n=32] ERROR RuntimeError: request 56: Encountered an error in forwardAsync function: Invalid input shape (/home/jenkins/agent/workspace/LLM/release-0.10/L0_PostMerge/tensorrt_llm/cpp/ten
+[W3 burst-long in=500 n=96] ERROR RuntimeError: request 152: Encountered an error in forwardAsync function: Invalid input shape (/home/jenkins/agent/workspace/LLM/release-0.10/L0_PostMerge/tensorrt_llm/cpp/te
+[W3 burst-long in=1000 n=8] ERROR RuntimeError: request 160: Encountered an error in forwardAsync function: Invalid input shape (/home/jenkins/agent/workspace/LLM/release-0.10/L0_PostMerge/tensorrt_llm/cpp/te
+[W3 burst-long in=1000 n=32] ERROR RuntimeError: request 192: Encountered an error in forwardAsync function: Invalid input shape (/home/jenkins/agent/workspace/LLM/release-0.10/L0_PostMerge/tensorrt_llm/cpp/te
+[W3 burst-long in=1000 n=96] ERROR RuntimeError: request 239: Encountered an error in forwardAsync function: Invalid input shape (/home/jenkins/agent/workspace/LLM/release-0.10/L0_PostMerge/tensorrt_llm/cpp/te
+[W5 shared-prefix n=8] ERROR RuntimeError: request 296: Encountered an error in forwardAsync function: Invalid input shape (/home/jenkins/agent/workspace/LLM/release-0.10/L0_PostMerge/tensorrt_llm/cpp/te
+[W5 shared-prefix n=32] ERROR RuntimeError: request 328: Encountered an error in forwardAsync function: Invalid input shape (/home/jenkins/agent/workspace/LLM/release-0.10/L0_PostMerge/tensorrt_llm/cpp/te
+[W5 shared-prefix n=96] ERROR RuntimeError: request 380: Encountered an error in forwardAsync function: Invalid input shape (/home/jenkins/agent/workspace/LLM/release-0.10/L0_PostMerge/tensorrt_llm/cpp/te
+[sample] ' \n这个问题无法回答，因为缺少关于外套的详细描述。请提供更多关于外套的描述，例如颜色、款式、长度、厚度等信息，以便于回答。 \n例如，如果这件'
+[done] results -> /workspace/trtllm_work/logs/executor_i2b_pcf_reuse_GUARANTEED_NO_EVICT.json
+D_RUN_OK

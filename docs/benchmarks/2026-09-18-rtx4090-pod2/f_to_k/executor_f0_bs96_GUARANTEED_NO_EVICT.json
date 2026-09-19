@@ -1,0 +1,67 @@
+{
+ "engine": {
+  "max_batch_size": 96,
+  "max_input_len": 1024,
+  "max_output_len": 256,
+  "max_num_tokens": 16384,
+  "max_beam_width": 1
+ },
+ "policy": "GUARANTEED_NO_EVICT",
+ "W5_n8": {
+  "trials": [
+   1.591088632994797,
+   1.5907915309944656
+  ],
+  "qps": 5.028473473350454,
+  "prompt_len": 960,
+  "iter": {
+   "iters": 100,
+   "peak_active": 8,
+   "mean_active": 8.0,
+   "peak_scheduled": 8,
+   "peak_queued": 0,
+   "peak_kv_blocks": 136,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 15.91
+  }
+ },
+ "W5_n32": {
+  "trials": [
+   5.415598337014671,
+   5.416866493993439
+  ],
+  "qps": 5.90816596208085,
+  "prompt_len": 960,
+  "iter": {
+   "iters": 101,
+   "peak_active": 32,
+   "mean_active": 31.8,
+   "peak_scheduled": 32,
+   "peak_queued": 15,
+   "peak_kv_blocks": 544,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 53.63
+  }
+ },
+ "W5_n96": {
+  "trials": [
+   15.742163060000166,
+   15.750700645003235
+  ],
+  "qps": 6.096619278528683,
+  "prompt_len": 960,
+  "iter": {
+   "iters": 202,
+   "peak_active": 96,
+   "mean_active": 68.3,
+   "peak_scheduled": 55,
+   "peak_queued": 79,
+   "peak_kv_blocks": 935,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 77.97
+  }
+ }
+}

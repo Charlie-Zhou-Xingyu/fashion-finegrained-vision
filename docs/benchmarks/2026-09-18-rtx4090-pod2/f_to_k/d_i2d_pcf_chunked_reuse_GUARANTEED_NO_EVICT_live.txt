@@ -1,0 +1,16 @@
+### i2d_pcf_chunked_reuse policy=GUARANTEED_NO_EVICT block_reuse=True chunked=True engine={'max_batch_size': 96, 'max_input_len': 1024, 'max_output_len': 256, 'max_num_tokens': 16384, 'max_beam_width': 1} end_id=151643
+[load] executor ready in 6.4s
+[W3 burst-long in=500 n=8] ERROR RuntimeError: request 24: Encountered an error in forwardAsync function: Invalid input shape (/home/jenkins/agent/workspace/LLM/release-0.10/L0_PostMerge/tensorrt_llm/cpp/ten
+[W3 burst-long in=500 n=32] ERROR RuntimeError: request 56: Encountered an error in forwardAsync function: Invalid input shape (/home/jenkins/agent/workspace/LLM/release-0.10/L0_PostMerge/tensorrt_llm/cpp/ten
+[W3 burst-long in=500 n=96] ERROR RuntimeError: request 152: Encountered an error in forwardAsync function: [TensorRT-LLM][ERROR] Assertion failed: Tensor 'tasks' has invalid shape (16500), expected (-1) (/ho
+[W3 burst-long in=1000 n=8] ERROR RuntimeError: request 160: Encountered an error in forwardAsync function: Invalid input shape (/home/jenkins/agent/workspace/LLM/release-0.10/L0_PostMerge/tensorrt_llm/cpp/te
+[W3 burst-long in=1000 n=32] ERROR RuntimeError: request 192: Encountered an error in forwardAsync function: [TensorRT-LLM][ERROR] Assertion failed: Tensor 'tasks' has invalid shape (17000), expected (-1) (/ho
+[W3 burst-long in=1000 n=96] ERROR RuntimeError: request 238: Encountered an error in forwardAsync function: [TensorRT-LLM][ERROR] Assertion failed: Tensor 'tasks' has invalid shape (17000), expected (-1) (/ho
+[W4 closed-loop C= 64 T=30s] QPS=54.52 tok/s=5452 p50=1.185s p95=1.187s max=1.188s done=1664 peak_active=64 peak_sched=64 mean_active=63.4 queued_peak=0 kv_blocks=128/468 mean_iter_ms=11.73
+[W4 closed-loop C= 96 T=30s] QPS=60.15 tok/s=6015 p50=1.665s p95=1.667s max=1.668s done=1816 peak_active=96 peak_sched=96 mean_active=94.4 queued_peak=0 kv_blocks=192/468 mean_iter_ms=16.45
+[W5 shared-prefix n=8] ERROR RuntimeError: request 3784: Encountered an error in forwardAsync function: Invalid input shape (/home/jenkins/agent/workspace/LLM/release-0.10/L0_PostMerge/tensorrt_llm/cpp/t
+[W5 shared-prefix n=32] ERROR RuntimeError: request 3816: Encountered an error in forwardAsync function: [TensorRT-LLM][ERROR] Assertion failed: mNextBlocks.empty() (/home/jenkins/agent/workspace/LLM/rele
+[W5 shared-prefix n=96] ERROR RuntimeError: request 3884: Encountered an error in forwardAsync function: [TensorRT-LLM][ERROR] Assertion failed: mNextBlocks.empty() (/home/jenkins/agent/workspace/LLM/rele
+[sample] ' \n这个问题无法回答，因为缺少关于外套的详细描述。请提供更多关于外套的描述，例如颜色、款式、长度、厚度等信息，以便于回答。 \n例如，如果这件'
+[done] results -> /workspace/trtllm_work/logs/executor_i2d_pcf_chunked_reuse_GUARANTEED_NO_EVICT.json
+D_RUN_OK

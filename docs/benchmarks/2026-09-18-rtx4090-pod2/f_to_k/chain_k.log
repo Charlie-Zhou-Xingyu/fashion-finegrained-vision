@@ -1,0 +1,17 @@
+=== K_START 00:53:40 ===
+overlay          90G   71G   20G  78% /
+CONVERT_OK
+BUILD_TEXTONLY_PCF_OK
+=== D_START tag=k_text_plain policy=GUARANTEED_NO_EVICT 00:56:30 ===
+D_k_text_plain_GUARANTEED_NO_EVICT_OK
+1 MiB
+=== D_START tag=k_text_reuse policy=GUARANTEED_NO_EVICT 00:59:30 ===
+D_k_text_reuse_GUARANTEED_NO_EVICT_OK
+1 MiB
+=== D_START tag=k_text_chunked policy=GUARANTEED_NO_EVICT 01:00:29 ===
+D_k_text_chunked_GUARANTEED_NO_EVICT_OK
+1 MiB
+=== D_START tag=k_text_chunked_reuse policy=GUARANTEED_NO_EVICT 01:03:10 ===
+D_k_text_chunked_reuse_GUARANTEED_NO_EVICT_OK
+1 MiB
+=== K_DONE 01:04:09 ===

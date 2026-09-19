@@ -66,12 +66,23 @@ def build_long(tok, n_tokens):
 
 # ── executor plumbing ─────────────────────────────────────────────────────────
 
-def make_executor(ex, engine_dir, policy, kv_fraction):
+def make_executor(ex, engine_dir, policy, kv_fraction, block_reuse=False, chunked=False):
     sched = ex.SchedulerConfig(getattr(ex.CapacitySchedulerPolicy, policy))
-    kv = ex.KvCacheConfig(free_gpu_memory_fraction=kv_fraction) if kv_fraction else ex.KvCacheConfig()
-    cfg = ex.ExecutorConfig(max_beam_width=1, scheduler_config=sched, kv_cache_config=kv,
+    kv_kw = {"enable_block_reuse": bool(block_reuse)}
+    if kv_fraction:
+        kv_kw["free_gpu_memory_fraction"] = kv_fraction
+    cfg = ex.ExecutorConfig(max_beam_width=1, scheduler_config=sched, kv_cache_config=ex.KvCacheConfig(**kv_kw),
+                            enable_chunked_context=bool(chunked),
                             batching_type=ex.BatchingType.INFLIGHT, iter_stats_max_iterations=200000)
     return ex.Executor(engine_dir, ex.ModelType.DECODER_ONLY, cfg)
+
+
+def build_shared_prefix(tok, prefix_tokens, question):
+    """PRD-shaped request: a prefix shared by every request (system + RAG knowledge, ~prefix_tokens)
+    followed by a per-request tail (attribute JSON + the user's question)."""
+    prefix_ids = tok.encode(SYSTEM + (KNOWLEDGE * 20))[:prefix_tokens]
+    tail_ids = tok.encode("\n商品属性：" + ATTRS + "\n用户问题：" + question + "\n请专业作答。")
+    return prefix_ids + tail_ids
 
 
 def make_request(ex, ids, n_new, end_id):
@@ -114,12 +125,23 @@ def iteration_summary(executor, wall=None):
     }
 
 
+def error_text(r):
+    """0.10's Response exposes the error as an attribute, not the get_error_msg() the examples show."""
+    for name in ("error_msg", "get_error_msg"):
+        v = getattr(r, name, None)
+        if v is not None:
+            return v() if callable(v) else v
+    return "<no error text exposed>"
+
+
 def drain(executor, want, t_enq, on_final):
     got = 0
     while got < want:
         for r in executor.await_responses(datetime.timedelta(milliseconds=5000)):
+            if r.request_id not in t_enq:
+                continue                                   # stale response from an aborted burst
             if r.has_error():
-                raise RuntimeError(f"request {r.request_id}: {r.get_error_msg()}")
+                raise RuntimeError(f"request {r.request_id}: {error_text(r)}")
             if r.result.is_final:
                 got += 1
                 on_final(r)
@@ -163,8 +185,10 @@ def run_closed_loop(ex, executor, ids, n_new, end_id, C, duration, warm=3.0):
         submit()
     while t_enq:
         for r in executor.await_responses(datetime.timedelta(milliseconds=1000)):
+            if r.request_id not in t_enq:
+                continue
             if r.has_error():
-                raise RuntimeError(f"request {r.request_id}: {r.get_error_msg()}")
+                raise RuntimeError(f"request {r.request_id}: {error_text(r)}")
             if r.result.is_final:
                 now = time.perf_counter()
                 done.append((now, now - t_enq.pop(r.request_id), len(r.result.output_token_ids[0])))
@@ -194,8 +218,11 @@ def main():
     ap.add_argument("--concurrency", default="16,32,64,96,128")
     ap.add_argument("--duration", type=float, default=30.0)
     ap.add_argument("--kv-fraction", type=float, default=0.0, help="0 = executor default")
-    ap.add_argument("--skip", default="", help="comma list of W1,W2,W3,W4 to skip")
+    ap.add_argument("--skip", default="", help="comma list of W1,W2,W3,W4,W5 to skip")
     ap.add_argument("--tag", default="")
+    ap.add_argument("--block-reuse", action="store_true", help="KvCacheConfig(enable_block_reuse=True) — prefix caching")
+    ap.add_argument("--chunked", action="store_true", help="ExecutorConfig(enable_chunked_context=True); engine needs paged context FMHA")
+    ap.add_argument("--w5-prefix", type=int, default=900, help="shared-prefix length in tokens for W5")
     args = ap.parse_args()
     skip = set(x for x in args.skip.split(",") if x)
 
@@ -214,10 +241,12 @@ def main():
         bc = json.load(fh).get("build_config", {})
     engine_meta = {k: bc.get(k) for k in ("max_batch_size", "max_input_len", "max_output_len",
                                           "max_num_tokens", "max_beam_width")}
-    log(f"### {args.tag or os.path.basename(args.engine_dir)} policy={args.policy} engine={engine_meta} end_id={end_id}")
+    log(f"### {args.tag or os.path.basename(args.engine_dir)} policy={args.policy} block_reuse={args.block_reuse} "
+        f"chunked={args.chunked} engine={engine_meta} end_id={end_id}")
 
     t0 = time.perf_counter()
-    executor = make_executor(ex, args.engine_dir, args.policy, args.kv_fraction)
+    executor = make_executor(ex, args.engine_dir, args.policy, args.kv_fraction,
+                             block_reuse=args.block_reuse, chunked=args.chunked)
     assert executor.can_enqueue_requests()
     log(f"[load] executor ready in {time.perf_counter()-t0:.1f}s")
 
@@ -292,6 +321,28 @@ def main():
                 f"peak_active={it['peak_active']} peak_sched={it['peak_scheduled']} mean_active={it['mean_active']} "
                 f"queued_peak={it['peak_queued']} kv_blocks={it['peak_kv_blocks']}/{it['max_kv_blocks']} "
                 f"mean_iter_ms={it['mean_iter_ms']}")
+
+    if "W5" not in skip:
+        # PRD-shaped: shared ~900-token prefix, distinct question per request. With block reuse the
+        # prefix prefill is paid once per cache lifetime; without it, once per request.
+        prompts = [build_shared_prefix(tok, args.w5_prefix, PROMPTS[i % 8]) for i in range(8)]
+        plen = len(prompts[0])
+        for n in sorted({8, 32, args.n}):
+            reqs_fn = lambda: [make_request(ex, prompts[i % 8], 100, end_id) for i in range(n)]
+            trials, its = [], None
+            try:
+                run_burst(ex, executor, reqs_fn())          # warm the prefix cache (if enabled)
+                for _ in range(2):
+                    wall, lat, ntok, its = run_burst(ex, executor, reqs_fn())
+                    trials.append(wall)
+            except Exception as e:
+                log(f"[W5 shared-prefix n={n}] ERROR {type(e).__name__}: {str(e)[:160]}")
+                continue
+            m = statistics.fmean(trials)
+            results[f"W5_n{n}"] = {"trials": trials, "qps": n / m, "prompt_len": plen, "iter": its}
+            log(f"[W5 shared-prefix in={plen:4d} (prefix={args.w5_prefix}) n={n:3d}] trials={[round(x,3) for x in trials]} "
+                f"mean={m:.3f}s QPS={n/m:.2f} prompt_tok/s={n*plen/m:.0f} p50={pct(lat,50):.3f}s max={pct(lat,100):.3f}s "
+                f"peak_active={its['peak_active']} kv_blocks={its['peak_kv_blocks']}/{its['max_kv_blocks']} queued_peak={its['peak_queued']}")
 
     # decode one output as a sanity check that we are generating text, not garbage
     rid = executor.enqueue_request(make_request(ex, short_ids[0], 40, end_id))

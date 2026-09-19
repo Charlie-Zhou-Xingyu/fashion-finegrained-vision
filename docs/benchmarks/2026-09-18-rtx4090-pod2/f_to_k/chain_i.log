@@ -1,0 +1,22 @@
+=== I_START 00:41:48 ===
+=== D_START tag=i2b_pcf_reuse policy=GUARANTEED_NO_EVICT 00:41:49 ===
+D_i2b_pcf_reuse_GUARANTEED_NO_EVICT_OK
+1 MiB
+=== D_START tag=i2c_pcf_chunked policy=GUARANTEED_NO_EVICT 00:42:02 ===
+D_i2c_pcf_chunked_GUARANTEED_NO_EVICT_OK
+1 MiB
+=== D_START tag=i2d_pcf_chunked_reuse policy=GUARANTEED_NO_EVICT 00:43:30 ===
+D_i2d_pcf_chunked_reuse_GUARANTEED_NO_EVICT_OK
+1 MiB
+=== I2_DONE 00:44:47 ===
+=== H_START tag=w4a16_short_min100 engine=qwenvl_engine_bs96_mnt16k env=[MLLM_MAX_QUEUE=1024] 00:44:47 ===
+H_w4a16_short_min100_OK
+=== H_START tag=w4a16_long2 engine=qwenvl_engine_bs96_mnt16k env=[MLLM_MAX_QUEUE=1024] 00:46:37 ===
+H_w4a16_long2_OK
+=== H_START tag=sq_long2 engine=qwenvl_engine_sq_bs96 env=[MLLM_MAX_QUEUE=1024] 00:47:57 ===
+H_sq_long2_OK
+=== H_START tag=pcf_reuse_long2 engine=qwenvl_engine_bs96_fp16kv_pcf env=[MLLM_MAX_QUEUE=1024 MLLM_KV_BLOCK_REUSE=1 MLLM_CHUNKED_CONTEXT=1] 00:49:19 ===
+H_pcf_reuse_long2_OK
+=== H_START tag=pcf_plain_long2 engine=qwenvl_engine_bs96_fp16kv_pcf env=[MLLM_MAX_QUEUE=1024] 00:50:34 ===
+H_pcf_plain_long2_OK
+=== I_DONE 00:52:00 ===

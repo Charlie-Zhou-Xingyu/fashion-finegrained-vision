@@ -1,0 +1,1 @@
+### f1a_bs96_reuse policy=GUARANTEED_NO_EVICT block_reuse=True chunked=False engine={'max_batch_size': 96, 'max_input_len': 1024, 'max_output_len': 256, 'max_num_tokens': 16384, 'max_beam_width': 1} end_id=151643

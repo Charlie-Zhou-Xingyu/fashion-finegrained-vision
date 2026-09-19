@@ -1,0 +1,20 @@
+=== F_START 00:12:02 ===
+=== F0 baseline W5 on bs96 (no reuse) ===
+=== D_START tag=f0_bs96 policy=GUARANTEED_NO_EVICT 00:12:03 ===
+D_f0_bs96_GUARANTEED_NO_EVICT_OK
+1 MiB
+=== F1a block reuse on bs96 (default engine, no paged-context FMHA) ===
+=== D_START tag=f1a_bs96_reuse policy=GUARANTEED_NO_EVICT 00:13:24 ===
+D_f1a_bs96_reuse_GUARANTEED_NO_EVICT_FAILED
+Traceback (most recent call last):
+RuntimeError: [TensorRT-LLM][ERROR] Assertion failed: When KV cache block reuse is set, model has to be built with paged context FMHA support (/home/jenkins/agent/workspace/LLM/release-0.10/L0_PostMerge/llm/cpp/tensorrt_llm/batch_manager/trtGptModelInflightBatching.cpp:111)
+1       0x72a6fb4f4203 tensorrt_llm::common::throwRuntimeError(char const*, int, std::string const&) + 82
+[57a978c98c8a:43194] Local abort after MPI_FINALIZE started completed successfully, but am not able to aggregate error messages, and not able to guarantee that all other processes were killed!
+1 MiB
+=== BUILD_PCF_START 00:13:34 ===
+BUILD_PCF_OK
+=== F3 SmoothQuant convert 00:13:37 ===
+SQ_CONVERT_OK
+=== BUILD_SQ96_START 00:17:41 ===
+BUILD_SQ96_OK
+=== F_DONE 00:17:45 ===

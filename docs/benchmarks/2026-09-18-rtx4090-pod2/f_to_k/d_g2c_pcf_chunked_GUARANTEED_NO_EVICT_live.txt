@@ -1,0 +1,13 @@
+### g2c_pcf_chunked policy=GUARANTEED_NO_EVICT block_reuse=False chunked=True engine={'max_batch_size': 96, 'max_input_len': 1024, 'max_output_len': 256, 'max_num_tokens': 16384, 'max_beam_width': 1} end_id=151643
+[load] executor ready in 6.3s
+[W3 burst-long in= 500 n=  8] trials=[1.281, 1.282] mean=1.282s QPS=6.24 prefill_tok/s=3121 p50=1.282s max=1.282s peak_active=8 kv_blocks=80/468 queued_peak=0
+[W3 burst-long in= 500 n= 32] trials=[3.686, 3.686] mean=3.686s QPS=8.68 prefill_tok/s=4341 p50=3.686s max=3.686s peak_active=32 kv_blocks=320/468 queued_peak=0
+[W3 burst-long in=500 n=96] ERROR AttributeError: 'tensorrt_llm.bindings.executor.Response' object has no attribute 'get_error_msg'
+[W3 burst-long in=1000 n=8] ERROR AttributeError: 'tensorrt_llm.bindings.executor.Response' object has no attribute 'get_error_msg'
+[W3 burst-long in=1000 n=32] ERROR AttributeError: 'tensorrt_llm.bindings.executor.Response' object has no attribute 'get_error_msg'
+[W3 burst-long in=1000 n=96] ERROR AttributeError: 'tensorrt_llm.bindings.executor.Response' object has no attribute 'get_error_msg'
+[W4 closed-loop C=64] ERROR AttributeError: 'tensorrt_llm.bindings.executor.Response' object has no attribute 'get_error_msg'
+[W4 closed-loop C=96] ERROR AttributeError: 'tensorrt_llm.bindings.executor.Response' object has no attribute 'get_error_msg'
+[sample] ' \n这个问题无法回答，因为缺少关于外套的详细描述。请提供更多关于外套的描述，例如颜色、款式、品牌等信息，以便于回答。 \n例如：“这件外套是什么颜色'
+[done] results -> /workspace/trtllm_work/logs/executor_g2c_pcf_chunked_GUARANTEED_NO_EVICT.json
+D_RUN_OK

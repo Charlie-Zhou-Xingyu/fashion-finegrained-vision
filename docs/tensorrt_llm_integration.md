@@ -532,6 +532,174 @@ hypothesis is now "the cliff was the oversized activation workspace
 still a hypothesis: nothing was profiled, and the two engines were not
 compared on the same pod.
 
+**D-7. GPU utilization (PRD §3.4 "≥ 75 %").** `nvidia-smi` sampled at
+200 ms during closed-loop runs on the bs64 engine: C=64 (saturated)
+**98.8 % mean, 98 % p10**, 448 W; C=8 (one eighth of capacity) **98.0 %**,
+310 W. The PRD's metric is trivially met and says nothing: `utilization.gpu`
+is "fraction of time any kernel is resident", and a bandwidth-bound decode
+loop keeps a kernel resident at every batch size. Power draw (310 → 448 W)
+and `mem_util` (84 % at C=8, 68 % at C=64 — the memory pipe is *busier* at
+small batch, exactly what bandwidth-bound means) are the numbers that
+actually separate the two regimes. Quote them together.
+
+**F — attacking the D-3 bottlenecks (prefill compute, KV capacity); partial.**
+PRD requests share a ~900-token prefix (system + RAG knowledge) and differ
+only in the tail, so prefix caching (`KvCacheConfig.enable_block_reuse`) is
+the obvious lever, and chunked context (`ExecutorConfig.enable_chunked_context`)
+the p95 lever. Two 0.10.0 facts learned the hard way, both runtime/builder
+assertions rather than documentation:
+1. `enable_block_reuse` **requires** an engine built with
+   `--use_paged_context_fmha enable` (executor construction aborts otherwise).
+2. `--use_paged_context_fmha` **refuses `--int8_kv_cache`** ("Paged Context
+   FMHA doesn't work with int8 kv cache currently").
+So in this release prefix caching / chunked context and INT8 KV cache are
+mutually exclusive: FP16 KV halves the ~60 k-token cache to ~30 k. Baseline
+for the comparison (bs96, INT8 KV, no reuse) on the shared-prefix workload
+W5 (in=960, 900 shared): n=8 5.03 QPS, n=32 5.91, n=96 6.10 — i.e. the same
+prefill wall as W3, as expected without reuse. The FP16-KV + paged-context
+engine runs (reuse / chunked / both, each against a plain control on the same
+engine) are in `docs/benchmarks/2026-09-18-rtx4090-pod2/` (`d_g2*_live.txt`).
+
+**F-3 / G-1. W8A8 SmoothQuant on the executor at bs96 — the largest real-input
+gain so far.** Same recipe as pod #1's SQ engine (patched `quantize.py`,
+`--smoothquant 0.5 --per_channel --per_token --int8_kv_cache`) rebuilt with
+`--max_num_tokens 16384`, bs96. Same workloads as D-3/D-4:
+
+| workload | W4A16 bs96 | **W8A8 bs96** | Δ |
+|---|---|---|---|
+| W1 short n=1 | 1.60 QPS / 624 ms | 0.97 / 1033 ms | −39 % (bandwidth-bound: INT8 weights read 2× the bytes of INT4) |
+| W1 short n=96 | 62.22 QPS | **66.20** | +6 % — the crossover pod #1 never reached at bs ≤ 64 |
+| W3 in=500 n=96 | 10.33 QPS / 5165 prefill tok/s | **17.18 / 8589** | **+66 %** |
+| W3 in=1000 n=96 | 5.91 / 5907 | **9.85 / 9846** | **+67 %** |
+| W5 shared-prefix n=32 | 5.91 | **10.03** | +70 % |
+| W4 closed-loop C=64 / C=96 | 56.89 / 64.00 | 47.41 / 64.00 | C=64 −17 %, C=96 equal |
+
+This confirms D-3's attribution: real inputs are prefill-compute-bound, and
+INT8 Tensor-Core GEMMs are the lever for exactly that phase. W8A8 stays the
+wrong choice for the bs=1 / short-prompt regime (−39 %). Serving decision
+unchanged from pod #1, now with executor-path numbers: route by input length
+(W4A16 for short interactive turns, W8A8 for RAG-shaped requests) — or, if a
+single engine must be chosen for the PRD workload, W8A8. KV capacity is
+smaller on the SQ engine (769 vs 935 blocks — larger weights leave less room)
+and it still fills at n=96 long prompts (`queued_peak` 64–80).
+
+**F-1 / F-2 / G-2 / I-2. Prefix caching and chunked context on the multimodal
+engine: both fail in 0.10.0, and the failure is the prompt-table path.**
+The FP16-KV paged-context engine (`qwenvl_engine_bs96_fp16kv_pcf`, same
+recipe otherwise) was run four ways. Plain control first, because the FP16
+KV cache itself has a price:
+
+| workload | INT8-KV bs96 (D) | FP16-KV + paged-ctx, plain | Δ |
+|---|---|---|---|
+| KV cache blocks | 935 (≈60 k tokens) | **468** (≈30 k) | −50 % |
+| W1 short n=96 | 62.22 QPS | 57.30 | −8 % |
+| W3 in=500 n=96 | 10.33 | 9.02 | −13 % |
+| W3 in=1000 n=96 | 5.91 | 4.96 | −16 % |
+| W4 closed-loop C=96 | 64.00 | 60.44 | −6 % |
+
+Then the features (executor `error_msg` read back per request — the
+examples' `get_error_msg()` does not exist in the 0.10 binding, which cost
+one wasted run):
+
+* `enable_block_reuse=True`: every request fails inside the runtime with
+  `vocab_embedding/ELEMENTWISE_SUM_0 … Broadcast has incompatible dimensions:
+  16000 != 1664`. Reading the numbers: 16000 = 32 × 500 = the *full* prompt
+  tokens of the step; 1664 = the tokens the runtime actually fed after the
+  cached prefix was skipped. The prompt-table embedding add (the
+  `lookup_plugin` path that carries image embeddings) is still sized to the
+  full prompt. Reuse and prompt tuning are not composed in this release.
+* `enable_chunked_context=True`: works at small n (identical to plain:
+  6.25 / 8.68 QPS), then dies at n ≥ 32–96 with `Tensor 'tasks' has invalid
+  shape (16500|17000), expected (-1)` — the prompt-tuning task-id tensor is
+  built over the *unchunked* prompt lengths of the scheduled requests
+  (33 × 500, 17 × 1000) and overruns the `max_num_tokens=16384` profile.
+  Where it ran, closed-loop C=96 was 59.8 vs 60.4 plain: no gain either.
+* both: additionally `Assertion failed: mNextBlocks.empty()` in the KV
+  block manager on the shared-prefix workload.
+
+Consequence for the PRD architecture: with TensorRT-LLM 0.10.0 an engine that
+can take images (`--max_prompt_embedding_table_size`) cannot use prefix
+caching or chunked context, and (F-2) cannot use INT8 KV together with
+paged-context FMHA either. The text-only RAG path does not need the prompt
+table, so the hypothesis under test in K was "a text-only paged-context
+engine gets both features" — i.e. split text and multimodal serving into
+two engines.
+
+**K. Confirmed — and prefix caching is the largest single gain in the
+project.** Same checkpoint (W4A16, FP16 KV), same build flags minus
+`--lookup_plugin` / `--max_prompt_embedding_table_size`
+(`qwenvl_engine_bs96_textonly_pcf`). No runtime errors in any of the four
+configurations. Numbers are the two timed trials after one warm-up burst,
+so the cache is hot (a cold first trial shows the price: n=8 in=500 cold
+1.27 s → warm 0.79 s).
+
+| workload | plain (text-only pcf) | `enable_block_reuse` | Δ | KV blocks used |
+|---|---|---|---|---|
+| W5 shared-prefix (900 shared / 960) n=8 | 4.44 QPS | **10.21** | 2.3× | 136 → 38 |
+| W5 n=32 | 4.90 | **17.16** | 3.5× | 459 → 76 |
+| W5 n=96 | 5.13 | **23.24** | **4.5×** | 459 → 76 |
+| W3 in=500 n=96 (identical prompts — upper bound) | 8.98 | 26.63 | 3.0× | 460 → 145 |
+| W3 in=1000 n=96 (identical — upper bound) | 4.96 | 20.92 | 4.2× | 468 → 93 |
+| W4 closed-loop C=96 short, chunked only | 60.44 | 59.70 (chunked) | 0 | — |
+
+Chunked context alone: identical to plain everywhere (W3 6.28/8.69/8.95 vs
+6.30/8.69/8.98; W4 59.7 vs 60.4). Chunked + reuse = reuse. So for this
+model and these lengths chunked context is a no-op; prefix caching is the
+whole gain. Two effects stack inside that 4.5×: the shared 900 tokens are
+prefilled once instead of 96 times (prefill_tok/s reads 22 k because 90 %
+of the "prompt tokens" are cache hits), *and* the KV-capacity ceiling that
+queued requests in D-3 disappears (76 blocks used instead of 459 — shared
+blocks are shared, not copied).
+
+What this means for the PRD numbers: the RAG-shaped request (system + KB
+knowledge + attribute JSON + question) goes from **5–6 QPS to 23 QPS on one
+4090**, with p50 2.2 s at n=96 and 1.07 s at n=32. Still not 60, but the
+gap is now 2.6× instead of 10×, and the W8A8 prefill gain (G-1, +66 %)
+composes with it on the uncached tail — that combination is run L.
+
+Architecture consequence (0.10.0): serve **two engines** — a text-only
+paged-context engine with block reuse for the RAG / knowledge / content
+paths (the bulk of PRD traffic), and the multimodal prompt-table engine
+(INT8 KV, no reuse) only for requests that carry an image. The server
+already keys on "image present"; the routing is one env var per engine
+away. Cost: FP16 KV on the text engine (−8…−16 % without reuse, irrelevant
+with it) and a second engine's 5.7–8.4 GB of weights — on a 24 GB card that
+means two processes cannot coexist at bs96; it is a two-GPU or
+time-shared deployment, which is a real constraint to put in front of the
+product owner.
+
+**H / I / J. Through HTTP (`trtllm_server.py`, executor backend) — the PRD's
+"Locust" test, closed-loop.** `inference/benchmarks/http_load_test.py`,
+C clients re-sending on completion, 30 s, window [5 s, 30 s]; the server's
+`/health` counters are read after each run.
+
+| run | engine | C | QPS | p50 | p95 | HTTP overhead p50 | executor-direct (D/G) |
+|---|---|---|---|---|---|---|---|
+| short, EOS-stopped | W4A16 bs96 | 16 / 64 / 96 / 192 | 47.2 / 103.0 / **114.6** / 115.0 | 0.31 / 0.56 / 0.77 / 1.61 s | 0.81 / 1.49 / 2.04 / 2.96 s | 6 / 14 / 19 / 11 ms | not comparable (EOS-stopped, avg output < 100) |
+| short, `min_tokens=100` | W4A16 bs96 | 64 / 96 / 192 | 49.5 / **52.4** / 53.8 | 1.31 / 1.81 / 3.52 s | 1.38 / 1.88 / 3.53 s | 25 / 42 / 85 ms | 56.9 / 64.0 / 64.0 (−13…−18 %) |
+| long ≈820 tok, min 100 | W4A16 bs96 | 32 / 96 | 10.2 / 10.2 | 3.0 / 8.6 s | 3.4 / 13.4 s | 57 / 65 ms | 9.9 / 10.3 (≈ equal) |
+| long, min 100 | **W8A8 bs96** | 32 / 96 | 14.1 / **16.9** | 2.3 / 4.3 s | 2.3 / 7.7 s | 27 / 37 ms | 14.5 / 17.2 (≈ equal) |
+| long, min 100 | FP16-KV pcf plain | 32 / 96 | 7.7 / 9.6 | 3.7 / 10.0 s | 3.8 / 14.5 s | 51 / 290 ms | 8.7 / 9.0 |
+| long, reuse+chunked | FP16-KV pcf | 32 / 96 | 0 | — | — | — | 33 418 × HTTP 500 (the runtime errors above), server stayed up, `in_flight` returned to 0 |
+
+Readings: (1) on prefill-bound (long) requests HTTP costs nothing measurable —
+the executor is the bottleneck; (2) on short decode-bound requests the HTTP
+path loses 13–18 % against the executor-direct number and the per-request
+overhead grows with C (25 → 85 ms), consistent with one uvicorn event loop
+doing tokenisation + JSON for ~100 requests/s — hypothesis, not profiled;
+run with 2–4 workers or move tokenisation off the loop to test; (3) the
+"114 QPS" figure is what an OpenAI-style client sees when answers stop at
+`<|im_end|>` (avg output well under 100 tokens) — quote it only with that
+caveat; (4) p95 ≈ 2× p50 at C = 2·max_bs is queueing, as in D-4.
+
+Guards (J, short prompts so 413 cannot mask them): `MLLM_MAX_QUEUE=8` at
+C=64 → 13 840 × 429 and 152 × 200 in 15 s with p50 held at 0.80 s (the cap
+does what it is for: protects latency by shedding); `MLLM_REQUEST_TIMEOUT_S=0.4`
+with 100-token outputs → 592 × 504, every one followed by
+`executor.cancel_request`, `in_flight` back to 0; the next run on the same
+process served 19.3 QPS at C=16 with zero errors. 413 was proven earlier:
+27 k over-length prompts rejected in 30 s, none reached the engine.
+
 **Caveats that make these numbers optimistic:** prompts are ~10 tokens
 (prefill ≈ 0; the real PRD prompt is RAG knowledge + attribute JSON + 256
 image tokens ≈ 500–1500 tokens — see D-3 for what that costs); the pod #1
