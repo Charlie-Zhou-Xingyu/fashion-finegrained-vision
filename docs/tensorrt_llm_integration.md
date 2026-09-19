@@ -655,7 +655,20 @@ What this means for the PRD numbers: the RAG-shaped request (system + KB
 knowledge + attribute JSON + question) goes from **5–6 QPS to 23 QPS on one
 4090**, with p50 2.2 s at n=96 and 1.07 s at n=32. Still not 60, but the
 gap is now 2.6× instead of 10×, and the W8A8 prefill gain (G-1, +66 %)
-composes with it on the uncached tail — that combination is run L.
+should compose with it on the uncached tail.
+
+**L — W8A8 + FP16 KV + paged-context, text-only (the combination): not
+measured.** The SmoothQuant checkpoint converted and the engine built
+(`qwenvl_engine_sq_bs96_textonly_pcf`, 01:05–01:12 UTC), then both
+benchmark runs died at import with `libcuda.so.1: cannot open shared object
+file: Input/output error` and `/usr/bin/nvidia-smi: Input/output error` —
+the container lost its GPU device (host-side failure, the second RunPod
+host fault of the day after the userns one). Expectation, labelled as such:
+with the prefix cached, W8A8's advantage applies only to the ~60-token
+uncached tail plus the 100-token decode, where INT8 weights read more bytes
+than INT4, so the combination is more likely a wash than another +66 %;
+that is why it was scheduled last. Rerun needs a working GPU; the chain
+script is in `f_to_k/chain_l.sh`.
 
 Architecture consequence (0.10.0): serve **two engines** — a text-only
 paged-context engine with block reuse for the RAG / knowledge / content
