@@ -1,0 +1,17 @@
+=== AFTER_CHAIN_WAIT 23:30:06 ===
+=== AFTER_CHAIN_START 23:47:37 ===
+=== D_START tag=bs64 policy=GUARANTEED_NO_EVICT 23:47:37 ===
+D_bs64_GUARANTEED_NO_EVICT_OK
+1 MiB
+=== D_START tag=bs64 policy=MAX_UTILIZATION 23:51:40 ===
+D_bs64_MAX_UTILIZATION_OK
+1 MiB
+=== VIT_PASS1 (onnx export; TRT build may OOM with the torch model resident) 23:55:43 ===
+-rw-r--r-- 1 root root 927536 Sep 18 23:56 visual_encoder/visual_encoder.onnx
+VIT_ONNX_OK
+VIT_PLAN_OK_PASS1
+total 0
+drwxr-xr-x 2 root root 38 Sep 18 23:56 .
+drwxr-xr-x 3 root root 36 Sep 18 23:27 ..
+-rw-r--r-- 1 root root  0 Sep 18 23:56 visual_encoder_fp16.plan
+=== AFTER_CHAIN_DONE 23:56:55 ===

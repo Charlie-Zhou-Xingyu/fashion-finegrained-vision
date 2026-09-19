@@ -1,0 +1,12 @@
+### bs96tpb32 policy=GUARANTEED_NO_EVICT engine={'max_batch_size': 96, 'max_input_len': 1024, 'max_output_len': 256, 'max_num_tokens': 16384, 'max_beam_width': 1} end_id=151643
+[load] executor ready in 6.3s
+[W1 burst-short n=  1] trials=[0.633, 0.621, 0.621] mean=0.625s QPS=1.60 tok/s=160 p50=0.621s max=0.621s peak_active=1 kv_blocks=4/1870 iters=100
+[W1 burst-short n=  8] trials=[0.71, 0.712, 0.712] mean=0.711s QPS=11.24 tok/s=1124 p50=0.712s max=0.712s peak_active=8 kv_blocks=32/1870 iters=100
+[W1 burst-short n= 32] trials=[0.8, 0.8, 0.8] mean=0.800s QPS=39.99 tok/s=3999 p50=0.800s max=0.800s peak_active=32 kv_blocks=128/1870 iters=100
+[W1 burst-short n= 96] trials=[1.549, 1.549, 1.551] mean=1.550s QPS=61.95 tok/s=6195 p50=1.550s max=1.551s peak_active=96 kv_blocks=384/1870 iters=100
+[W4 closed-loop C= 64 T=30s] QPS=56.89 tok/s=5689 p50=1.115s p95=1.117s max=1.118s done=1728 peak_active=64 peak_sched=64 mean_active=63.4 queued_peak=0 kv_blocks=256/1870 mean_iter_ms=11.07
+[W4 closed-loop C= 96 T=30s] QPS=64.00 tok/s=6400 p50=1.546s p95=1.547s max=1.548s done=1920 peak_active=96 peak_sched=96 mean_active=95.0 queued_peak=0 kv_blocks=384/1870 mean_iter_ms=15.3
+[W4 closed-loop C=128 T=30s] QPS=64.00 tok/s=6400 p50=1.570s p95=3.055s max=3.087s done=1952 peak_active=96 peak_sched=96 mean_active=92.9 queued_peak=0 kv_blocks=384/1870 mean_iter_ms=15.07
+[sample] ' \n这个问题没有提供足够的信息来确定外套的面料。需要更多的信息，例如颜色、款式、品牌等。请提供更多的信息以便于确定外套的面料。 \n如果您需要帮助确定'
+[done] results -> /workspace/trtllm_work/logs/executor_bs96tpb32_GUARANTEED_NO_EVICT.json
+D_RUN_OK

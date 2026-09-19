@@ -1,0 +1,313 @@
+{
+ "engine": {
+  "max_batch_size": 96,
+  "max_input_len": 1024,
+  "max_output_len": 256,
+  "max_num_tokens": 16384,
+  "max_beam_width": 1
+ },
+ "policy": "MAX_UTILIZATION",
+ "W1_n1": {
+  "trials": [
+   0.6342761839914601,
+   0.6206694080028683,
+   0.6211656210070942
+  ],
+  "qps": 1.5990523265412226,
+  "tok_s": 159.90523265412227,
+  "iter": {
+   "iters": 100,
+   "peak_active": 1,
+   "mean_active": 1.0,
+   "peak_scheduled": 1,
+   "peak_queued": 0,
+   "peak_kv_blocks": 2,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 6.21
+  }
+ },
+ "W1_n8": {
+  "trials": [
+   0.7102965469821356,
+   0.7115182039851788,
+   0.7126039599825162
+  ],
+  "qps": 11.24427923953114,
+  "tok_s": 1124.427923953114,
+  "iter": {
+   "iters": 100,
+   "peak_active": 8,
+   "mean_active": 8.0,
+   "peak_scheduled": 8,
+   "peak_queued": 0,
+   "peak_kv_blocks": 16,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 7.13
+  }
+ },
+ "W1_n32": {
+  "trials": [
+   0.8039988089876715,
+   0.8056337889865972,
+   0.8033912960090674
+  ],
+  "qps": 39.78410667186827,
+  "tok_s": 3978.410667186827,
+  "iter": {
+   "iters": 100,
+   "peak_active": 32,
+   "mean_active": 32.0,
+   "peak_scheduled": 32,
+   "peak_queued": 0,
+   "peak_kv_blocks": 64,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 8.03
+  }
+ },
+ "W1_n96": {
+  "trials": [
+   1.5486368779966142,
+   1.5479311550152488,
+   1.5492703120107763
+  ],
+  "qps": 61.99096451742696,
+  "tok_s": 6199.0964517426955,
+  "iter": {
+   "iters": 100,
+   "peak_active": 96,
+   "mean_active": 96.0,
+   "peak_scheduled": 96,
+   "peak_queued": 0,
+   "peak_kv_blocks": 192,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 15.49
+  }
+ },
+ "W3_in500_n8": {
+  "trials": [
+   1.1684140390134417,
+   1.1680744680052157
+  ],
+  "qps": 6.8478830312826515,
+  "iter": {
+   "iters": 100,
+   "peak_active": 8,
+   "mean_active": 8.0,
+   "peak_scheduled": 8,
+   "peak_queued": 0,
+   "peak_kv_blocks": 80,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 11.68
+  }
+ },
+ "W3_in500_n32": {
+  "trials": [
+   3.227492751000682,
+   3.227463852002984
+  ],
+  "qps": 9.914861390426555,
+  "iter": {
+   "iters": 100,
+   "peak_active": 32,
+   "mean_active": 32.0,
+   "peak_scheduled": 32,
+   "peak_queued": 0,
+   "peak_kv_blocks": 320,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 32.27
+  }
+ },
+ "W3_in500_n96": {
+  "trials": [
+   9.103540931013413,
+   9.103632610989735
+  ],
+  "qps": 10.545294114820429,
+  "iter": {
+   "iters": 123,
+   "peak_active": 96,
+   "mean_active": 79.3,
+   "peak_scheduled": 96,
+   "peak_queued": 64,
+   "peak_kv_blocks": 930,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 74.01
+  }
+ },
+ "W3_in1000_n8": {
+  "trials": [
+   1.6293232080060989,
+   1.6287190850125626
+  ],
+  "qps": 4.910924586302893,
+  "iter": {
+   "iters": 100,
+   "peak_active": 8,
+   "mean_active": 8.0,
+   "peak_scheduled": 8,
+   "peak_queued": 0,
+   "peak_kv_blocks": 144,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 16.29
+  }
+ },
+ "W3_in1000_n32": {
+  "trials": [
+   5.685156535007991,
+   5.683426786010386
+  ],
+  "qps": 5.6295492756495005,
+  "iter": {
+   "iters": 101,
+   "peak_active": 32,
+   "mean_active": 31.8,
+   "peak_scheduled": 32,
+   "peak_queued": 16,
+   "peak_kv_blocks": 576,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 56.27
+  }
+ },
+ "W3_in1000_n96": {
+  "trials": [
+   16.925233098998433,
+   16.923950562020764
+  ],
+  "qps": 5.672219511193343,
+  "iter": {
+   "iters": 202,
+   "peak_active": 96,
+   "mean_active": 69.4,
+   "peak_scheduled": 58,
+   "peak_queued": 80,
+   "peak_kv_blocks": 935,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 83.78
+  }
+ },
+ "W4_C32": {
+  "C": 32,
+  "duration_s": 30.0,
+  "wall_s": 30.76,
+  "completed_total": 1216,
+  "completed_in_window": 1088,
+  "qps_window": 40.3,
+  "tok_s_window": 4030.0,
+  "p50_s": 0.809,
+  "p95_s": 0.811,
+  "max_s": 0.812,
+  "iter": {
+   "iters": 3838,
+   "peak_active": 32,
+   "mean_active": 31.7,
+   "peak_scheduled": 32,
+   "peak_queued": 0,
+   "peak_kv_blocks": 64,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 8.01
+  }
+ },
+ "W4_C64": {
+  "C": 64,
+  "duration_s": 30.0,
+  "wall_s": 30.18,
+  "completed_total": 1728,
+  "completed_in_window": 1536,
+  "qps_window": 56.89,
+  "tok_s_window": 5689.0,
+  "p50_s": 1.118,
+  "p95_s": 1.119,
+  "max_s": 1.12,
+  "iter": {
+   "iters": 2727,
+   "peak_active": 64,
+   "mean_active": 63.4,
+   "peak_scheduled": 64,
+   "peak_queued": 0,
+   "peak_kv_blocks": 128,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 11.07
+  }
+ },
+ "W4_C96": {
+  "C": 96,
+  "duration_s": 30.0,
+  "wall_s": 30.9,
+  "completed_total": 1920,
+  "completed_in_window": 1728,
+  "qps_window": 64.0,
+  "tok_s_window": 6400.0,
+  "p50_s": 1.545,
+  "p95_s": 1.547,
+  "max_s": 1.548,
+  "iter": {
+   "iters": 2020,
+   "peak_active": 96,
+   "mean_active": 95.0,
+   "peak_scheduled": 96,
+   "peak_queued": 0,
+   "peak_kv_blocks": 192,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 15.3
+  }
+ },
+ "W4_C128": {
+  "C": 128,
+  "duration_s": 30.0,
+  "wall_s": 31.65,
+  "completed_total": 1952,
+  "completed_in_window": 1728,
+  "qps_window": 64.0,
+  "tok_s_window": 6400.0,
+  "p50_s": 1.569,
+  "p95_s": 3.054,
+  "max_s": 3.083,
+  "iter": {
+   "iters": 2101,
+   "peak_active": 96,
+   "mean_active": 92.9,
+   "peak_scheduled": 96,
+   "peak_queued": 0,
+   "peak_kv_blocks": 192,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 15.06
+  }
+ },
+ "W4_C192": {
+  "C": 192,
+  "duration_s": 30.0,
+  "wall_s": 32.34,
+  "completed_total": 2016,
+  "completed_in_window": 1728,
+  "qps_window": 64.0,
+  "tok_s_window": 6400.0,
+  "p50_s": 3.079,
+  "p95_s": 3.084,
+  "max_s": 3.087,
+  "iter": {
+   "iters": 2101,
+   "peak_active": 96,
+   "mean_active": 96.0,
+   "peak_scheduled": 96,
+   "peak_queued": 0,
+   "peak_kv_blocks": 192,
+   "max_kv_blocks": 935,
+   "tokens_per_block": 64,
+   "mean_iter_ms": 15.39
+  }
+ }
+}

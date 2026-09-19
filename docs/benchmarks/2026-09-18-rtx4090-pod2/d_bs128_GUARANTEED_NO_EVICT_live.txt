@@ -1,0 +1,19 @@
+### bs128 policy=GUARANTEED_NO_EVICT engine={'max_batch_size': 128, 'max_input_len': 1024, 'max_output_len': 256, 'max_num_tokens': 16384, 'max_beam_width': 1} end_id=151643
+[load] executor ready in 6.3s
+[W1 burst-short n=  1] trials=[0.634, 0.62, 0.62] mean=0.625s QPS=1.60 tok/s=160 p50=0.620s max=0.620s peak_active=1 kv_blocks=2/931 iters=100
+[W1 burst-short n=  8] trials=[0.708, 0.709, 0.708] mean=0.708s QPS=11.29 tok/s=1129 p50=0.708s max=0.708s peak_active=8 kv_blocks=16/931 iters=100
+[W1 burst-short n= 32] trials=[0.803, 0.804, 0.804] mean=0.803s QPS=39.83 tok/s=3983 p50=0.803s max=0.804s peak_active=32 kv_blocks=64/931 iters=100
+[W1 burst-short n=128] trials=[1.803, 1.804, 1.807] mean=1.804s QPS=70.94 tok/s=7094 p50=1.806s max=1.806s peak_active=128 kv_blocks=256/931 iters=100
+[W3 burst-long in= 500 n=  8] trials=[1.17, 1.165] mean=1.168s QPS=6.85 prefill_tok/s=3426 p50=1.165s max=1.165s peak_active=8 kv_blocks=80/931 queued_peak=0
+[W3 burst-long in= 500 n= 32] trials=[3.223, 3.227] mean=3.225s QPS=9.92 prefill_tok/s=4961 p50=3.227s max=3.227s peak_active=32 kv_blocks=320/931 queued_peak=0
+[W3 burst-long in= 500 n=128] trials=[12.062, 12.063] mean=12.062s QPS=10.61 prefill_tok/s=5306 p50=10.651s max=12.063s peak_active=128 kv_blocks=930/931 queued_peak=96
+[W3 burst-long in=1000 n=  8] trials=[1.63, 1.622] mean=1.626s QPS=4.92 prefill_tok/s=4920 p50=1.622s max=1.622s peak_active=8 kv_blocks=144/931 queued_peak=0
+[W3 burst-long in=1000 n= 32] trials=[5.68, 5.68] mean=5.680s QPS=5.63 prefill_tok/s=5634 p50=5.680s max=5.680s peak_active=32 kv_blocks=576/931 queued_peak=16
+[W3 burst-long in=1000 n=128] trials=[21.914, 21.914] mean=21.914s QPS=5.84 prefill_tok/s=5841 p50=17.467s max=21.914s peak_active=128 kv_blocks=918/931 queued_peak=112
+[W4 closed-loop C= 64 T=30s] QPS=56.89 tok/s=5689 p50=1.118s p95=1.120s max=1.121s done=1728 peak_active=64 peak_sched=64 mean_active=63.4 queued_peak=0 kv_blocks=128/931 mean_iter_ms=11.07
+[W4 closed-loop C=128 T=30s] QPS=71.11 tok/s=7111 p50=1.796s p95=1.799s max=1.800s done=2176 peak_active=128 peak_sched=128 mean_active=126.7 queued_peak=0 kv_blocks=256/931 mean_iter_ms=17.83
+[W4 closed-loop C=192 T=30s] QPS=71.11 tok/s=7111 p50=3.555s p95=3.592s max=3.600s done=2240 peak_active=128 peak_sched=128 mean_active=124.4 queued_peak=0 kv_blocks=256/931 mean_iter_ms=17.61
+[W4 closed-loop C=256 T=30s] QPS=71.11 tok/s=7111 p50=3.588s p95=3.602s max=3.604s done=2304 peak_active=128 peak_sched=128 mean_active=127.9 queued_peak=0 kv_blocks=256/931 mean_iter_ms=17.94
+[sample] ' \n这个问题没有提供足够的信息来确定外套的面料。需要更多的信息，例如颜色、款式、品牌等。请提供更多的信息以便于确定外套的面料。 \n如果您需要帮助确定'
+[done] results -> /workspace/trtllm_work/logs/executor_bs128_GUARANTEED_NO_EVICT.json
+D_RUN_OK

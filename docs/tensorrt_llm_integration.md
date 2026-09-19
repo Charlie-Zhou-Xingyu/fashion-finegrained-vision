@@ -335,6 +335,10 @@ extrapolates to ~60 at bs≈90 — blocked only by memory; right-sizing
 `max_input_len`/`max_output_len`/`tokens_per_block` to the real length
 distribution is the lever to unlock it. (4) An engine built for max_bs=80 is
 ~3% slower at bs=64 than one built for 64 — build for the batch you run.
+*Update (pod #2, D/E section below):* (2)'s tile hypothesis is now
+disfavoured and (3)'s lever was wrong — the parameter that mattered was
+`--max_num_tokens`, not the sequence lengths or `tokens_per_block`; with it
+bs96 and bs128 build and scale smoothly (62.2 / 70.9 QPS).
 
 **W8A8 SmoothQuant vs W4A16 (same bs64 build flags, same prompts, 3 trials
 each; SQ engine needs the library patch from pitfall 6):**
@@ -411,22 +415,129 @@ scripts as run) and what was not (`pip freeze`, the per-prompt eval JSONs,
 the SQ engine's build stats). The scripts that produced them are in
 `inference/benchmarks/`.
 
-**Next for throughput (D — inflight batching, no Triton needed):** the pip
-0.10.0 install exposes the C++ executor — `tensorrt_llm.bindings.executor`
-has `Executor`, `ExecutorConfig`, `BatchingType.INFLIGHT`, `SchedulerConfig`,
-`KvCacheConfig` — and the bs64 engine already satisfies its prerequisites
-(`paged_kv_cache=True`, `remove_input_padding=True`, `max_num_tokens=65536`,
-`tokens_per_block=64` default). The static-batch numbers above therefore
-have a direct upgrade path: an executor-backed serving loop plus a
-multi-client Poisson-arrival load generator, measuring QPS and latency
-percentiles under real concurrency. ~30–45 min of GPU; not run yet.
+### D + E — C++ executor inflight batching and the bs>64 engines (pod #2, 2026-09-18)
+
+Run on a second RTX 4090 pod with an identically rebuilt environment and the
+same engine recipe (pod #1's bs64 static numbers reproduce within 1 %:
+57.94 → 57.38 QPS). Harness: `inference/benchmarks/executor_inflight_bench.py`
+driving `tensorrt_llm.bindings.executor.Executor` (no Triton), greedy,
+`min_length = max_new_tokens` so every request generates exactly its budget.
+Per burst the executor's iteration stats are read back (`num_active_requests`,
+`inflight_batching_stats.num_scheduled_requests`, `kv_cache_stats`), so
+"the batch filled" and "requests queued" are observations, not assumptions.
+Raw evidence: `docs/benchmarks/2026-09-18-rtx4090-pod2/`.
+
+**E first, because it changes what D can measure.** The pod #1 bs=96 build
+died in tactic selection asking for a 6.4 GB buffer. Sequence lengths were
+left alone (`max_input_len=1024`, `max_output_len=256`); the only change was
+`--max_num_tokens 16384`. 0.10 defaults it to `max_batch_size × max_input_len`
+(65536 at bs64, 98304 at bs96), i.e. it sizes the prefill activation buffers
+for "every slot does a full-length prefill in the same step", which inflight
+batching never does.
+
+| engine | max_num_tokens | Total Activation Memory | build |
+|---|---|---|---|
+| bs64 (pod #1 default) | 65536 | 5.74 GB | OK |
+| bs96 (pod #1 default) | 98304 | — | **OOM** |
+| bs96 / bs128 / bs96-tpb32 (pod #2) | 16384 | **1.43 GB** | OK, ~70 s each |
+
+Activation memory −75 %; weights unchanged (5.74 GB). The cost is a cap on
+prefill tokens per step (16384 = e.g. 16 concurrent 1024-token prefills),
+which is what the W3 numbers below then show.
+
+**D-1. Same shape, same batch: the executor is not faster than static batching.**
+W1 (8 ~10-token prompts cycled, 100 new tokens each, all enqueued at once):
+
+| n | static, Python hlapi (pod #1) | executor (pod #2, bs64 engine) |
+|---|---|---|
+| 1 | 1.63 QPS / 614 ms | 1.60 / 625 ms |
+| 8 | 11.15 | 11.25 |
+| 32 | 39.53 | 39.85 |
+| 64 | 57.94 | 57.38 |
+
+Within 1–2 % everywhere. For bs ≤ 64 the Python runtime overhead was never
+the bottleneck; the executor's value is elsewhere (D-2, D-4).
+
+**D-2. Heterogeneous lengths: 1.28× measured, 1.74× ideal.** W2: 64 short
+prompts with per-request budgets U[20, 200] (seeded; max 195, mean 112).
+Inflight: 1.805 s wall, 35.46 QPS. The same 64 with every budget set to 195
+(what static batching pays): 2.302 s, 27.81 QPS. **Static-equivalent /
+inflight = 1.28×**; perfect packing would give max/mean = 1.74×. The gap is
+the tail: with all requests arriving at t=0 the last iterations run with the
+few longest sequences at bs ≈ 1–5, which is the bandwidth-bound regime. A
+continuous arrival stream (D-4) does not have that tail.
+
+**D-3. Realistic prompts: prefill-compute-bound, then KV-bound; more batch
+slots buy nothing.** W3 (in=500 / 1000 tokens, same construction as
+`long_prompt_bench.py`, 100 new tokens):
+
+| in | n | engine | QPS | prefill tok/s | KV blocks used/total | queued (peak) |
+|---|---|---|---|---|---|---|
+| 500 | 32 | bs64 | 9.93 | 4967 | 320/708 | 0 |
+| 500 | 64 | bs64 | 10.53 | 5263 | 640/708 | 0 |
+| 500 | 96 | bs96 | 10.33 | 5165 | 930/935 | 64 |
+| 500 | 128 | bs128 | 10.61 | 5306 | 930/931 | 96 |
+| 1000 | 32 | bs64 | 5.50 | 5504 | 576/708 | 0 |
+| 1000 | 64 | bs64 | 5.44 | 5442 | 702/708 | 25 |
+| 1000 | 96 | bs96 | 5.91 | 5907 | 918/935 | 80 |
+| 1000 | 128 | bs128 | 5.84 | 5841 | 918/931 | 112 |
+
+Prefill throughput is flat at ≈5.0–5.9 k tok/s from n=32 upward on every
+engine — that is the INT4-RTN prefill ceiling on this GPU, and it is reached
+*before* the KV cache fills. Past that, the KV cache (≈60 k tokens on all
+engines: 935 blocks × 64) fills at ~54 in-flight 1100-token sequences and
+the executor queues the rest (`queued_peak` 64–112). Both ceilings are
+independent of `max_batch_size`; bs96/bs128 change nothing here. So the
+"PRD 60 QPS is 5–6× away on real inputs" finding stands and is now
+attributed: prefill compute first, KV capacity second. The levers are
+W8A8 for prefill (+27–45 % at bs ≥ 32, pod #1), chunked context /
+prefix caching, or a second GPU — not batch size.
+
+**D-4. Closed-loop concurrency: QPS = f(max_batch_size), 60 crossed at bs ≥ 96.**
+W4: C clients, each re-enqueues on completion, 30 s, measured over
+[3 s, 30 s] to exclude ramp-up/drain. Short prompts, 100 new tokens.
+
+| engine | C=32 | C=64 | C=96 | C=128 | C=192 / 256 | p50 @ C=max_bs | p95 @ 2×max_bs |
+|---|---|---|---|---|---|---|---|
+| bs64 | 40.30 | **56.89** | 56.89 | 56.89 | — | 1.115 s | 2.228 s |
+| bs96 | 40.30 | 56.89 | **64.00** | 64.00 | 64.00 | 1.544 s | 3.08 s |
+| bs128 | — | 56.89 | — | **71.11** | 71.11 / 71.11 | 1.796 s | 3.60 s |
+
+Three properties, all observed: (1) throughput saturates exactly at
+C = max_batch_size and is flat beyond it (`peak_active == max_bs`,
+`queued_peak` 0 because the executor admits up to max_bs and the rest wait
+in the client); (2) beyond saturation latency grows linearly with C — pure
+queueing, p95 ≈ 2× p50 at C = 2·max_bs; (3) p95 ≈ p50 *below* saturation
+only because the load is homogeneous — do not read it as a tail-latency
+result. **bs128 gives 71.11 QPS on short prompts (PRD 60 met with 18 %
+headroom) at 1.8 s p50**; whether 1.8 s is acceptable is a product question
+(PRD wants 400 ms, which no batch size delivers — see the bs=1 floor).
+
+**D-5. Things that did not matter (measured, not assumed).**
+`CapacitySchedulerPolicy.MAX_UTILIZATION` vs `GUARANTEED_NO_EVICT`: identical
+on W1/W2/W4 (no eviction is ever needed when the KV cache does not
+overflow); on W3 in=1000 n=96 MAX_UTILIZATION was 4 % *slower* (16.93 vs
+16.25 s) — it admits more and then pauses. `tokens_per_block=32` vs 64:
+identical throughput at every point (1870 vs 935 blocks, same 60 k tokens);
+at these lengths block-granularity waste is negligible. Both are the right
+defaults for this workload.
+
+**D-6. The "cliff past bs=64" from pod #1 did not reappear.** Pod #1's
+bs80 engine (default max_num_tokens = 81920) ran bs80 *slower* than bs64
+(53.4 vs 57.9 QPS). Pod #2's bs96 engine (max_num_tokens 16384) runs bs96
+at 62.2 QPS with a per-step time (15.3 ms) that scales smoothly from bs64
+(11.1 ms). The one variable that differs is max_num_tokens, so the working
+hypothesis is now "the cliff was the oversized activation workspace
+(5.7–7.2 GB) crowding the KV cache / L2, not a tile-alignment effect" —
+still a hypothesis: nothing was profiled, and the two engines were not
+compared on the same pod.
 
 **Caveats that make these numbers optimistic:** prompts are ~10 tokens
 (prefill ≈ 0; the real PRD prompt is RAG knowledge + attribute JSON + 256
-image tokens ≈ 500–1500 tokens); this is static batching through the
-Python runtime, which TensorRT-LLM itself labels experimental — production
-serving needs the C++ executor / Triton backend for inflight batching; and
-this is a 4090 (Ada, ~660 INT8 TOPS, 1008 GB/s), not the PRD's 3090 (Ampere,
+image tokens ≈ 500–1500 tokens — see D-3 for what that costs); the pod #1
+tables are static batching through the Python runtime (D-1 shows the
+executor matches them, so they were not wrong, just not the serving path);
+and this is a 4090 (Ada, ~660 INT8 TOPS, 1008 GB/s), not the PRD's 3090 (Ampere,
 ~285 TOPS, 936 GB/s) — on a 3090 expect ~7% worse at bs=1 and roughly half
 the high-batch throughput, i.e. 60 QPS on a single 3090 is unlikely with this
 architecture.

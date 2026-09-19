@@ -1,0 +1,228 @@
+=== STEP_vision_reqs_fixed 23:19:19 ===
+Looking in indexes: https://pypi.org/simple, https://download.pytorch.org/whl/cu121
+Collecting torchvision==0.17.2
+  Downloading torchvision-0.17.2%2Bcu121-cp310-cp310-linux_x86_64.whl (7.0 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.0/7.0 MB 42.4 MB/s  0:00:00
+Requirement already satisfied: numpy in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torchvision==0.17.2) (1.26.4)
+Requirement already satisfied: torch==2.2.2 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torchvision==0.17.2) (2.2.2)
+Requirement already satisfied: pillow!=8.3.*,>=5.3.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torchvision==0.17.2) (12.3.0)
+Requirement already satisfied: filelock in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (3.32.3)
+Requirement already satisfied: typing-extensions>=4.8.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (4.16.0)
+Requirement already satisfied: sympy in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (1.14.0)
+Requirement already satisfied: networkx in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (3.4.2)
+Requirement already satisfied: jinja2 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (3.1.6)
+Requirement already satisfied: fsspec in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (2026.6.0)
+Requirement already satisfied: nvidia-cuda-nvrtc-cu12==12.1.105 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (12.1.105)
+Requirement already satisfied: nvidia-cuda-runtime-cu12==12.1.105 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (12.1.105)
+Requirement already satisfied: nvidia-cuda-cupti-cu12==12.1.105 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (12.1.105)
+Requirement already satisfied: nvidia-cudnn-cu12==8.9.2.26 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (8.9.2.26)
+Requirement already satisfied: nvidia-cublas-cu12==12.1.3.1 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (12.1.3.1)
+Requirement already satisfied: nvidia-cufft-cu12==11.0.2.54 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (11.0.2.54)
+Requirement already satisfied: nvidia-curand-cu12==10.3.2.106 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (10.3.2.106)
+Requirement already satisfied: nvidia-cusolver-cu12==11.4.5.107 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (11.4.5.107)
+Requirement already satisfied: nvidia-cusparse-cu12==12.1.0.106 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (12.1.0.106)
+Requirement already satisfied: nvidia-nccl-cu12==2.19.3 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (2.19.3)
+Requirement already satisfied: nvidia-nvtx-cu12==12.1.105 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (12.1.105)
+Requirement already satisfied: triton==2.2.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from torch==2.2.2->torchvision==0.17.2) (2.2.0)
+Requirement already satisfied: nvidia-nvjitlink-cu12 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from nvidia-cusolver-cu12==11.4.5.107->torch==2.2.2->torchvision==0.17.2) (12.9.86)
+Requirement already satisfied: MarkupSafe>=2.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from jinja2->torch==2.2.2->torchvision==0.17.2) (3.0.3)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from sympy->torch==2.2.2->torchvision==0.17.2) (1.3.0)
+Installing collected packages: torchvision
+Successfully installed torchvision-0.17.2+cu121
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Collecting einops
+  Downloading einops-0.8.2-py3-none-any.whl.metadata (13 kB)
+Collecting matplotlib
+  Downloading matplotlib-3.10.9-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (52 kB)
+Collecting contourpy>=1.0.1 (from matplotlib)
+  Downloading contourpy-1.3.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.5 kB)
+Collecting cycler>=0.10 (from matplotlib)
+  Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+Collecting fonttools>=4.22.0 (from matplotlib)
+  Downloading fonttools-4.65.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (125 kB)
+Collecting kiwisolver>=1.3.1 (from matplotlib)
+  Downloading kiwisolver-1.5.1-cp310-cp310-manylinux_2_12_x86_64.manylinux2010_x86_64.whl.metadata (5.2 kB)
+Requirement already satisfied: numpy>=1.23 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from matplotlib) (1.26.4)
+Requirement already satisfied: packaging>=20.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from matplotlib) (26.3)
+Requirement already satisfied: pillow>=8 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from matplotlib) (12.3.0)
+Collecting pyparsing>=3 (from matplotlib)
+  Downloading pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+Requirement already satisfied: python-dateutil>=2.7 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from matplotlib) (2.9.0.post0)
+Requirement already satisfied: six>=1.5 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from python-dateutil>=2.7->matplotlib) (1.17.0)
+Downloading einops-0.8.2-py3-none-any.whl (65 kB)
+Downloading matplotlib-3.10.9-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (8.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.8/8.8 MB 105.9 MB/s  0:00:00
+Downloading contourpy-1.3.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (325 kB)
+Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+Downloading fonttools-4.65.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.3/5.3 MB 119.9 MB/s  0:00:00
+Downloading kiwisolver-1.5.1-cp310-cp310-manylinux_2_12_x86_64.manylinux2010_x86_64.whl (1.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.6/1.6 MB 157.3 MB/s  0:00:00
+Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
+Installing collected packages: pyparsing, kiwisolver, fonttools, einops, cycler, contourpy, matplotlib
+
+Successfully installed contourpy-1.3.2 cycler-0.12.1 einops-0.8.2 fonttools-4.65.0 kiwisolver-1.5.1 matplotlib-3.10.9 pyparsing-3.3.2
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+=== STEP_datasets 23:19:25 ===
+Collecting datasets==2.19.0
+  Downloading datasets-2.19.0-py3-none-any.whl.metadata (19 kB)
+Requirement already satisfied: filelock in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from datasets==2.19.0) (3.32.3)
+Requirement already satisfied: numpy>=1.17 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from datasets==2.19.0) (1.26.4)
+Requirement already satisfied: pyarrow>=12.0.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from datasets==2.19.0) (25.0.1)
+Collecting pyarrow-hotfix (from datasets==2.19.0)
+  Downloading pyarrow_hotfix-0.7-py3-none-any.whl.metadata (3.6 kB)
+Collecting dill<0.3.9,>=0.3.0 (from datasets==2.19.0)
+  Downloading dill-0.3.8-py3-none-any.whl.metadata (10 kB)
+Requirement already satisfied: pandas in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from datasets==2.19.0) (2.3.3)
+Requirement already satisfied: requests>=2.19.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from datasets==2.19.0) (2.34.2)
+Requirement already satisfied: tqdm>=4.62.1 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from datasets==2.19.0) (4.70.1)
+Requirement already satisfied: xxhash in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from datasets==2.19.0) (4.0.1)
+Requirement already satisfied: multiprocess in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from datasets==2.19.0) (0.70.19)
+Collecting fsspec<=2024.3.1,>=2023.1.0 (from fsspec[http]<=2024.3.1,>=2023.1.0->datasets==2.19.0)
+  Downloading fsspec-2024.3.1-py3-none-any.whl.metadata (6.8 kB)
+Requirement already satisfied: aiohttp in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from datasets==2.19.0) (3.14.3)
+Requirement already satisfied: huggingface-hub>=0.21.2 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from datasets==2.19.0) (0.36.2)
+Requirement already satisfied: packaging in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from datasets==2.19.0) (26.3)
+Requirement already satisfied: pyyaml>=5.1 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from datasets==2.19.0) (6.0.3)
+Requirement already satisfied: aiohappyeyeballs>=2.5.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from aiohttp->datasets==2.19.0) (2.7.1)
+Requirement already satisfied: aiosignal>=1.4.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from aiohttp->datasets==2.19.0) (1.4.0)
+Requirement already satisfied: async-timeout<6.0,>=4.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from aiohttp->datasets==2.19.0) (5.0.1)
+Requirement already satisfied: attrs>=17.3.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from aiohttp->datasets==2.19.0) (26.1.0)
+Requirement already satisfied: frozenlist>=1.1.1 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from aiohttp->datasets==2.19.0) (1.8.0)
+Requirement already satisfied: multidict<7.0,>=4.5 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from aiohttp->datasets==2.19.0) (6.9.0)
+Requirement already satisfied: propcache>=0.2.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from aiohttp->datasets==2.19.0) (0.5.4)
+Requirement already satisfied: typing_extensions>=4.4 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from aiohttp->datasets==2.19.0) (4.16.0)
+Requirement already satisfied: yarl<2.0,>=1.17.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from aiohttp->datasets==2.19.0) (1.25.1)
+Requirement already satisfied: idna>=2.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from yarl<2.0,>=1.17.0->aiohttp->datasets==2.19.0) (3.20)
+Requirement already satisfied: hf-xet<2.0.0,>=1.1.3 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from huggingface-hub>=0.21.2->datasets==2.19.0) (1.6.0)
+Requirement already satisfied: charset_normalizer<4,>=2 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from requests>=2.19.0->datasets==2.19.0) (3.5.1)
+Requirement already satisfied: urllib3<3,>=1.26 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from requests>=2.19.0->datasets==2.19.0) (2.8.0)
+Requirement already satisfied: certifi>=2023.5.7 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from requests>=2.19.0->datasets==2.19.0) (2026.7.22)
+INFO: pip is looking at multiple versions of multiprocess to determine which version is compatible with other requirements. This could take a while.
+Collecting multiprocess (from datasets==2.19.0)
+  Downloading multiprocess-0.70.18-py310-none-any.whl.metadata (7.5 kB)
+  Downloading multiprocess-0.70.17-py310-none-any.whl.metadata (7.2 kB)
+  Downloading multiprocess-0.70.16-py310-none-any.whl.metadata (7.2 kB)
+Requirement already satisfied: python-dateutil>=2.8.2 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from pandas->datasets==2.19.0) (2.9.0.post0)
+Requirement already satisfied: pytz>=2020.1 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from pandas->datasets==2.19.0) (2026.3.post1)
+Requirement already satisfied: tzdata>=2022.7 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from pandas->datasets==2.19.0) (2026.4)
+Requirement already satisfied: six>=1.5 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from python-dateutil>=2.8.2->pandas->datasets==2.19.0) (1.17.0)
+Downloading datasets-2.19.0-py3-none-any.whl (542 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 542.0/542.0 kB 21.9 MB/s  0:00:00
+Downloading dill-0.3.8-py3-none-any.whl (116 kB)
+Downloading fsspec-2024.3.1-py3-none-any.whl (171 kB)
+Downloading multiprocess-0.70.16-py310-none-any.whl (134 kB)
+Downloading pyarrow_hotfix-0.7-py3-none-any.whl (7.9 kB)
+Installing collected packages: pyarrow-hotfix, fsspec, dill, multiprocess, datasets
+  Attempting uninstall: fsspec
+    Found existing installation: fsspec 2026.6.0
+    Uninstalling fsspec-2026.6.0:
+      Successfully uninstalled fsspec-2026.6.0
+  Attempting uninstall: dill
+    Found existing installation: dill 0.4.1
+    Uninstalling dill-0.4.1:
+      Successfully uninstalled dill-0.4.1
+  Attempting uninstall: multiprocess
+    Found existing installation: multiprocess 0.70.19
+    Uninstalling multiprocess-0.70.19:
+      Successfully uninstalled multiprocess-0.70.19
+  Attempting uninstall: datasets
+    Found existing installation: datasets 5.0.1
+    Uninstalling datasets-5.0.1:
+      Successfully uninstalled datasets-5.0.1
+
+Successfully installed datasets-2.19.0 dill-0.3.8 fsspec-2024.3.1 multiprocess-0.70.16 pyarrow-hotfix-0.7
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+=== STEP_serving_reqs 23:19:26 ===
+Collecting sentencepiece~=0.1.99
+  Downloading sentencepiece-0.1.99-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.7 kB)
+Collecting fastapi
+  Downloading fastapi-0.141.1-py3-none-any.whl.metadata (27 kB)
+Requirement already satisfied: httpx in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (0.28.1)
+Requirement already satisfied: requests in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (2.34.2)
+Requirement already satisfied: pydantic in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (2.13.5)
+Collecting uvicorn[standard]
+  Downloading uvicorn-0.53.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting starlette>=0.46.0 (from fastapi)
+  Downloading starlette-1.6.0-py3-none-any.whl.metadata (6.4 kB)
+Requirement already satisfied: typing-extensions>=4.8.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from fastapi) (4.16.0)
+Requirement already satisfied: typing-inspection>=0.4.2 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from fastapi) (0.4.4)
+Collecting annotated-doc>=0.0.2 (from fastapi)
+  Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+Requirement already satisfied: click>=7.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from uvicorn[standard]) (8.5.0)
+Requirement already satisfied: h11>=0.8 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from uvicorn[standard]) (0.16.0)
+Collecting httptools>=0.8.0 (from uvicorn[standard])
+  Downloading httptools-0.8.0-cp310-cp310-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+Collecting python-dotenv>=0.13 (from uvicorn[standard])
+  Downloading python_dotenv-1.2.3-py3-none-any.whl.metadata (29 kB)
+Requirement already satisfied: pyyaml>=5.1 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from uvicorn[standard]) (6.0.3)
+Collecting uvloop>=0.15.1 (from uvicorn[standard])
+  Downloading uvloop-0.22.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (4.9 kB)
+Collecting watchfiles>=0.20 (from uvicorn[standard])
+  Downloading watchfiles-1.2.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+Collecting websockets>=13.0 (from uvicorn[standard])
+  Downloading websockets-16.1.1-cp310-cp310-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.8 kB)
+Requirement already satisfied: anyio in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from httpx) (4.15.1)
+Requirement already satisfied: certifi in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from httpx) (2026.7.22)
+Requirement already satisfied: httpcore==1.* in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from httpx) (1.0.9)
+Requirement already satisfied: idna in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from httpx) (3.20)
+Requirement already satisfied: charset_normalizer<4,>=2 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from requests) (3.5.1)
+Requirement already satisfied: urllib3<3,>=1.26 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from requests) (2.8.0)
+Requirement already satisfied: annotated-types>=0.6.0 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from pydantic) (0.8.0)
+Requirement already satisfied: pydantic-core==2.46.5 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from pydantic) (2.46.5)
+Requirement already satisfied: exceptiongroup>=1.0.2 in ./miniconda3/envs/trtllm/lib/python3.10/site-packages (from anyio->httpx) (1.3.1)
+Downloading sentencepiece-0.1.99-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 46.2 MB/s  0:00:00
+Downloading fastapi-0.141.1-py3-none-any.whl (131 kB)
+Downloading uvicorn-0.53.0-py3-none-any.whl (87 kB)
+Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+Downloading httptools-0.8.0-cp310-cp310-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (450 kB)
+Downloading python_dotenv-1.2.3-py3-none-any.whl (22 kB)
+Downloading starlette-1.6.0-py3-none-any.whl (75 kB)
+Downloading uvloop-0.22.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (3.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.7/3.7 MB 70.3 MB/s  0:00:00
+Downloading watchfiles-1.2.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (457 kB)
+Downloading websockets-16.1.1-cp310-cp310-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (186 kB)
+Installing collected packages: sentencepiece, websockets, uvloop, uvicorn, python-dotenv, httptools, annotated-doc, watchfiles, starlette, fastapi
+  Attempting uninstall: sentencepiece
+    Found existing installation: sentencepiece 0.2.2
+    Uninstalling sentencepiece-0.2.2:
+      Successfully uninstalled sentencepiece-0.2.2
+
+Successfully installed annotated-doc-0.0.5 fastapi-0.141.1 httptools-0.8.0 python-dotenv-1.2.3 sentencepiece-0.1.99 starlette-1.6.0 uvicorn-0.53.0 uvloop-0.22.1 watchfiles-1.2.0 websockets-16.1.1
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+=== STEP_openmpi_wait 23:19:29 ===
+=== STEP_clone 23:19:29 ===
+Cloning into 'TensorRT-LLM'...
+Note: switching to '9bd15f1937f52658fb116f30d58fea786ce5d03b'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+Updating files:  26% (591/2235)Updating files:  27% (604/2235)Updating files:  28% (626/2235)Updating files:  29% (649/2235)Updating files:  30% (671/2235)Updating files:  31% (693/2235)Updating files:  32% (716/2235)Updating files:  33% (738/2235)Updating files:  34% (760/2235)Updating files:  35% (783/2235)Updating files:  36% (805/2235)Updating files:  37% (827/2235)Updating files:  38% (850/2235)Updating files:  39% (872/2235)Updating files:  40% (894/2235)Updating files:  41% (917/2235)Updating files:  42% (939/2235)Updating files:  43% (962/2235)Updating files:  44% (984/2235)Updating files:  45% (1006/2235)Updating files:  46% (1029/2235)Updating files:  47% (1051/2235)Updating files:  48% (1073/2235)Updating files:  49% (1096/2235)Updating files:  50% (1118/2235)Updating files:  51% (1140/2235)Updating files:  52% (1163/2235)Updating files:  53% (1185/2235)Updating files:  54% (1207/2235)Updating files:  55% (1230/2235)Updating files:  56% (1252/2235)Updating files:  57% (1274/2235)Updating files:  58% (1297/2235)Updating files:  59% (1319/2235)Updating files:  60% (1341/2235)Updating files:  61% (1364/2235)Updating files:  62% (1386/2235)Updating files:  63% (1409/2235)Updating files:  64% (1431/2235)Updating files:  65% (1453/2235)Updating files:  66% (1476/2235)Updating files:  67% (1498/2235)Updating files:  68% (1520/2235)Updating files:  69% (1543/2235)Updating files:  70% (1565/2235)Updating files:  71% (1587/2235)Updating files:  72% (1610/2235)Updating files:  73% (1632/2235)Updating files:  74% (1654/2235)Updating files:  75% (1677/2235)Updating files:  76% (1699/2235)Updating files:  77% (1721/2235)Updating files:  78% (1744/2235)Updating files:  79% (1766/2235)Updating files:  80% (1788/2235)Updating files:  81% (1811/2235)Updating files:  82% (1833/2235)Updating files:  83% (1856/2235)Updating files:  84% (1878/2235)Updating files:  85% (1900/2235)Updating files:  86% (1923/2235)Updating files:  87% (1945/2235)Updating files:  88% (1967/2235)Updating files:  89% (1990/2235)Updating files:  90% (2012/2235)Updating files:  91% (2034/2235)Updating files:  92% (2057/2235)Updating files:  93% (2079/2235)Updating files:  94% (2101/2235)Updating files:  95% (2124/2235)Updating files:  96% (2146/2235)Updating files:  97% (2168/2235)Updating files:  98% (2191/2235)Updating files:  99% (2213/2235)Updating files: 100% (2235/2235)Updating files: 100% (2235/2235), done.
+=== STEP_patch 23:19:35 ===
+The cache for model files in Transformers v4.22.0 has been updated. Migrating your old cache. This is a one-time only operation. You can interrupt this and resume the migration later on by calling `transformers.utils.move_cache()`.
+0it [00:00, ?it/s]0it [00:00, ?it/s]
+[TensorRT-LLM] TensorRT-LLM version: 0.10.0
+patched: /workspace/trtllm_work/miniconda3/envs/trtllm/lib/python3.10/site-packages/tensorrt_llm/quantization/quantize.py
+backup:  /workspace/trtllm_work/miniconda3/envs/trtllm/lib/python3.10/site-packages/tensorrt_llm/quantization/quantize.py.orig_0.10.0
+=== STEP_verify 23:19:39 ===
+[TensorRT-LLM] TensorRT-LLM version: 0.10.0
+tensorrt_llm 0.10.0
+torch 2.2.2+cu121 cuda ok: True
+tensorrt 10.0.1
+transformers 4.40.2
+executor bindings: True inflight: True
+INSTALL_OK

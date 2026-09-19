@@ -1,0 +1,23 @@
+### bs64 policy=MAX_UTILIZATION engine={'max_batch_size': 64, 'max_input_len': 1024, 'max_output_len': 256, 'max_num_tokens': 65536, 'max_beam_width': 1} end_id=151643
+[load] executor ready in 6.4s
+[W1 burst-short n=  1] trials=[0.634, 0.621, 0.621] mean=0.625s QPS=1.60 tok/s=160 p50=0.621s max=0.621s peak_active=1 kv_blocks=2/708 iters=100
+[W1 burst-short n=  8] trials=[0.71, 0.712, 0.711] mean=0.711s QPS=11.25 tok/s=1125 p50=0.711s max=0.711s peak_active=8 kv_blocks=16/708 iters=100
+[W1 burst-short n= 32] trials=[0.8, 0.8, 0.8] mean=0.800s QPS=39.98 tok/s=3998 p50=0.800s max=0.800s peak_active=32 kv_blocks=64/708 iters=100
+[W1 burst-short n= 64] trials=[1.115, 1.117, 1.118] mean=1.117s QPS=57.31 tok/s=5731 p50=1.118s max=1.118s peak_active=64 kv_blocks=128/708 iters=100
+[W2a hetero n=64] budgets max=195 mean=112 trials=[1.809, 1.802] mean=1.806s QPS=35.45 gen_tok=7167 tok/s=3969 p50=1.099s max=1.802s peak_active=64 iters=195
+[W2b static-equiv n=64] budgets max=195 mean=112 trials=[2.3, 2.307] mean=2.303s QPS=27.79 gen_tok=12480 tok/s=5419 p50=2.306s max=2.307s peak_active=64 iters=195
+[W2 gain] static-equiv/hetero wall = 1.28x (ideal if perfectly packed = 1.74x)
+[W3 burst-long in= 500 n=  8] trials=[1.173, 1.167] mean=1.170s QPS=6.84 prefill_tok/s=3419 p50=1.167s max=1.167s peak_active=8 kv_blocks=80/708 queued_peak=0
+[W3 burst-long in= 500 n= 32] trials=[3.225, 3.225] mean=3.225s QPS=9.92 prefill_tok/s=4961 p50=3.225s max=3.225s peak_active=32 kv_blocks=320/708 queued_peak=0
+[W3 burst-long in= 500 n= 64] trials=[6.082, 6.084] mean=6.083s QPS=10.52 prefill_tok/s=5260 p50=6.084s max=6.084s peak_active=64 kv_blocks=640/708 queued_peak=0
+[W3 burst-long in=1000 n=  8] trials=[1.638, 1.629] mean=1.634s QPS=4.90 prefill_tok/s=4897 p50=1.629s max=1.629s peak_active=8 kv_blocks=144/708 queued_peak=0
+[W3 burst-long in=1000 n= 32] trials=[5.814, 5.814] mean=5.814s QPS=5.50 prefill_tok/s=5504 p50=5.814s max=5.814s peak_active=32 kv_blocks=576/708 queued_peak=0
+[W3 burst-long in=1000 n= 64] trials=[12.466, 12.466] mean=12.466s QPS=5.13 prefill_tok/s=5134 p50=7.779s max=12.466s peak_active=64 kv_blocks=704/708 queued_peak=25
+[W4 closed-loop C= 16 T=30s] QPS=21.33 tok/s=2133 p50=0.748s p95=0.749s max=0.749s done=656 peak_active=16 peak_sched=16 mean_active=15.8 queued_peak=0 kv_blocks=32/708 mean_iter_ms=7.4
+[W4 closed-loop C= 32 T=30s] QPS=40.30 tok/s=4030 p50=0.805s p95=0.806s max=0.807s done=1216 peak_active=32 peak_sched=32 mean_active=31.7 queued_peak=0 kv_blocks=64/708 mean_iter_ms=7.97
+[W4 closed-loop C= 64 T=30s] QPS=56.89 tok/s=5689 p50=1.115s p95=1.116s max=1.117s done=1728 peak_active=64 peak_sched=64 mean_active=63.4 queued_peak=0 kv_blocks=128/708 mean_iter_ms=11.07
+[W4 closed-loop C= 96 T=30s] QPS=56.89 tok/s=5689 p50=2.207s p95=2.210s max=2.235s done=1760 peak_active=64 peak_sched=64 mean_active=62.8 queued_peak=0 kv_blocks=128/708 mean_iter_ms=11.05
+[W4 closed-loop C=128 T=30s] QPS=56.89 tok/s=5689 p50=2.225s p95=2.226s max=2.227s done=1792 peak_active=64 peak_sched=64 mean_active=64.0 queued_peak=0 kv_blocks=128/708 mean_iter_ms=11.12
+[sample] ' \n这个问题没有提供足够的信息来确定外套的面料。需要更多的信息，例如颜色、款式、品牌等。请提供更多的信息以便于确定外套的面料。 \n如果您需要帮助确定'
+[done] results -> /workspace/trtllm_work/logs/executor_bs64_MAX_UTILIZATION.json
+D_RUN_OK

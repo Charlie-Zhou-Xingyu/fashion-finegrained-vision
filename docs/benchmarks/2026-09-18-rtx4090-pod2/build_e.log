@@ -1,0 +1,721 @@
+=== BUILD_qwenvl_engine_bs96_mnt16k_START 23:29:05 bs=96 max_num_tokens=16384 tokens_per_block=64 ===
+[TensorRT-LLM] TensorRT-LLM version: 0.10.0
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set bert_attention_plugin to float16.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set gpt_attention_plugin to float16.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set gemm_plugin to float16.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set nccl_plugin to float16.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set lookup_plugin to float16.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set lora_plugin to None.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set moe_plugin to float16.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set mamba_conv1d_plugin to float16.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set context_fmha to True.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set context_fmha_fp32_acc to False.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set paged_kv_cache to True.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set remove_input_padding to True.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set use_custom_all_reduce to True.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set multi_block_mode to False.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set enable_xqa to True.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set attention_qk_half_accumulation to False.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set tokens_per_block to 64.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set use_paged_context_fmha to False.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set use_fp8_context_fmha to False.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set use_context_fmha_for_generation to False.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set multiple_profiles to False.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set paged_state to True.
+[09/18/2026-23:29:08] [TRT-LLM] [I] Set streamingllm to False.
+[09/18/2026-23:29:08] [TRT-LLM] [W] remove_input_padding is enabled, while opt_num_tokens is not set, setting to max_batch_size*max_beam_width. 
+
+[09/18/2026-23:29:08] [TRT-LLM] [I] Compute capability: (8, 9)
+[09/18/2026-23:29:08] [TRT-LLM] [I] SM count: 128
+[09/18/2026-23:29:08] [TRT-LLM] [I] SM clock: 3105 MHz
+[09/18/2026-23:29:08] [TRT-LLM] [I] int4 TFLOPS: 813
+[09/18/2026-23:29:08] [TRT-LLM] [I] int8 TFLOPS: 406
+[09/18/2026-23:29:08] [TRT-LLM] [I] fp8 TFLOPS: 406
+[09/18/2026-23:29:08] [TRT-LLM] [I] float16 TFLOPS: 203
+[09/18/2026-23:29:08] [TRT-LLM] [I] bfloat16 TFLOPS: 203
+[09/18/2026-23:29:08] [TRT-LLM] [I] float32 TFLOPS: 101
+[09/18/2026-23:29:08] [TRT-LLM] [I] Total Memory: 23 GiB
+[09/18/2026-23:29:08] [TRT-LLM] [I] Memory clock: 10501 MHz
+[09/18/2026-23:29:08] [TRT-LLM] [I] Memory bus width: 384
+[09/18/2026-23:29:08] [TRT-LLM] [I] Memory bandwidth: 1008 GB/s
+[09/18/2026-23:29:08] [TRT-LLM] [I] PCIe speed: 2500 Mbps
+[09/18/2026-23:29:08] [TRT-LLM] [I] PCIe link width: 16
+[09/18/2026-23:29:08] [TRT-LLM] [I] PCIe bandwidth: 5 GB/s
+[09/18/2026-23:29:08] [TRT] [I] [MemUsageChange] Init CUDA: CPU +33, GPU +0, now: CPU 409, GPU 395 (MiB)
+[09/18/2026-23:29:10] [TRT] [I] [MemUsageChange] Init builder kernel library: CPU +1774, GPU +314, now: CPU 2319, GPU 709 (MiB)
+[09/18/2026-23:29:10] [TRT] [W] profileSharing0806 is on by default in TensorRT 10.0. This flag is deprecated and has no effect.
+[09/18/2026-23:29:10] [TRT-LLM] [I] Set weight_only_quant_matmul_plugin to float16.
+[09/18/2026-23:29:10] [TRT-LLM] [I] Set nccl_plugin to None.
+[09/18/2026-23:29:10] [TRT-LLM] [I] Set use_custom_all_reduce to True.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/vocab_embedding/SELECT_2_output_0 and QWenForCausalLM/transformer/layers/0/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/0/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/0/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/0/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/0/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/0/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/0/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/0/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/1/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/1/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/1/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/1/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/1/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/1/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/1/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/1/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/2/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/2/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/2/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/2/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/2/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/2/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/2/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/2/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/3/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/3/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/3/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/3/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/3/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/3/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/3/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/3/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/4/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/4/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/4/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/4/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/4/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/4/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/4/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/4/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/5/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/5/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/5/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/5/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/5/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/5/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/5/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/5/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/6/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/6/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/6/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/6/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/6/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/6/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/6/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/6/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/7/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/7/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/7/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/7/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/7/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/7/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/7/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/7/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/8/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/8/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/8/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/8/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/8/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/8/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/8/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/8/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/9/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/9/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/9/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/9/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/9/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/9/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/9/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/9/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/10/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/10/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/10/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/10/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/10/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/10/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/10/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/10/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/11/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/11/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/11/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/11/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/11/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/11/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/11/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/11/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/12/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/12/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/12/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/12/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/12/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/12/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/12/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/12/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/13/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/13/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/13/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/13/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/13/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/13/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/13/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/13/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/14/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/14/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/14/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/14/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/14/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/14/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/14/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/14/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/15/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/15/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/15/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/15/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/15/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/15/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/15/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/15/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/16/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/16/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/16/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/16/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/16/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/16/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/16/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/16/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/17/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/17/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/17/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/17/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/17/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/17/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/17/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/17/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/18/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/18/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/18/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/18/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/18/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/18/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/18/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/18/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/19/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/19/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/19/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/19/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/19/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/19/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/19/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/19/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/20/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/20/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/20/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/20/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/20/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/20/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/20/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/20/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/21/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/21/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/21/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/21/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/21/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/21/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/21/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/21/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/22/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/22/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/22/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/22/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/22/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/22/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/22/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/22/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/23/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/23/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/23/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/23/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/23/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:10] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/23/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/23/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/23/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/24/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/24/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/24/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/24/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/24/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/24/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/24/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/24/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/25/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/25/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/25/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/25/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/25/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/25/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/25/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/25/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/26/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/26/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/26/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/26/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/26/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/26/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/26/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/26/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/27/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/27/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/27/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/27/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/27/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/27/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/27/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/27/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/28/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/28/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/28/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/28/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/28/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/28/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/28/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/28/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/29/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/29/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/29/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/29/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/29/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/29/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/29/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/29/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/30/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/30/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/30/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/30/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/30/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/30/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/30/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/30/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/31/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/31/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/31/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/31/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/31/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/31/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/31/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/31/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/ln_f/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/ln_f/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/ln_f/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.0.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.1.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.2.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.3.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.4.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.5.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.6.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.7.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.8.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.9.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.10.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.11.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.12.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.13.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.14.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.15.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.16.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.17.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.18.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.19.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.20.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.21.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.22.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.23.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.24.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.25.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.26.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.27.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.28.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.29.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.30.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Parameter transformer.layers.31.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:29:11] [TRT-LLM] [I] Build TensorRT engine Unnamed Network 0
+[09/18/2026-23:29:11] [TRT] [W] Unused Input: position_ids
+[09/18/2026-23:29:11] [TRT] [W] Calibrator is not being used. Users must provide dynamic range for all tensors that are not Int32 or Bool.
+[09/18/2026-23:29:11] [TRT] [W] Detected layernorm nodes in FP16.
+[09/18/2026-23:29:11] [TRT] [W] Running layernorm after self-attention in FP16 may cause overflow. Exporting the model to the latest available ONNX opset (later than opset 17) to use the INormalizationLayer, or forcing layernorm layers to run in FP32 precision can help with preserving accuracy.
+[09/18/2026-23:29:11] [TRT] [W] [RemoveDeadLayers] Input Tensor position_ids is unused or used only at compile-time, but is not being removed.
+[09/18/2026-23:29:11] [TRT] [I] Global timing cache in use. Profiling results in this builder pass will be stored.
+[09/18/2026-23:30:00] [TRT] [I] [GraphReduction] The approximate region cut reduction algorithm is called.
+[09/18/2026-23:30:00] [TRT] [I] Detected 17 inputs and 1 output network tensors.
+[09/18/2026-23:30:05] [TRT] [I] Total Host Persistent Memory: 141216
+[09/18/2026-23:30:05] [TRT] [I] Total Device Persistent Memory: 0
+[09/18/2026-23:30:05] [TRT] [I] Total Scratch Memory: 268500992
+[09/18/2026-23:30:05] [TRT] [I] [BlockAssignment] Started assigning block shifts. This will take 628 steps to complete.
+[09/18/2026-23:30:05] [TRT] [I] [BlockAssignment] Algorithm ShiftNTopDown took 40.6584ms to assign 16 blocks to 628 nodes requiring 1434457600 bytes.
+[09/18/2026-23:30:05] [TRT] [I] Total Activation Memory: 1434457600
+[09/18/2026-23:30:05] [TRT] [I] Total Weights Memory: 5735682560
+[09/18/2026-23:30:21] [TRT] [I] Engine generation completed in 70.6263 seconds.
+[09/18/2026-23:30:21] [TRT] [I] [MemUsageStats] Peak memory usage of TRT CPU/GPU memory allocators: CPU 25 MiB, GPU 5470 MiB
+[09/18/2026-23:30:24] [TRT] [I] [MemUsageStats] Peak memory usage during Engine building and serialization: CPU: 15277 MiB
+[09/18/2026-23:30:24] [TRT-LLM] [I] Total time of building Unnamed Network 0: 00:01:13
+[09/18/2026-23:30:24] [TRT] [I] Serialized 26 bytes of code generator cache.
+[09/18/2026-23:30:25] [TRT] [I] Serialized 173248 bytes of compilation cache.
+[09/18/2026-23:30:25] [TRT] [I] Serialized 87 timing cache entries
+[09/18/2026-23:30:25] [TRT-LLM] [I] Timing cache serialized to model.cache
+[09/18/2026-23:30:25] [TRT-LLM] [I] Serializing engine to /workspace/trtllm_work/qwenvl_engine_bs96_mnt16k/rank0.engine...
+[09/18/2026-23:30:25] [TRT-LLM] [I] Engine serialized. Total time: 00:00:00
+[09/18/2026-23:30:26] [TRT-LLM] [I] Total time of building all engines: 00:01:17
+BUILD_qwenvl_engine_bs96_mnt16k_OK
+1 MiB
+=== BUILD_qwenvl_engine_bs128_mnt16k_START 23:30:27 bs=128 max_num_tokens=16384 tokens_per_block=64 ===
+[TensorRT-LLM] TensorRT-LLM version: 0.10.0
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set bert_attention_plugin to float16.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set gpt_attention_plugin to float16.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set gemm_plugin to float16.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set nccl_plugin to float16.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set lookup_plugin to float16.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set lora_plugin to None.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set moe_plugin to float16.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set mamba_conv1d_plugin to float16.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set context_fmha to True.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set context_fmha_fp32_acc to False.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set paged_kv_cache to True.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set remove_input_padding to True.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set use_custom_all_reduce to True.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set multi_block_mode to False.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set enable_xqa to True.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set attention_qk_half_accumulation to False.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set tokens_per_block to 64.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set use_paged_context_fmha to False.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set use_fp8_context_fmha to False.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set use_context_fmha_for_generation to False.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set multiple_profiles to False.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set paged_state to True.
+[09/18/2026-23:30:29] [TRT-LLM] [I] Set streamingllm to False.
+[09/18/2026-23:30:29] [TRT-LLM] [W] remove_input_padding is enabled, while opt_num_tokens is not set, setting to max_batch_size*max_beam_width. 
+
+[09/18/2026-23:30:29] [TRT-LLM] [I] Compute capability: (8, 9)
+[09/18/2026-23:30:29] [TRT-LLM] [I] SM count: 128
+[09/18/2026-23:30:29] [TRT-LLM] [I] SM clock: 3105 MHz
+[09/18/2026-23:30:29] [TRT-LLM] [I] int4 TFLOPS: 813
+[09/18/2026-23:30:29] [TRT-LLM] [I] int8 TFLOPS: 406
+[09/18/2026-23:30:29] [TRT-LLM] [I] fp8 TFLOPS: 406
+[09/18/2026-23:30:29] [TRT-LLM] [I] float16 TFLOPS: 203
+[09/18/2026-23:30:29] [TRT-LLM] [I] bfloat16 TFLOPS: 203
+[09/18/2026-23:30:29] [TRT-LLM] [I] float32 TFLOPS: 101
+[09/18/2026-23:30:29] [TRT-LLM] [I] Total Memory: 23 GiB
+[09/18/2026-23:30:29] [TRT-LLM] [I] Memory clock: 10501 MHz
+[09/18/2026-23:30:29] [TRT-LLM] [I] Memory bus width: 384
+[09/18/2026-23:30:29] [TRT-LLM] [I] Memory bandwidth: 1008 GB/s
+[09/18/2026-23:30:29] [TRT-LLM] [I] PCIe speed: 5000 Mbps
+[09/18/2026-23:30:29] [TRT-LLM] [I] PCIe link width: 16
+[09/18/2026-23:30:29] [TRT-LLM] [I] PCIe bandwidth: 10 GB/s
+[09/18/2026-23:30:30] [TRT] [I] [MemUsageChange] Init CUDA: CPU +33, GPU +0, now: CPU 409, GPU 395 (MiB)
+[09/18/2026-23:30:32] [TRT] [I] [MemUsageChange] Init builder kernel library: CPU +1774, GPU +314, now: CPU 2319, GPU 709 (MiB)
+[09/18/2026-23:30:32] [TRT] [W] profileSharing0806 is on by default in TensorRT 10.0. This flag is deprecated and has no effect.
+[09/18/2026-23:30:32] [TRT-LLM] [I] Set weight_only_quant_matmul_plugin to float16.
+[09/18/2026-23:30:32] [TRT-LLM] [I] Set nccl_plugin to None.
+[09/18/2026-23:30:32] [TRT-LLM] [I] Set use_custom_all_reduce to True.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/vocab_embedding/SELECT_2_output_0 and QWenForCausalLM/transformer/layers/0/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/0/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/0/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/0/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/0/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/0/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/0/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/0/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/1/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/1/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/1/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/1/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/1/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/1/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/1/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/1/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/2/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/2/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/2/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/2/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/2/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/2/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/2/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/2/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/3/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/3/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/3/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/3/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/3/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/3/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/3/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/3/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/4/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/4/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/4/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/4/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/4/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/4/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/4/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/4/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/5/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/5/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/5/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/5/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/5/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/5/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/5/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/5/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/6/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/6/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/6/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/6/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/6/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/6/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/6/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/6/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/7/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/7/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/7/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/7/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/7/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/7/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/7/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/7/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/8/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/8/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/8/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/8/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/8/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/8/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/8/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/8/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/9/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/9/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/9/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/9/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/9/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/9/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/9/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/9/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/10/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/10/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/10/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/10/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/10/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/10/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/10/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/10/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/11/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/11/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/11/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/11/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/11/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/11/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/11/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/11/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/12/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/12/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/12/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/12/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/12/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/12/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/12/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/12/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/13/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/13/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/13/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/13/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/13/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/13/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/13/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/13/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/14/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/14/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/14/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/14/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/14/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/14/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/14/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/14/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/15/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/15/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/15/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/15/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/15/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/15/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/15/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/15/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/16/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/16/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/16/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/16/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/16/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/16/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/16/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/16/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/17/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/17/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/17/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/17/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/17/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/17/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/17/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/17/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/18/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/18/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/18/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/18/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/18/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/18/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/18/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/18/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/19/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/19/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/19/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/19/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/19/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/19/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/19/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/19/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/20/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/20/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/20/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/20/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/20/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/20/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/20/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/20/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/21/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/21/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/21/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/21/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/21/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/21/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/21/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/21/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/22/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/22/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/22/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/22/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/22/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/22/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/22/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/22/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/23/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/23/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/23/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/23/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/23/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/23/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/23/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/23/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/24/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/24/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/24/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/24/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/24/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/24/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/24/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/24/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/25/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/25/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/25/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/25/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/25/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/25/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/25/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/25/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/26/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/26/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/26/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/26/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/26/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/26/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/26/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/26/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/27/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/27/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/27/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/27/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/27/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/27/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/27/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/27/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/28/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/28/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/28/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/28/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/28/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/28/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/28/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/28/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/29/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/29/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/29/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/29/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/29/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/29/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/29/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/29/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/30/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/30/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/30/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/30/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/30/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/30/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/30/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/30/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/31/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/31/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/31/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/31/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/31/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/31/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/31/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/31/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/ln_f/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/ln_f/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/ln_f/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.0.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.1.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.2.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.3.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.4.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.5.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.6.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.7.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.8.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.9.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.10.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.11.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.12.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.13.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.14.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.15.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.16.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.17.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.18.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.19.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.20.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.21.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.22.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.23.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.24.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.25.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.26.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.27.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.28.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.29.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.30.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Parameter transformer.layers.31.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:30:32] [TRT-LLM] [I] Build TensorRT engine Unnamed Network 0
+[09/18/2026-23:30:32] [TRT] [W] Unused Input: position_ids
+[09/18/2026-23:30:32] [TRT] [W] Calibrator is not being used. Users must provide dynamic range for all tensors that are not Int32 or Bool.
+[09/18/2026-23:30:32] [TRT] [W] Detected layernorm nodes in FP16.
+[09/18/2026-23:30:32] [TRT] [W] Running layernorm after self-attention in FP16 may cause overflow. Exporting the model to the latest available ONNX opset (later than opset 17) to use the INormalizationLayer, or forcing layernorm layers to run in FP32 precision can help with preserving accuracy.
+[09/18/2026-23:30:32] [TRT] [W] [RemoveDeadLayers] Input Tensor position_ids is unused or used only at compile-time, but is not being removed.
+[09/18/2026-23:30:32] [TRT] [I] Global timing cache in use. Profiling results in this builder pass will be stored.
+[09/18/2026-23:31:21] [TRT] [I] [GraphReduction] The approximate region cut reduction algorithm is called.
+[09/18/2026-23:31:21] [TRT] [I] Detected 17 inputs and 1 output network tensors.
+[09/18/2026-23:31:25] [TRT] [I] Total Host Persistent Memory: 141216
+[09/18/2026-23:31:25] [TRT] [I] Total Device Persistent Memory: 0
+[09/18/2026-23:31:25] [TRT] [I] Total Scratch Memory: 268500992
+[09/18/2026-23:31:25] [TRT] [I] [BlockAssignment] Started assigning block shifts. This will take 628 steps to complete.
+[09/18/2026-23:31:25] [TRT] [I] [BlockAssignment] Algorithm ShiftNTopDown took 38.995ms to assign 16 blocks to 628 nodes requiring 1434457600 bytes.
+[09/18/2026-23:31:25] [TRT] [I] Total Activation Memory: 1434457600
+[09/18/2026-23:31:25] [TRT] [I] Total Weights Memory: 5735682560
+[09/18/2026-23:31:42] [TRT] [I] Engine generation completed in 69.3411 seconds.
+[09/18/2026-23:31:42] [TRT] [I] [MemUsageStats] Peak memory usage of TRT CPU/GPU memory allocators: CPU 25 MiB, GPU 5470 MiB
+[09/18/2026-23:31:45] [TRT] [I] [MemUsageStats] Peak memory usage during Engine building and serialization: CPU: 15279 MiB
+[09/18/2026-23:31:45] [TRT-LLM] [I] Total time of building Unnamed Network 0: 00:01:12
+[09/18/2026-23:31:45] [TRT] [I] Serialized 26 bytes of code generator cache.
+[09/18/2026-23:31:45] [TRT] [I] Serialized 173250 bytes of compilation cache.
+[09/18/2026-23:31:45] [TRT] [I] Serialized 87 timing cache entries
+[09/18/2026-23:31:45] [TRT-LLM] [I] Timing cache serialized to model.cache
+[09/18/2026-23:31:45] [TRT-LLM] [I] Serializing engine to /workspace/trtllm_work/qwenvl_engine_bs128_mnt16k/rank0.engine...
+[09/18/2026-23:31:45] [TRT-LLM] [I] Engine serialized. Total time: 00:00:00
+[09/18/2026-23:31:46] [TRT-LLM] [I] Total time of building all engines: 00:01:16
+BUILD_qwenvl_engine_bs128_mnt16k_OK
+1 MiB
+=== BUILD_qwenvl_engine_bs96_mnt16k_tpb32_START 23:31:47 bs=96 max_num_tokens=16384 tokens_per_block=32 ===
+[TensorRT-LLM] TensorRT-LLM version: 0.10.0
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set bert_attention_plugin to float16.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set gpt_attention_plugin to float16.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set gemm_plugin to float16.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set nccl_plugin to float16.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set lookup_plugin to float16.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set lora_plugin to None.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set moe_plugin to float16.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set mamba_conv1d_plugin to float16.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set context_fmha to True.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set context_fmha_fp32_acc to False.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set paged_kv_cache to True.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set remove_input_padding to True.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set use_custom_all_reduce to True.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set multi_block_mode to False.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set enable_xqa to True.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set attention_qk_half_accumulation to False.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set tokens_per_block to 32.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set use_paged_context_fmha to False.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set use_fp8_context_fmha to False.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set use_context_fmha_for_generation to False.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set multiple_profiles to False.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set paged_state to True.
+[09/18/2026-23:31:50] [TRT-LLM] [I] Set streamingllm to False.
+[09/18/2026-23:31:50] [TRT-LLM] [W] remove_input_padding is enabled, while opt_num_tokens is not set, setting to max_batch_size*max_beam_width. 
+
+[09/18/2026-23:31:50] [TRT-LLM] [I] Compute capability: (8, 9)
+[09/18/2026-23:31:50] [TRT-LLM] [I] SM count: 128
+[09/18/2026-23:31:50] [TRT-LLM] [I] SM clock: 3105 MHz
+[09/18/2026-23:31:50] [TRT-LLM] [I] int4 TFLOPS: 813
+[09/18/2026-23:31:50] [TRT-LLM] [I] int8 TFLOPS: 406
+[09/18/2026-23:31:50] [TRT-LLM] [I] fp8 TFLOPS: 406
+[09/18/2026-23:31:50] [TRT-LLM] [I] float16 TFLOPS: 203
+[09/18/2026-23:31:50] [TRT-LLM] [I] bfloat16 TFLOPS: 203
+[09/18/2026-23:31:50] [TRT-LLM] [I] float32 TFLOPS: 101
+[09/18/2026-23:31:50] [TRT-LLM] [I] Total Memory: 23 GiB
+[09/18/2026-23:31:50] [TRT-LLM] [I] Memory clock: 10501 MHz
+[09/18/2026-23:31:50] [TRT-LLM] [I] Memory bus width: 384
+[09/18/2026-23:31:50] [TRT-LLM] [I] Memory bandwidth: 1008 GB/s
+[09/18/2026-23:31:50] [TRT-LLM] [I] PCIe speed: 5000 Mbps
+[09/18/2026-23:31:50] [TRT-LLM] [I] PCIe link width: 16
+[09/18/2026-23:31:50] [TRT-LLM] [I] PCIe bandwidth: 10 GB/s
+[09/18/2026-23:31:50] [TRT] [I] [MemUsageChange] Init CUDA: CPU +33, GPU +0, now: CPU 409, GPU 395 (MiB)
+[09/18/2026-23:31:52] [TRT] [I] [MemUsageChange] Init builder kernel library: CPU +1774, GPU +314, now: CPU 2319, GPU 709 (MiB)
+[09/18/2026-23:31:52] [TRT] [W] profileSharing0806 is on by default in TensorRT 10.0. This flag is deprecated and has no effect.
+[09/18/2026-23:31:52] [TRT-LLM] [I] Set weight_only_quant_matmul_plugin to float16.
+[09/18/2026-23:31:52] [TRT-LLM] [I] Set nccl_plugin to None.
+[09/18/2026-23:31:52] [TRT-LLM] [I] Set use_custom_all_reduce to True.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/vocab_embedding/SELECT_2_output_0 and QWenForCausalLM/transformer/layers/0/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/0/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/0/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/0/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/0/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/0/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/0/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/0/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/1/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/1/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/1/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/1/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/1/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/1/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/1/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/1/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/2/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/2/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/2/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/2/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/2/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/2/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/2/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/2/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/3/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/3/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/3/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/3/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/3/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/3/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/3/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/3/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/4/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/4/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/4/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/4/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/4/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/4/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/4/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/4/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/5/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/5/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/5/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/5/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/5/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/5/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/5/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/5/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/6/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/6/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/6/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/6/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/6/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/6/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/6/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/6/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/7/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/7/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/7/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/7/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/7/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/7/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/7/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/7/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/8/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/8/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/8/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/8/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/8/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/8/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/8/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/8/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/9/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/9/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/9/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/9/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/9/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/9/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/9/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/9/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/10/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/10/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/10/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/10/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/10/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/10/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/10/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/10/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/11/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/11/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/11/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/11/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/11/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/11/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/11/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/11/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/12/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/12/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/12/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/12/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/12/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/12/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/12/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/12/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/13/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/13/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/13/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/13/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/13/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/13/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/13/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/13/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/14/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/14/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/14/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/14/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/14/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/14/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/14/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/14/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/15/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/15/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/15/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/15/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/15/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/15/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/15/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/15/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/16/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/16/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/16/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/16/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/16/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/16/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/16/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/16/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/17/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/17/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/17/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/17/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/17/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/17/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/17/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/17/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/18/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/18/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/18/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/18/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/18/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/18/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/18/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/18/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/19/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/19/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/19/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/19/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/19/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/19/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/19/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/19/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/20/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/20/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/20/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/20/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/20/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/20/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/20/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/20/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/21/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/21/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/21/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/21/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/21/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/21/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/21/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/21/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/22/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/22/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/22/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/22/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/22/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/22/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/22/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/22/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/23/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/23/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/23/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/23/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/23/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/23/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/23/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/23/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/24/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/24/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/24/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/24/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/24/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/24/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/24/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/24/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/25/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/25/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/25/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/25/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/25/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/25/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/25/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/25/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/26/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/26/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/26/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/26/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/26/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/26/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/26/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/26/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/27/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/27/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/27/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/27/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/27/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/27/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/27/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/27/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/28/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/28/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/28/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/28/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/28/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/28/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/28/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/28/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/29/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/29/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/29/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/29/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/29/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/29/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/29/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/29/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/30/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/30/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/30/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/30/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/30/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/30/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/30/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/30/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/layers/31/input_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/31/input_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/31/input_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/31/ELEMENTWISE_SUM_0_output_0 and QWenForCausalLM/transformer/layers/31/post_layernorm/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/31/post_layernorm/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/layers/31/post_layernorm/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/layers/31/ELEMENTWISE_SUM_1_output_0 and QWenForCausalLM/transformer/ln_f/SHUFFLE_0_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT] [W] IElementWiseLayer with inputs QWenForCausalLM/transformer/ln_f/REDUCE_AVG_0_output_0 and QWenForCausalLM/transformer/ln_f/SHUFFLE_1_output_0: first input has type Half but second input has type Float.
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.0.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.1.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.2.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.3.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.4.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.5.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.6.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.7.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.8.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.9.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.10.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.11.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.12.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.13.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.14.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.15.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.16.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.17.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.18.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.19.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.20.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.21.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.22.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.23.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.24.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.25.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.26.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.27.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.28.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.29.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.30.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Parameter transformer.layers.31.attention.embed_positions (1, 8192, 128) float32 was not materialized to TRT network
+[09/18/2026-23:31:52] [TRT-LLM] [I] Build TensorRT engine Unnamed Network 0
+[09/18/2026-23:31:52] [TRT] [W] Unused Input: position_ids
+[09/18/2026-23:31:52] [TRT] [W] Calibrator is not being used. Users must provide dynamic range for all tensors that are not Int32 or Bool.
+[09/18/2026-23:31:52] [TRT] [W] Detected layernorm nodes in FP16.
+[09/18/2026-23:31:52] [TRT] [W] Running layernorm after self-attention in FP16 may cause overflow. Exporting the model to the latest available ONNX opset (later than opset 17) to use the INormalizationLayer, or forcing layernorm layers to run in FP32 precision can help with preserving accuracy.
+[09/18/2026-23:31:52] [TRT] [W] [RemoveDeadLayers] Input Tensor position_ids is unused or used only at compile-time, but is not being removed.
+[09/18/2026-23:31:52] [TRT] [I] Global timing cache in use. Profiling results in this builder pass will be stored.
+[09/18/2026-23:32:42] [TRT] [I] [GraphReduction] The approximate region cut reduction algorithm is called.
+[09/18/2026-23:32:42] [TRT] [I] Detected 17 inputs and 1 output network tensors.
+[09/18/2026-23:32:46] [TRT] [I] Total Host Persistent Memory: 141216
+[09/18/2026-23:32:46] [TRT] [I] Total Device Persistent Memory: 0
+[09/18/2026-23:32:46] [TRT] [I] Total Scratch Memory: 268500992
+[09/18/2026-23:32:46] [TRT] [I] [BlockAssignment] Started assigning block shifts. This will take 628 steps to complete.
+[09/18/2026-23:32:46] [TRT] [I] [BlockAssignment] Algorithm ShiftNTopDown took 38.9692ms to assign 16 blocks to 628 nodes requiring 1434457600 bytes.
+[09/18/2026-23:32:46] [TRT] [I] Total Activation Memory: 1434457600
+[09/18/2026-23:32:46] [TRT] [I] Total Weights Memory: 5735682560
+[09/18/2026-23:33:02] [TRT] [I] Engine generation completed in 69.9079 seconds.
+[09/18/2026-23:33:02] [TRT] [I] [MemUsageStats] Peak memory usage of TRT CPU/GPU memory allocators: CPU 25 MiB, GPU 5470 MiB
+[09/18/2026-23:33:05] [TRT] [I] [MemUsageStats] Peak memory usage during Engine building and serialization: CPU: 15262 MiB
+[09/18/2026-23:33:05] [TRT-LLM] [I] Total time of building Unnamed Network 0: 00:01:13
+[09/18/2026-23:33:05] [TRT] [I] Serialized 26 bytes of code generator cache.
+[09/18/2026-23:33:05] [TRT] [I] Serialized 173248 bytes of compilation cache.
+[09/18/2026-23:33:05] [TRT] [I] Serialized 87 timing cache entries
+[09/18/2026-23:33:05] [TRT-LLM] [I] Timing cache serialized to model.cache
+[09/18/2026-23:33:06] [TRT-LLM] [I] Serializing engine to /workspace/trtllm_work/qwenvl_engine_bs96_mnt16k_tpb32/rank0.engine...
+[09/18/2026-23:33:06] [TRT-LLM] [I] Engine serialized. Total time: 00:00:00
+[09/18/2026-23:33:07] [TRT-LLM] [I] Total time of building all engines: 00:01:16
+BUILD_qwenvl_engine_bs96_mnt16k_tpb32_OK
+1 MiB
+E_BUILDS_DONE
